@@ -124,7 +124,7 @@ function SeccionContacto() {
                 name="detalles_coche"
                 value={datosFormulario.detalles_coche}
                 onChange={handleChange}
-                placeholder="Cuéntanos qué coche buscas..." 
+                placeholder="Cuéntanos el motivo de tu mensaje" 
                 rows="6"
               ></textarea>
             </div>
