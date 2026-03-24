@@ -4,42 +4,46 @@
     background-color: #f8fafc;
 }
 
+/* 1. Banner Superior Optimizado */
 .banner-contacto {
     position: relative;
     width: 100%;
-    height: 300px;
+    min-height: 300px; /* Usamos min-height para que sea flexible */
     background-image: url('../assets/fondo-contacto.jpg'); 
     background-size: cover;
     background-position: center;
     color: white;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .overlay-oscuro {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 300px;
     background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px 20px; /* Padding generoso para el texto */
+    box-sizing: border-box;
 }
 
 .banner-contacto h1 {
     font-size: 3rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-weight: 800;
+    max-width: 900px;
+    line-height: 1.1;
 }
 
 .banner-contacto p {
-    font-size: 1.1rem;
-    max-width: 600px;
-    opacity: 0.9;
-    line-height: 1.4;
+    font-size: 1.2rem;
+    max-width: 650px;
+    opacity: 0.95;
+    line-height: 1.5;
 }
 
 /* 2. Contenedor Principal */
@@ -217,42 +221,51 @@
     height: 100%;
 }
 
-/* --- AJUSTES PARA MÓVIL (CORREGIDO) --- */
+/* --- AJUSTES PARA MÓVIL TOTALMENTE CORREGIDO --- */
 @media (max-width: 768px) {
-    /* 1. Ajuste Banner Superior */
+    
+    /* 1. Ajuste Banner Superior Inmune a Cortes */
     .banner-contacto {
-        height: 220px; /* Un poco más bajo para móvil */
+        min-height: 200px; 
+        height: auto; /* Permite que el contenido dicte la altura */
+    }
+
+    .overlay-oscuro {
+        min-height: 200px;
+        padding: 50px 20px; /* Padding para que el texto no toque bordes */
     }
 
     .banner-contacto h1 {
-        font-size: 1.8rem; /* Título mucho más pequeño para que no corte */
-        padding: 0 10px;
-        line-height: 1.2;
+        font-size: 1.7rem; /* Tamaño optimizado para móviles */
+        margin-bottom: 12px;
+        overflow-wrap: break-word; /* Rompe palabras si es necesario */
+        padding: 0;
     }
 
     .banner-contacto p {
         font-size: 0.95rem;
-        padding: 0 20px;
-        margin-top: 5px;
+        line-height: 1.4;
+        max-width: 100%;
     }
 
     /* 2. Ajuste Contenedor Principal */
     .contenedor-principal-contacto {
         flex-direction: column;
-        gap: 30px;
-        margin: 30px auto;
-        padding: 0 15px;
+        gap: 25px;
+        margin: 20px auto;
+        padding: 0 10px;
     }
     
     /* 3. Ajuste Formulario */
     .bloque-formulario {
-        padding: 25px 15px; /* Menos espacio interno para que quepan las letras */
+        padding: 25px 15px; 
         width: 100%;
         box-sizing: border-box;
+        border-radius: 8px;
     }
 
     .bloque-formulario h2 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         margin-bottom: 20px;
     }
 
@@ -261,13 +274,26 @@
         gap: 15px;
     }
 
+    .grupo-input label {
+        font-size: 0.85rem;
+    }
+
     .grupo-input input, 
     .grupo-input textarea, 
     .select-contacto {
         font-size: 0.95rem;
+        padding: 10px 12px;
+    }
+    
+    .grilla-datos {
+        gap: 15px;
+    }
+
+    .dato-item {
+        padding: 15px;
     }
 
     .mapa-simulado {
-        height: 250px;
+        height: 220px;
     }
 }
