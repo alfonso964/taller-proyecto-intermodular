@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { supabase } from '../supabaseClient'; 
 import '../styles/SeccionContacto.css'; 
 
-// Iconos simplificados
 const IconoEnvio = () => <span style={{ fontSize: '1.2rem', verticalAlign: 'middle', marginRight: '8px' }}>✉️</span>;
 const IconoDireccion = () => <span className="icono-contacto">📍</span>;
 const IconoTelefono = () => <span className="icono-contacto">📞</span>;
@@ -10,12 +10,48 @@ const IconoEmail = () => <span className="icono-contacto">✉️</span>;
 
 function SeccionContacto() {
   const [enviado, setEnviado] = useState(false);
+  const [cargando, setCargando] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Estado para capturar los datos del formulario comercial
+  const [datosFormulario, setDatosFormulario] = useState({
+    nombre: '',
+    telefono: '',
+    email: '',
+    interes: 'Visitar Concesionario',
+    detalles_coche: ''
+  });
+
+  // Manejador de cambios en los inputs
+  const handleChange = (e) => {
+    setDatosFormulario({ 
+      ...datosFormulario, 
+      [e.target.name]: e.target.value 
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault(); 
-    alert("¡Tu mensaje ha sido enviado (simulación)! Nos pondremos en contacto contigo pronto.");
-    setEnviado(true);
-    setTimeout(() => setEnviado(false), 3000);
+    setCargando(true);
+
+    try {
+      // Inserción REAL en Supabase
+      const { error } = await supabase
+        .from('solicitudes_concesionario')
+        .insert([datosFormulario]);
+
+      if (error) throw error;
+
+      setEnviado(true);
+      // Limpiamos el formulario tras el éxito
+      setDatosFormulario({ nombre: '', telefono: '', email: '', interes: 'Visitar Concesionario', detalles_coche: '' });
+      
+      setTimeout(() => setEnviado(false), 5000);
+    } catch (error) {
+      console.error("Error al enviar:", error);
+      alert("Hubo un error al enviar tu solicitud. Inténtalo de nuevo.");
+    } finally {
+      setCargando(false);
+    }
   };
 
   return (
@@ -23,15 +59,12 @@ function SeccionContacto() {
       {/* 1. Banner Superior */}
       <div className="banner-contacto">
         <div className="overlay-oscuro">
-          <h1>Contacto</h1>
-          <p>Estamos listos para llevar el rendimiento de tu vehículo al siguiente nivel. Contáctanos hoy mismo.</p>
+          <h1>Concesionario Motors</h1>
+          <p>Reserva una visita a nuestra exposición o solicita información sobre vehículos en stock.</p>
         </div>
       </div>
 
-      {/* 2. Contenedor Principal */}
       <div className="contenedor-principal-contacto">
-        
-        {/* Lado Izquierdo: Formulario */}
         <div className="bloque-formulario">
           <h2><IconoEnvio />Envíanos un mensaje</h2>
           
@@ -39,35 +72,77 @@ function SeccionContacto() {
             <div className="fila-inputs">
               <div className="grupo-input">
                 <label>Nombre completo</label>
-                <input type="text" placeholder="Ej. Juan Pérez" />
+                <input 
+                  type="text" 
+                  name="nombre"
+                  value={datosFormulario.nombre}
+                  onChange={handleChange}
+                  placeholder="Ej. Juan Pérez" 
+                  required 
+                />
               </div>
               <div className="grupo-input">
                 <label>Teléfono</label>
-                <input type="tel" placeholder="+34 000 000 000" />
+                <input 
+                  type="tel" 
+                  name="telefono"
+                  value={datosFormulario.telefono}
+                  onChange={handleChange}
+                  placeholder="+34 999 999 999" 
+                />
               </div>
             </div>
             
             <div className="grupo-input">
               <label>Correo electrónico</label>
-              <input type="email" placeholder="juan@ejemplo.com" required />
+              <input 
+                type="email" 
+                name="email"
+                value={datosFormulario.email}
+                onChange={handleChange}
+                placeholder="juan@ejemplo.com" 
+                required 
+              />
+            </div>
+
+            <div className="grupo-input">
+              <label>¿En qué estás interesado?</label>
+              <select 
+                name="interes" 
+                value={datosFormulario.interes} 
+                onChange={handleChange} 
+                className="select-contacto"
+              >
+                <option value="Visitar Concesionario">Quiero visitar la exposición</option>
+                <option value="Pedido Especial">Busco un modelo concreto (encargo)</option>
+              </select>
             </div>
             
             <div className="grupo-input">
-              <label>Mensaje</label>
-              <textarea placeholder="¿En qué podemos ayudarte?" rows="6"></textarea>
+              <label>Detalles del vehículo o consulta</label>
+              <textarea 
+                name="detalles_coche"
+                value={datosFormulario.detalles_coche}
+                onChange={handleChange}
+                placeholder="Cuéntanos qué coche buscas..." 
+                rows="6"
+              ></textarea>
             </div>
             
-            <button type="submit" className="boton-enviar">
-              Enviar solicitud <span className="flecha-boton">➤</span>
+            <button type="submit" className="boton-enviar" disabled={cargando}>
+              {cargando ? "Enviando..." : "Enviar solicitud ➤"}
             </button>
             
-            {enviado && <p className="mensaje-enviado-suave">Mensaje enviado (simulación)</p>}
+            {enviado && (
+              <p className="mensaje-enviado-suave">
+                ✅ ¡Solicitud enviada con éxito! Te contactaremos pronto.
+              </p>
+            )}
           </form>
         </div>
 
-        {/* Lado Derecho: Datos y Mapa */}
+    
         <div className="bloque-datos">
-          
           <div className="grilla-datos">
             <div className="dato-item">
               <IconoDireccion />
@@ -102,10 +177,9 @@ function SeccionContacto() {
             </div>
           </div>
 
-          {/* Mapa Real con correcciones de React */}
           <div className="mapa-simulado">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3161.7634458319343!2d-4.5772326!3d37.5841452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6d391307b27877%3A0x62963660e56e01a4!2sAv.%20de%20Italia%2C%2027%2C%2014550%20Montilla%2C%20C%C3%B3rdoba!5e0!3m2!1ses!2ses!4v1710000000000!5m2!1ses!2ses" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3161.4646140502124!2d-4.636681!3d37.591244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6d39678e000001%3A0x6436f56f1406e6!2sAv.%20de%20Italia%2C%2027%2C%2014550%20Montilla%2C%20C%C3%B3rdoba!5e0!3m2!1ses!2ses!4v1710000000000!5m2!1ses!2ses" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
@@ -115,7 +189,6 @@ function SeccionContacto() {
               title="Ubicación Taller"
             ></iframe>
           </div>
-
         </div>
       </div>
     </div>

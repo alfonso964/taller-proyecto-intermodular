@@ -1,11 +1,9 @@
-/* Estilos generales de la sección */
 .seccion-contacto-completa {
     font-family: 'Inter', sans-serif;
     color: #1e293b;
     background-color: #f8fafc;
 }
 
-/* 1. Banner Superior */
 .banner-contacto {
     position: relative;
     width: 100%;
@@ -42,7 +40,6 @@
     opacity: 0.9;
 }
 
-/* 2. Contenedor Principal */
 .contenedor-principal-contacto {
     max-width: 1200px;
     margin: 60px auto;
@@ -52,7 +49,7 @@
     align-items: flex-start;
 }
 
-/* Lado Izquierdo: Formulario */
+
 .bloque-formulario {
     flex: 1.5;
     background: #ffffff;
@@ -92,22 +89,27 @@
     color: #475569;
 }
 
+
 .grupo-input input,
-.grupo-input textarea {
+.grupo-input textarea,
+.select-contacto {
     padding: 12px 16px;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.2s;
+    background-color: white; 
+    font-family: inherit;
 }
 
 .grupo-input input:focus,
-.grupo-input textarea:focus {
+.grupo-input textarea:focus,
+.select-contacto:focus {
     outline: none;
     border-color: #f97316;
 }
 
-/* Botón Enviar */
+
 .boton-enviar {
     background-color: #f97316;
     color: white;
@@ -117,7 +119,7 @@
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
     margin-top: 10px;
     display: flex;
     align-items: center;
@@ -126,21 +128,29 @@
     width: 100%;
 }
 
-.boton-enviar:hover {
+.boton-enviar:hover:not(:disabled) {
     background-color: #ea580c;
+}
+
+.boton-enviar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #94a3b8;
 }
 
 .mensaje-enviado-suave {
     color: #166534;
     background-color: #dcfce7;
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     text-align: center;
     margin-top: 15px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid #bbf7d0;
 }
 
-/* Lado Derecho: Datos */
+
 .bloque-datos {
     flex: 1;
     display: flex;
@@ -182,15 +192,12 @@
     line-height: 1.5;
 }
 
-/* Mapa Corregido */
 .mapa-simulado {
     width: 100%;
     height: 300px;
     background-color: #e2e8f0;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    
-    /* Importante para redondear el iframe */
     overflow: hidden; 
 }
 
@@ -199,7 +206,6 @@
     height: 100%;
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
     .contenedor-principal-contacto {
         flex-direction: column;
