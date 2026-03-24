@@ -14,7 +14,6 @@ function Calendario({ onFechaSeleccionada }) {
   useEffect(() => {
     const cargarCitas = async () => {
       try {
-        // RECUERDA: Cambia localhost por tu URL de Render cuando lo subas
         const res = await axios.get('https://taller-proyecto-intermodular.onrender.com/api/citas');
         const citasFormateadas = res.data.map(cita => ({
           title: `Ocupado`,
@@ -30,23 +29,34 @@ function Calendario({ onFechaSeleccionada }) {
     cargarCitas();
   }, []);
 
+  // Función para validar si una hora está dentro del horario permitido
+  const esHorarioValido = (fecha) => {
+    const hora = fecha.getHours();
+    const minutos = fecha.getMinutes();
+    const totalMinutos = hora * 60 + minutos;
+
+    const mañanaInicio = 8 * 60 + 30; // 08:30
+    const mañanaFin = 14 * 60;      // 14:00
+    const tardeInicio = 16 * 60;     // 16:00
+    const tardeFin = 19 * 60 + 30;   // 19:30
+
+    const esMañana = totalMinutos >= mañanaInicio && totalMinutos < mañanaFin;
+    const esTarde = totalMinutos >= tardeInicio && totalMinutos < tardeFin;
+
+    return esMañana || esTarde;
+  };
+
   const handleDateClick = (info) => {
     const fechaSeleccionada = new Date(info.date);
     const ahora = new Date();
-    const hora = fechaSeleccionada.getHours();
-    const minutos = fechaSeleccionada.getMinutes();
-    const tiempoEnMinutos = hora * 60 + minutos;
 
-    // 1. Validar si es pasado
     if (fechaSeleccionada < ahora) {
       alert("No puedes seleccionar una fecha u hora que ya ha pasado.");
       return;
     }
 
-    // 2. Validar hueco del mediodía (14:00 a 16:00)
-    // 14:00 = 840 minutos | 16:00 = 960 minutos
-    if (tiempoEnMinutos >= 840 && tiempoEnMinutos < 960) {
-      alert("El taller está cerrado de 14:00 a 16:00. Por favor, elige otra hora.");
+    if (!esHorarioValido(fechaSeleccionada)) {
+      alert("El taller está cerrado en este horario (Cerramos de 14:00 a 16:00 y a partir de las 19:30).");
       return;
     }
 
@@ -70,16 +80,17 @@ function Calendario({ onFechaSeleccionada }) {
           center: 'title',
           right: 'timeGridWeek,timeGridDay'
         }}
-        // --- CONFIGURACIÓN DE HORARIOS ---
+        // --- HORARIOS ESTRICTOS ---
         slotMinTime="08:30:00"
-        slotMaxTime="19:30:00"
+        slotMaxTime="20:00:00" // Lo ponemos a las 20:00 para que se vea bien la franja de las 19:30
         allDaySlot={false}
-        hiddenDays={[0, 6]} // Quitar Sábados y Domingos
+        hiddenDays={[0, 6]} 
+        slotDuration="00:30:00" // Franjas de 30 min para que coincida con tu horario
         
-        // Sombreado visual de horas laborables
+        // Esto sombrea las zonas "No laborables"
         businessHours={[
           {
-            daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
+            daysOfWeek: [1, 2, 3, 4, 5],
             startTime: '08:30',
             endTime: '14:00',
           },
@@ -90,14 +101,13 @@ function Calendario({ onFechaSeleccionada }) {
           }
         ]}
 
-        // --- MEJORAS VISUALES ---
+        // No permite ni siquiera arrastrar el ratón en zonas fuera de horario
+        selectConstraint="businessHours"
+        
         slotEventOverlap={false}
-        eventMaxStack={3}
-        eventDisplay='block'
         events={eventos}
         dateClick={handleDateClick}
-        height="650px"
-        selectable={true}
+        height="auto" // Ajusta el alto al contenido para evitar scroll raro
         nowIndicator={true}
         validRange={{
           start: new Date().toISOString().split('T')[0] 
