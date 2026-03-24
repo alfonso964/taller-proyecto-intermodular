@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import '../styles/SeccionContacto.css'; // Asegúrate de crear este archivo de estilos
+import '../styles/SeccionContacto.css'; 
 
-// Iconos (he usado emojis o texto simulado para que no necesites dependencias,
-// pero si usas FontAwesome o HeroIcons, puedes cambiarlos).
+// Iconos simplificados
 const IconoEnvio = () => <span style={{ fontSize: '1.2rem', verticalAlign: 'middle', marginRight: '8px' }}>✉️</span>;
 const IconoDireccion = () => <span className="icono-contacto">📍</span>;
 const IconoTelefono = () => <span className="icono-contacto">📞</span>;
@@ -10,26 +9,18 @@ const IconoReloj = () => <span className="icono-contacto">🕒</span>;
 const IconoEmail = () => <span className="icono-contacto">✉️</span>;
 
 function SeccionContacto() {
-  // Estado para simular el envío
   const [enviado, setEnviado] = useState(false);
 
-  // Función simulada de envío
   const handleSubmit = (e) => {
-    e.preventDefault(); // Evita que la página se recargue
-    
-    // Aquí podrías añadir lógica para limpiar los inputs si quisieras
-    
-    // Mostramos el mensaje de simulación
+    e.preventDefault(); 
     alert("¡Tu mensaje ha sido enviado (simulación)! Nos pondremos en contacto contigo pronto.");
     setEnviado(true);
-    
-    // Opcional: resetear el estado después de unos segundos
     setTimeout(() => setEnviado(false), 3000);
   };
 
   return (
     <div className="seccion-contacto-completa">
-      {/* 1. Banner Superior con Fondo */}
+      {/* 1. Banner Superior */}
       <div className="banner-contacto">
         <div className="overlay-oscuro">
           <h1>Contacto</h1>
@@ -37,10 +28,10 @@ function SeccionContacto() {
         </div>
       </div>
 
-      {/* 2. Contenedor Principal (Formulario + Datos) */}
+      {/* 2. Contenedor Principal */}
       <div className="contenedor-principal-contacto">
         
-        {/* Lado Izquierdo: Formulario Simulado */}
+        {/* Lado Izquierdo: Formulario */}
         <div className="bloque-formulario">
           <h2><IconoEnvio />Envíanos un mensaje</h2>
           
@@ -56,12 +47,12 @@ function SeccionContacto() {
               </div>
             </div>
             
-            <div className="grupo-input full-width">
+            <div className="grupo-input">
               <label>Correo electrónico</label>
               <input type="email" placeholder="juan@ejemplo.com" required />
             </div>
             
-            <div className="grupo-input full-width">
+            <div className="grupo-input">
               <label>Mensaje</label>
               <textarea placeholder="¿En qué podemos ayudarte?" rows="6"></textarea>
             </div>
@@ -74,7 +65,7 @@ function SeccionContacto() {
           </form>
         </div>
 
-        {/* Lado Derecho: Datos de Contacto y Mapa Simulado */}
+        {/* Lado Derecho: Datos y Mapa */}
         <div className="bloque-datos">
           
           <div className="grilla-datos">
@@ -82,7 +73,7 @@ function SeccionContacto() {
               <IconoDireccion />
               <div>
                 <strong>Dirección</strong>
-                <p>Polígono Industrial Norte, Calle Motor 24, Madrid, España</p>
+                <p>Av de Italia, 27. Montilla, Córdoba</p>
               </div>
             </div>
             
@@ -90,7 +81,7 @@ function SeccionContacto() {
               <IconoTelefono />
               <div>
                 <strong>Teléfono</strong>
-                <p>+34 912 345 678</p>
+                <p>957 65 18 12</p>
               </div>
             </div>
             
@@ -98,7 +89,7 @@ function SeccionContacto() {
               <IconoReloj />
               <div>
                 <strong>Horario</strong>
-                <p>Lun-Vie: 08:30-19:00<br />Sáb: 09:00-13:00</p>
+                <p>Lun-Vie: 8:30 - 14:00<br />16:00 - 19:30</p>
               </div>
             </div>
             
@@ -106,15 +97,23 @@ function SeccionContacto() {
               <IconoEmail />
               <div>
                 <strong>Email</strong>
-                <p>taller@autoelite.com</p>
+                <p>tallermotors@gmail.com</p>
               </div>
             </div>
           </div>
 
-          {/* Mapa Simulado (Es solo un div gris para la presentación) */}
+          {/* Mapa Real con correcciones de React */}
           <div className="mapa-simulado">
-            <span>[ Mapa Simulado ]</span>
-            {/* Si quisieras un mapa real de Google, aquí pondrías el <iframe> */}
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3161.7634458319343!2d-4.5772326!3d37.5841452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6d391307b27877%3A0x62963660e56e01a4!2sAv.%20de%20Italia%2C%2027%2C%2014550%20Montilla%2C%20C%C3%B3rdoba!5e0!3m2!1ses!2ses!4v1710000000000!5m2!1ses!2ses" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen="" 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Ubicación Taller"
+            ></iframe>
           </div>
 
         </div>
