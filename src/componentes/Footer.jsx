@@ -1,20 +1,8 @@
 import { NavLink } from "react-router-dom";
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
 import { FaFacebook, FaInstagram, FaMapMarkerAlt, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
-import 'leaflet/dist/leaflet.css';
 import "../styles/Footer.css";
 
-const iconAuto = L.icon({
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41]
-});
-
 function Footer() {
-  const posicion = [37.580075, -4.637704];
-
   const manejarClick = (e) => e.preventDefault();
 
   return (
@@ -29,9 +17,9 @@ function Footer() {
              <p><FaPhoneAlt /> 957 65 18 12</p>
           </div>
           <div className="footer-redes-iconos">
-            <a href="#" onClick={manejarClick}><FaInstagram /></a>
-            <a href="#" onClick={manejarClick}><FaFacebook /></a>
-            <a href="#" onClick={manejarClick}><FaWhatsapp /></a>
+            <a href="#" onClick={manejarClick} aria-label="Instagram"><FaInstagram /></a>
+            <a href="#" onClick={manejarClick} aria-label="Facebook"><FaFacebook /></a>
+            <a href="#" onClick={manejarClick} aria-label="Whatsapp"><FaWhatsapp /></a>
           </div>
         </div>
 
@@ -52,21 +40,27 @@ function Footer() {
           </div>
         </div>
 
-        {/* Mapa */}
+        {/* Mapa con Iframe de Google */}
         <div className="footer-ubicacion">
           <h4>Ubicación</h4>
-          <div className="footer-mapa-wrapper">
-            <MapContainer center={posicion} zoom={15} scrollWheelZoom={false} style={{ height: "180px", width: "100%" }}>
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={posicion} icon={iconAuto} />
-            </MapContainer>
+          <div className="mapa-simulado-footer">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3161.427387405232!2d-4.639892623467616!3d37.58007497203417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6d39695d732891%3A0x7d07943477103e65!2sAv.%20de%20Italia%2C%2027%2C%2014550%20Montilla%2C%20C%C3%B3rdoba!5e0!3m2!1ses!2ses!4v1711310000000!5m2!1ses!2ses" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen="" 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Ubicación Taller Motors"
+            ></iframe>
           </div>
         </div>
 
       </div>
       
       <div className="footer-inferior">
-        <p>&copy; {new Date().getFullYear()} Taller Motors. Todos los derechos reservados.</p>
+        <p>© {new Date().getFullYear()} Taller Motors. Todos los derechos reservados.</p>
       </div>
     </footer>
   );
