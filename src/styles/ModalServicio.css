@@ -128,16 +128,18 @@
   background: #2563eb;
 }
 
-/* --- AJUSTE SOLICITADO PARA MÓVIL (DESPLAZAMIENTO A LA IZQUIERDA) --- */
+/* --- AJUSTE PUNTO MEDIO PARA MÓVIL --- */
 @media (max-width: 480px) {
   .modal-servicio-overlay {
-    justify-content: flex-start; /* Alineamos al inicio (izquierda) */
-    padding-left: 10px; /* Margen pequeño a la izquierda */
-    padding-right: 20px; /* Más margen a la derecha para crear ese efecto de "aire" */
+    justify-content: flex-start; 
+    /* Hemos subido de 10px a 18px para ese "punto medio" de desplazamiento */
+    padding-left: 18px; 
+    padding-right: 12px; 
   }
 
   .modal-servicio-card {
-    width: 90%; 
+    /* Mantenemos un ancho que permita ver la asimetría */
+    width: 92%; 
     max-height: 82vh; 
   }
   
