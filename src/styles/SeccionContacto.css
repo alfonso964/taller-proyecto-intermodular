@@ -1,0 +1,218 @@
+/* Estilos generales de la sección */
+.seccion-contacto-completa {
+    font-family: 'Inter', sans-serif; /* O la fuente que uses en tu proyecto */
+    color: #1e293b;
+    background-color: #f8fafc;
+}
+
+/* 1. Banner Superior */
+.banner-contacto {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-image: url('../assets/fondo-contacto.jpg'); /* Asegúrate de tener esta imagen en assets */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+}
+
+.overlay-oscuro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Capa oscura para que se lea el texto */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.banner-contacto h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.banner-contacto p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    opacity: 0.9;
+}
+
+/* 2. Contenedor Principal (Dos Columnas) */
+.contenedor-principal-contacto {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+/* Lado Izquierdo: Formulario */
+.bloque-formulario {
+    flex: 1.5; /* Ocupa más espacio */
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.bloque-formulario h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.formulario-simulado {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.fila-inputs {
+    display: flex;
+    gap: 20px;
+}
+
+.grupo-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.grupo-input label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #475569;
+}
+
+.grupo-input input,
+.grupo-input textarea {
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.grupo-input input:focus,
+.grupo-input textarea:focus {
+    outline: none;
+    border-color: #f97316; /* Color naranja de AutoElite */
+}
+
+/* Botón Enviar */
+.boton-enviar {
+    background-color: #f97316; /* Color naranja AutoElite */
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%; /* Botón ancho como en la imagen */
+}
+
+.boton-enviar:hover {
+    background-color: #ea580c;
+}
+
+.flecha-boton {
+    font-size: 0.9rem;
+}
+
+.mensaje-enviado-suave {
+    color: #166534;
+    background-color: #dcfce7;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* Lado Derecho: Datos */
+.bloque-datos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.grilla-datos {
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna para que sea idéntico a la foto */
+    gap: 20px;
+}
+
+.dato-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.icono-contacto {
+    font-size: 1.5rem;
+    color: #f97316; /* Naranja */
+    margin-top: 3px;
+}
+
+.dato-item strong {
+    font-size: 1rem;
+    color: #1e293b;
+}
+
+.dato-item p {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Mapa Simulado */
+.mapa-simulado {
+    width: 100%;
+    height: 250px;
+    background-color: #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #64748b;
+    font-weight: 600;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Responsividad básica para móvil */
+@media (max-width: 768px) {
+    .contenedor-principal-contacto {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .fila-inputs {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .banner-contacto h1 {
+        font-size: 2.5rem;
+    }
+}
