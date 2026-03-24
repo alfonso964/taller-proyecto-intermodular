@@ -13,6 +13,7 @@ function Navbar() {
     <header className="navegacion-cabecera">
       <div className="navegacion-contenedor">
         
+        {/* LOGO */}
         <div className="nav-logo">
           <NavLink to="/" className="enlace-logo" onClick={cerrarMenu}>
             <img 
@@ -26,10 +27,16 @@ function Navbar() {
           </NavLink>
         </div>
 
-        <button className="boton-menu" onClick={cambiarMenu}>
-          <div className={`hamburguesa ${estaAbierto ? "abierto" : ""}`}></div>
+        {/* BOTÓN HAMBURGUESA (Solo visible en móvil) */}
+        <button className="boton-menu" onClick={cambiarMenu} aria-label="Menu">
+          <div className={`hamburguesa ${estaAbierto ? "abierto" : ""}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </button>
 
+        {/* ENLACES (Se adaptan con CSS) */}
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
           <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
           <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
