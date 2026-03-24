@@ -1,0 +1,165 @@
+/* --- ENVOLTORIO PRINCIPAL --- */
+.ia-pagina-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 20px;
+  background-color: #f8fafc;
+  box-sizing: border-box;
+}
+
+/* --- CONTENEDOR BLANCO PRINCIPAL --- */
+.ia-layout-principal {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* CORRECCIÓN: Evita que la tarjeta azul se estire */
+  justify-content: center;
+  gap: 40px;
+  max-width: 1100px;
+  width: 100%;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* --- TARJETA AZUL IZQUIERDA --- */
+.ia-tarjeta-azul {
+  flex: 0 0 350px; /* Ancho fijo para que no baile */
+  padding: 40px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 20px;
+  position: sticky; /* Se queda a la vista si el formulario es muy largo */
+  top: 20px;
+}
+
+.ia-tarjeta-azul h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #38bdf8;
+}
+
+.ia-lista-beneficios {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.ia-lista-beneficios li {
+  margin-bottom: 15px;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+/* --- PANEL DERECHO (FORMULARIO) --- */
+.ia-panel-formulario {
+  flex: 1;
+}
+
+.ia-panel-formulario h1 {
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 900;
+  font-size: 1.8rem;
+}
+
+.ia-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ia-fila-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.ia-formulario input,
+.ia-formulario textarea {
+  padding: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ia-formulario textarea {
+  resize: none;
+  height: 120px;
+}
+
+/* --- ANIMACIÓN DEL COCHE --- */
+.ia-contenedor-carga {
+  margin-top: 20px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.ia-carretera {
+  width: 100%;
+  height: 2px;
+  background: #e2e8f0;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.ia-coche-animado {
+  position: absolute;
+  top: -30px;
+  left: -50px;
+}
+
+/* --- RESPUESTA Y BOTONES --- */
+.ia-boton-enviar {
+  padding: 15px;
+  background: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.ia-respuesta-caja {
+  margin-top: 30px;
+  padding: 25px;
+  background: #f8fafc;
+  border-left: 5px solid #38bdf8;
+  border-radius: 0 12px 12px 0;
+}
+
+.ia-acciones {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.ia-btn-confirmar {
+   background: #38bdf8; 
+   border: none; padding: 12px; 
+   border-radius: 8px; 
+   cursor:pointer; 
+   font-weight: 600; 
+  }
+
+.ia-btn-calendario { background: #64748b; 
+  color: white; 
+  border: none; 
+  padding: 12px; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  font-weight: 600; 
+}
+
+
+@media (max-width: 950px) {
+  .ia-layout-principal { flex-direction: column; align-items: stretch; }
+  .ia-tarjeta-azul { flex: none; width: 100%; }
+}

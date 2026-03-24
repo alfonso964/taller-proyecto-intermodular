@@ -1,0 +1,105 @@
+.banner-marcas {
+  padding: 60px 20px;
+  background-color: #f8fafc; /* Gris claro para romper el negro */
+  text-align: center;
+}
+
+.banner-cabecera {
+  margin-bottom: 40px;
+}
+
+.texto-oficial {
+  font-size: 14px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.garantia-texto {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.marcas-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.marca-tarjeta {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 250px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.marca-tarjeta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+}
+
+.marca-logo-wrapper {
+  height: 60px;
+  width: 100%; 
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.marca-logo-wrapper img {
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain; 
+  filter: grayscale(100%); 
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+/* CORRECCIÓN ESPECÍFICA PARA CITROËN */
+.marca-logo-wrapper img.ajuste-citroen {
+  transform: scale(1.6); /* Aumenta el tamaño visual para equilibrar con Peugeot/DS */
+}
+
+.marca-tarjeta:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.marca-tarjeta h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 20px;
+}
+
+.boton-marca-info {
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 1px solid #38bdf8;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.boton-marca-info:hover {
+  background-color: #38bdf8;
+  color: #ffffff;
+}

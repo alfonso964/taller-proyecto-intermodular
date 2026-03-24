@@ -1,0 +1,44 @@
+
+.contenedor-calendario-taller {
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.fc .fc-button-primary {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    font-weight: 600;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: #2563eb !important;
+}
+
+.fc .fc-col-header-cell {
+    background-color: #f8fafc;
+    padding: 12px 0 !important;
+    color: #1e293b;
+}
+
+
+.cita-ocupada {
+    border: none !important;
+    border-left: 4px solid #ef4444 !important; 
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
+    padding: 4px 8px !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.fc .fc-timegrid-now-indicator-line {
+    border-color: #3b82f6 !important;
+    border-width: 2px !important;
+}
+
+.fc-timegrid-slot {
+    height: 45px !important;
+}

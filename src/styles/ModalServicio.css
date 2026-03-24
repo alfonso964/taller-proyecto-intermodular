@@ -1,0 +1,89 @@
+.modal-servicio-overlay {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  background: rgba(15, 23, 42, 0.9); /* Más oscuro para que el Navbar no distraiga */
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  z-index: 99999; /* VALOR CRÍTICO: Por encima del Navbar siempre */
+  backdrop-filter: blur(10px); /* Desenfoque más intenso para ocultar el fondo */
+  padding: 20px;
+}
+
+.modal-servicio-card {
+  background: white;
+  width: 100%;
+  max-width: 550px;
+  border-radius: 28px; /* Bordes más suaves */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+}
+
+.modal-servicio-header {
+  background: #1e3a8a;
+  padding: 35px 25px;
+  color: white;
+  text-align: center;
+}
+
+.modal-servicio-header h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* ESTILO DE LA "X" DE CIERRE */
+.modal-servicio-cerrar {
+  position: absolute; 
+  top: 20px; 
+  right: 20px;
+  background: rgba(255, 255, 255, 0.15); /* Fondo circular sutil */
+  border: none; 
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px; 
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.modal-servicio-cerrar:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg) scale(1.1); /* Animación de rotación */
+}
+
+/* Resto de estilos pulidos */
+.modal-servicio-body { padding: 30px; }
+.modal-servicio-lista li { margin-bottom: 15px; display: flex; gap: 12px; color: #475569; }
+.modal-servicio-lista span { color: #3b82f6; font-weight: bold; }
+
+.modal-servicio-meta {
+  display: flex; 
+  justify-content: space-around; 
+  background: #f8fafc;
+  padding: 20px; 
+  border-radius: 20px;
+  margin: 20px 0;
+  border: 1px solid #e2e8f0;
+}
+
+.modal-servicio-btn-ok {
+  width: calc(100% - 60px);
+  margin: 0 30px 30px 30px;
+  background: #3b82f6; 
+  color: white; 
+  border: none;
+  padding: 18px; 
+  border-radius: 15px; 
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}

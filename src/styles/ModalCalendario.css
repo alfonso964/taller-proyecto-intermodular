@@ -1,0 +1,75 @@
+/* Animación de entrada suave */
+@keyframes entradaModal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-superposicion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 25, 41, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.modal-contenedor {
+  background-color: white;
+  width: 100%;
+  max-width: 1000px;
+  height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  animation: entradaModal 0.3s ease-out;
+}
+
+.boton-cerrar {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f1f3f5;
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.boton-cerrar:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-titulo {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #0a1929;
+  font-family: sans-serif;
+  font-weight: 700;
+}
+
+.calendario-contenedor {
+  margin-top: 10px;
+}

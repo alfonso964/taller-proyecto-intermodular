@@ -1,0 +1,16 @@
+/* Limpieza básica para que tus estilos manden */
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 70px;
+  background-color: #f0f2f5; /* El gris clarito que tenías */
+  color: #1a1a1a;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,115 @@
+/* --- CONFIGURACIÓN GENERAL --- */
+.navegacion-cabecera {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px;
+  /* Fondo con transparencia para el efecto glass */
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  z-index: 10000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.navegacion-contenedor {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+}
+
+/* --- LOGO Y TÍTULO --- */
+.enlace-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-imagen {
+  height: 55px;
+  width: auto;
+  margin-right: 15px;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.3));
+}
+
+.navegacion-titulo {
+  color: #f1f5f9;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.texto-acento {
+  color: #38bdf8;
+  margin-left: 4px;
+}
+
+/* --- ENLACES DE NAVEGACIÓN --- */
+.enlaces-lista {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  list-style: none;
+}
+
+.enlace-item {
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+.enlace-item:hover,
+.enlace-item.active {
+  color: #f1f5f9;
+}
+
+/* Subrayado animado sutil */
+.enlace-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background: #38bdf8;
+  transition: width 0.3s ease;
+}
+
+.enlace-item:hover::after {
+  width: 100%;
+}
+
+/* --- BOTÓN DE RESERVA --- */
+.boton-reserva {
+  background: #38bdf8;
+  /* Corregido: Texto blanco azulado antes del hover */
+  color: #f1f5f9 !important;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.boton-reserva:hover {
+  background: #0ea5e9;
+  /* Se mantiene blanco al hacer hover */
+  color: #ffffff !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+}
+
+.boton-menu {
+  display: none;
+}
