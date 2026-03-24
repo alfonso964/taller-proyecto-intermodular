@@ -8,7 +8,7 @@
   background: rgba(15, 23, 42, 0.9);
   display: flex; 
   align-items: center; 
-  justify-content: center;
+  justify-content: center; /* En escritorio sigue centrado */
   z-index: 99999;
   backdrop-filter: blur(10px);
   padding: 10px; 
@@ -128,13 +128,17 @@
   background: #2563eb;
 }
 
-/* --- AJUSTE SOLICITADO PARA MÓVIL --- */
+/* --- AJUSTE SOLICITADO PARA MÓVIL (DESPLAZAMIENTO A LA IZQUIERDA) --- */
 @media (max-width: 480px) {
+  .modal-servicio-overlay {
+    justify-content: flex-start; /* Alineamos al inicio (izquierda) */
+    padding-left: 10px; /* Margen pequeño a la izquierda */
+    padding-right: 20px; /* Más margen a la derecha para crear ese efecto de "aire" */
+  }
+
   .modal-servicio-card {
-    /* CAMBIO: Usamos 92% para que la tarjeta sea un poco más ancha y elegante en móvil */
-    width: 92%; 
+    width: 90%; 
     max-height: 82vh; 
-    margin: 0 auto;
   }
   
   .modal-servicio-header h2 {
@@ -148,6 +152,6 @@
   }
 
   .modal-servicio-body {
-    padding: 18px; /* Un pelín menos de relleno interno para dar más espacio al texto */
+    padding: 18px; 
   }
 }
