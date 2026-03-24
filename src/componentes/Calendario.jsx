@@ -14,9 +14,10 @@ function Calendario({ onFechaSeleccionada }) {
   useEffect(() => {
     const cargarCitas = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/citas');
+        // RECUERDA: Cambia localhost por tu URL de Render cuando lo subas
+        const res = await axios.get('https://taller-proyecto-intermodular.onrender.com/api/citas');
         const citasFormateadas = res.data.map(cita => ({
-          title: `Ocupado: ${cita.reparacion}`,
+          title: `Ocupado`,
           start: cita.fecha,
           end: new Date(new Date(cita.fecha).getTime() + (cita.duracionEstimada || 60) * 60000),
           className: 'cita-ocupada' 
@@ -32,9 +33,20 @@ function Calendario({ onFechaSeleccionada }) {
   const handleDateClick = (info) => {
     const fechaSeleccionada = new Date(info.date);
     const ahora = new Date();
+    const hora = fechaSeleccionada.getHours();
+    const minutos = fechaSeleccionada.getMinutes();
+    const tiempoEnMinutos = hora * 60 + minutos;
 
+    // 1. Validar si es pasado
     if (fechaSeleccionada < ahora) {
-      alert("No puedes seleccionar una fecha o hora que ya ha pasado.");
+      alert("No puedes seleccionar una fecha u hora que ya ha pasado.");
+      return;
+    }
+
+    // 2. Validar hueco del mediodía (14:00 a 16:00)
+    // 14:00 = 840 minutos | 16:00 = 960 minutos
+    if (tiempoEnMinutos >= 840 && tiempoEnMinutos < 960) {
+      alert("El taller está cerrado de 14:00 a 16:00. Por favor, elige otra hora.");
       return;
     }
 
@@ -58,15 +70,30 @@ function Calendario({ onFechaSeleccionada }) {
           center: 'title',
           right: 'timeGridWeek,timeGridDay'
         }}
-        // --- MEJORAS VISUALES PARA SOLAPAMIENTO ---
-        slotEventOverlap={false}    // Evita que los eventos se monten encima de otros
-        eventMaxStack={3}           // Agrupa visualmente si hay más de 3
-        eventDisplay='block'        // Aprovecha mejor el ancho de la columna
-        // ------------------------------------------
-        hiddenDays={[0, 6]}
-        slotMinTime="08:00:00"
-        slotMaxTime="20:00:00"
+        // --- CONFIGURACIÓN DE HORARIOS ---
+        slotMinTime="08:30:00"
+        slotMaxTime="19:30:00"
         allDaySlot={false}
+        hiddenDays={[0, 6]} // Quitar Sábados y Domingos
+        
+        // Sombreado visual de horas laborables
+        businessHours={[
+          {
+            daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
+            startTime: '08:30',
+            endTime: '14:00',
+          },
+          {
+            daysOfWeek: [1, 2, 3, 4, 5],
+            startTime: '16:00',
+            endTime: '19:30',
+          }
+        ]}
+
+        // --- MEJORAS VISUALES ---
+        slotEventOverlap={false}
+        eventMaxStack={3}
+        eventDisplay='block'
         events={eventos}
         dateClick={handleDateClick}
         height="650px"
