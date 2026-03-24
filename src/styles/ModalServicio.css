@@ -11,18 +11,18 @@
   justify-content: center;
   z-index: 99999;
   backdrop-filter: blur(10px);
-  padding: 15px; /* Reducido un poco para ganar espacio en móvil */
+  padding: 10px; /* Reducido para dar más aire a la tarjeta en móviles */
 }
 
 /* --- TARJETA PRINCIPAL --- */
 .modal-servicio-card {
   background: white;
   width: 100%;
-  max-width: 550px;
-  max-height: 90vh; /* IMPORTANTE: Evita que el modal se salga de la pantalla arriba/abajo */
+  max-width: 500px; /* Un pelín más estrecho para que respire mejor */
+  max-height: 85vh; /* Bajado a 85 para asegurar que el botón se vea siempre */
   border-radius: 28px;
   position: relative;
-  overflow-y: auto; /* Permite scroll interno si el texto es muy largo en móviles */
+  overflow-y: auto; 
   box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
@@ -31,14 +31,14 @@
 /* --- CABECERA --- */
 .modal-servicio-header {
   background: #1e3a8a;
-  padding: 40px 20px; /* Ajustado para que el botón de cerrar no estorbe */
+  padding: 30px 20px; /* Reducido un poco para ganar espacio vertical */
   color: white;
   text-align: center;
   flex-shrink: 0;
 }
 
 .modal-servicio-header h2 {
-  font-size: 1.8rem; /* Un poco más pequeño para que no rompa líneas */
+  font-size: 1.6rem; /* Ajustado para pantallas de móvil */
   margin: 0;
   line-height: 1.2;
 }
@@ -46,18 +46,18 @@
 /* --- BOTÓN CERRAR --- */
 .modal-servicio-cerrar {
   position: absolute; 
-  top: 15px; 
-  right: 15px;
+  top: 12px; 
+  right: 12px;
   background: rgba(255, 255, 255, 0.15);
   border: none; 
   color: white;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px; 
+  font-size: 20px; 
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
@@ -70,7 +70,7 @@
 
 /* --- CUERPO Y CONTENIDO --- */
 .modal-servicio-body { 
-  padding: 25px; 
+  padding: 20px; /* Reducido de 25 a 20 para compactar */
 }
 
 .modal-servicio-lista {
@@ -80,11 +80,11 @@
 }
 
 .modal-servicio-lista li { 
-  margin-bottom: 15px; 
+  margin-bottom: 12px; 
   display: flex; 
-  gap: 12px; 
+  gap: 10px; 
   color: #475569; 
-  font-size: 0.95rem; /* Ajustado para lectura móvil */
+  font-size: 0.9rem; /* Un pelín más pequeño para que quepa más texto */
 }
 
 .modal-servicio-lista span { 
@@ -97,49 +97,49 @@
   display: flex; 
   justify-content: space-around; 
   background: #f8fafc;
-  padding: 15px; 
-  border-radius: 20px;
-  margin: 20px 0;
+  padding: 12px; 
+  border-radius: 15px;
+  margin: 15px 0;
   border: 1px solid #e2e8f0;
 }
 
 .modal-servicio-meta div {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* --- BOTÓN DE ACCIÓN --- */
 .modal-servicio-btn-ok {
-  width: calc(100% - 40px); /* Más ancho en móvil */
-  margin: 0 20px 25px 20px;
+  width: calc(100% - 40px);
+  margin: 0 20px 20px 20px; /* Margen inferior ajustado */
   background: #3b82f6; 
   color: white; 
   border: none;
-  padding: 16px; 
-  border-radius: 15px; 
+  padding: 14px; 
+  border-radius: 12px; 
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
+  flex-shrink: 0; /* Para que el botón no se deforme al hacer scroll */
 }
 
 .modal-servicio-btn-ok:hover {
   background: #2563eb;
 }
 
-/* --- RESPONSIVE ESPECÍFICO --- */
 @media (max-width: 480px) {
+  .modal-servicio-card {
+    max-height: 80vh; /* En móviles muy pequeños, más margen arriba/abajo */
+  }
+  
   .modal-servicio-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   
   .modal-servicio-meta {
-    flex-direction: column; /* En móviles muy pequeños, apilamos Precio y Tiempo */
-    gap: 10px;
+    flex-direction: column; 
+    gap: 8px;
     align-items: center;
-  }
-
-  .modal-servicio-body {
-    padding: 20px;
   }
 }
