@@ -11,15 +11,15 @@
   justify-content: center;
   z-index: 99999;
   backdrop-filter: blur(10px);
-  padding: 10px; /* Reducido para dar más aire a la tarjeta en móviles */
+  padding: 10px; 
 }
 
 /* --- TARJETA PRINCIPAL --- */
 .modal-servicio-card {
   background: white;
   width: 100%;
-  max-width: 500px; /* Un pelín más estrecho para que respire mejor */
-  max-height: 85vh; /* Bajado a 85 para asegurar que el botón se vea siempre */
+  max-width: 500px; 
+  max-height: 85vh; 
   border-radius: 28px;
   position: relative;
   overflow-y: auto; 
@@ -31,14 +31,14 @@
 /* --- CABECERA --- */
 .modal-servicio-header {
   background: #1e3a8a;
-  padding: 30px 20px; /* Reducido un poco para ganar espacio vertical */
+  padding: 30px 20px; 
   color: white;
   text-align: center;
   flex-shrink: 0;
 }
 
 .modal-servicio-header h2 {
-  font-size: 1.6rem; /* Ajustado para pantallas de móvil */
+  font-size: 1.6rem; 
   margin: 0;
   line-height: 1.2;
 }
@@ -70,7 +70,7 @@
 
 /* --- CUERPO Y CONTENIDO --- */
 .modal-servicio-body { 
-  padding: 20px; /* Reducido de 25 a 20 para compactar */
+  padding: 20px; 
 }
 
 .modal-servicio-lista {
@@ -84,7 +84,7 @@
   display: flex; 
   gap: 10px; 
   color: #475569; 
-  font-size: 0.9rem; /* Un pelín más pequeño para que quepa más texto */
+  font-size: 0.9rem; 
 }
 
 .modal-servicio-lista span { 
@@ -111,7 +111,7 @@
 /* --- BOTÓN DE ACCIÓN --- */
 .modal-servicio-btn-ok {
   width: calc(100% - 40px);
-  margin: 0 20px 20px 20px; /* Margen inferior ajustado */
+  margin: 0 20px 20px 20px; 
   background: #3b82f6; 
   color: white; 
   border: none;
@@ -121,16 +121,20 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
-  flex-shrink: 0; /* Para que el botón no se deforme al hacer scroll */
+  flex-shrink: 0; 
 }
 
 .modal-servicio-btn-ok:hover {
   background: #2563eb;
 }
 
+/* --- AJUSTE SOLICITADO PARA MÓVIL --- */
 @media (max-width: 480px) {
   .modal-servicio-card {
-    max-height: 80vh; /* En móviles muy pequeños, más margen arriba/abajo */
+    /* CAMBIO: Usamos 92% para que la tarjeta sea un poco más ancha y elegante en móvil */
+    width: 92%; 
+    max-height: 82vh; 
+    margin: 0 auto;
   }
   
   .modal-servicio-header h2 {
@@ -141,5 +145,9 @@
     flex-direction: column; 
     gap: 8px;
     align-items: center;
+  }
+
+  .modal-servicio-body {
+    padding: 18px; /* Un pelín menos de relleno interno para dar más espacio al texto */
   }
 }
