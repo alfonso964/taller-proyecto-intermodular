@@ -1,3 +1,4 @@
+/* --- HERO PRINCIPAL --- */
 .hero-principal {
   position: relative;
   min-height: 80vh; 
@@ -40,13 +41,11 @@
   text-transform: uppercase;
   font-style: italic;
   letter-spacing: -1px;
-  /* CAMBIO: Aseguramos el color blanco para la primera parte */
   color: #ffffff;
 }
 
 .hero-contenido h1 span {
   font-size: 42px;
-  /* Mantenemos el azul actual, cámbialo a #ff6b00 si quieres probar naranja */
   color: #38bdf8; 
   display: block; 
   margin-top: 5px;
@@ -81,6 +80,8 @@
   transition: all 0.3s ease;
   font-size: 16px;
   text-transform: uppercase;
+  text-decoration: none; /* Por si usas etiquetas <a> */
+  display: inline-block;
 }
 
 .boton-principal:hover {
@@ -101,6 +102,8 @@
   font-size: 16px;
   text-transform: uppercase;
   backdrop-filter: blur(5px);
+  text-decoration: none;
+  display: inline-block;
 }
 
 .boton-secundario:hover {
@@ -136,10 +139,33 @@
   margin-top: 5px;
 }
 
+/* --- CORRECCIÓN VISTA MÓVIL --- */
 @media (max-width: 768px) {
-  .hero-principal { min-height: 70vh; }
+  .hero-principal { min-height: 70vh; padding: 60px 20px; }
   .hero-contenido h1 { font-size: 38px; }
   .hero-contenido h1 span { font-size: 28px; }
-  .hero-botones { flex-direction: column; align-items: center; }
-  .hero-estadisticas { gap: 30px; flex-wrap: wrap; }
+  
+  .hero-botones { 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 15px;
+    width: 100%;
+    max-width: 300px; /* Limitamos el ancho del grupo para que no ocupen toda la pantalla lateral */
+    margin: 0 auto 60px auto;
+  }
+
+  .boton-principal, .boton-secundario {
+    width: 100%; 
+    box-sizing: border-box;
+    padding: 16px 20px; 
+    text-align: center;
+  }
+
+  .hero-estadisticas { 
+    gap: 20px; 
+    flex-direction: row; 
+    justify-content: space-evenly;
+  }
+  
+  .estadistica-numero { font-size: 28px; }
 }
