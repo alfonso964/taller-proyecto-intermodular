@@ -29,7 +29,6 @@ function Calendario({ onFechaSeleccionada }) {
     cargarCitas();
   }, []);
 
-  // Función para validar si una hora está dentro del horario permitido
   const esHorarioValido = (fecha) => {
     const hora = fecha.getHours();
     const minutos = fecha.getMinutes();
@@ -56,7 +55,7 @@ function Calendario({ onFechaSeleccionada }) {
     }
 
     if (!esHorarioValido(fechaSeleccionada)) {
-      alert("El taller está cerrado en este horario (Cerramos de 14:00 a 16:00 y a partir de las 19:30).");
+      alert("El taller está cerrado en este horario (08:30-14:00 y 16:00-19:30).");
       return;
     }
 
@@ -80,14 +79,13 @@ function Calendario({ onFechaSeleccionada }) {
           center: 'title',
           right: 'timeGridWeek,timeGridDay'
         }}
-        // --- HORARIOS ESTRICTOS ---
-        slotMinTime="08:30:00"
-        slotMaxTime="20:00:00" // Lo ponemos a las 20:00 para que se vea bien la franja de las 19:30
+        slotMinTime="08:00:00"
+        slotMaxTime="20:30:00" // Forzamos hasta las 20:30 para ver bien el cierre de las 19:30
         allDaySlot={false}
         hiddenDays={[0, 6]} 
-        slotDuration="00:30:00" // Franjas de 30 min para que coincida con tu horario
+        slotDuration="00:30:00"
+        snapDuration="00:30:00"
         
-        // Esto sombrea las zonas "No laborables"
         businessHours={[
           {
             daysOfWeek: [1, 2, 3, 4, 5],
@@ -101,13 +99,12 @@ function Calendario({ onFechaSeleccionada }) {
           }
         ]}
 
-        // No permite ni siquiera arrastrar el ratón en zonas fuera de horario
         selectConstraint="businessHours"
-        
+        eventConstraint="businessHours"
         slotEventOverlap={false}
         events={eventos}
         dateClick={handleDateClick}
-        height="auto" // Ajusta el alto al contenido para evitar scroll raro
+        height="auto"
         nowIndicator={true}
         validRange={{
           start: new Date().toISOString().split('T')[0] 
