@@ -1,7 +1,7 @@
-/* PaginaServicios.css - CORREGIDO SEGÚN CAPTURA */
+/* PaginaServicios.css - CORREGIDO CON TARJETAS DE GARANTÍA */
 
 .servicios-page {
-  background-color: #f8fafc; /* Fondo gris muy claro como en la imagen */
+  background-color: #f8fafc; /* Fondo gris muy claro */
   color: #1e293b;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
@@ -35,7 +35,7 @@
   line-height: 1.6;
 }
 
-/* GRID DE SERVICIOS */
+/* GRID DE SERVICIOS (TARJETAS SUPERIORES) */
 .servicios-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -47,8 +47,8 @@
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
   border: 1px solid #f1f5f9;
 }
 
@@ -70,15 +70,14 @@
 
 .servicio-contenido {
   padding: 25px;
-  text-align: left; /* Alineado a la izquierda como en la foto */
+  text-align: left;
 }
 
-/* El contenedor del icono (el cuadradito naranja suave) */
 .servicio-icono {
   width: 40px;
   height: 40px;
-  background-color: #fff7ed; /* Naranja muy suave */
-  color: #f97316; /* Naranja fuerte */
+  background-color: #fff7ed;
+  color: #f97316;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,15 +111,9 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  transition: color 0.2s;
 }
 
-.btn-saber-mas:hover {
-  color: #ea580c;
-  text-decoration: underline;
-}
-
-/* SECCIÓN CTA IA (Adaptada al estilo claro) */
+/* SECCIÓN CTA IA */
 .servicios-cta-ia {
   margin: 80px 0;
 }
@@ -144,36 +137,60 @@
   margin-top: 20px;
 }
 
-/* GARANTÍAS */
+/* SECCIÓN GARANTÍAS (CORREGIDO A TARJETAS) */
 .servicios-garantias-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  border-top: 1px solid #e2e8f0;
-  padding-top: 60px;
+  gap: 25px;
+  margin-top: 40px;
 }
 
 .garantia-card {
+  background: #ffffff; /* Fondo blanco para la tarjeta */
+  padding: 40px 30px;
+  border-radius: 15px; /* Bordes redondeados */
   text-align: center;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  transition: transform 0.3s ease;
+}
+
+.garantia-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .garantia-icon {
   font-size: 2.5rem;
-  color: #f97316;
-  margin-bottom: 15px;
+  color: #f97316; /* Color naranja corporativo */
+  margin-bottom: 20px;
 }
 
 .garantia-card h4 {
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.garantia-card p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
 }
 
 /* RESPONSIVE */
 @media (max-width: 1024px) {
-  .servicios-grid { grid-template-columns: repeat(2, 1fr); }
+  .servicios-grid, .servicios-garantias-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .servicios-grid, .servicios-garantias-container { grid-template-columns: 1fr; }
-  .servicios-header h1 { font-size: 2rem; }
+  .servicios-grid, .servicios-garantias-container {
+    grid-template-columns: 1fr;
+  }
+  .servicios-header h1 {
+    font-size: 2.2rem;
+  }
 }
