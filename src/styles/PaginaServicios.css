@@ -1,17 +1,20 @@
-/* PaginaServicios.css - CORREGIDO CON TARJETAS DE GARANTÍA */
+/* PaginaServicios.css - CORREGIDO CON FOOTER AJUSTADO */
 
 .servicios-page {
   background-color: #f8fafc; /* Fondo gris muy claro */
   color: #1e293b;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
-  padding-bottom: 80px;
+  /* Eliminado padding-bottom para que el footer pegue abajo */
+  display: flex;
+  flex-direction: column;
 }
 
 .servicios-contenido-wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 60px 20px;
+  flex: 1; /* Esto empuja el footer hacia abajo si hay poco contenido */
 }
 
 /* HEADER */
@@ -137,21 +140,22 @@
   margin-top: 20px;
 }
 
-/* SECCIÓN GARANTÍAS (CORREGIDO A TARJETAS) */
+/* SECCIÓN GARANTÍAS */
 .servicios-garantias-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
   margin-top: 40px;
+  margin-bottom: 40px; /* Espacio antes del footer */
 }
 
 .garantia-card {
-  background: #ffffff; /* Fondo blanco para la tarjeta */
+  background: #ffffff;
   padding: 40px 30px;
-  border-radius: 15px; /* Bordes redondeados */
+  border-radius: 15px;
   text-align: center;
   border: 1px solid #f1f5f9;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
 }
 
@@ -162,7 +166,7 @@
 
 .garantia-icon {
   font-size: 2.5rem;
-  color: #f97316; /* Color naranja corporativo */
+  color: #f97316;
   margin-bottom: 20px;
 }
 
