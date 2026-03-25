@@ -34,9 +34,10 @@
 
 .servicios-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)); 
-  gap: 25px;
-  max-width: 1300px;
+  /* CAMBIADO: De 4 a 3 para que se ajusten tus especialidades */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 30px;
+  max-width: 1200px; /* Ajustado para que 3 tarjetas no queden excesivamente anchas */
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -44,7 +45,7 @@
 
 .servicio-tarjeta {
   background: #ffffff;
-  padding: 40px 20px; 
+  padding: 50px 30px; /* Un poco más de aire interno */
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
@@ -59,47 +60,47 @@
 .servicio-tarjeta:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border-color: #38bdf8;
+  border-color: #ff6b00; /* Cambiado a naranja para ser fiel a tu marca */
 }
 
 .servicio-icono-contenedor {
-  width: 70px;
-  height: 70px;
-  background-color: #f1f5f9;
-  border-radius: 15px;
+  width: 80px;
+  height: 80px;
+  background-color: #f8fafc;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 35px;
   color: #0f172a;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
 }
 
 .servicio-tarjeta:hover .servicio-icono-contenedor {
-  background-color: #38bdf8;
-  color: white;
+  background-color: #0f172a; /* Oscuro al hacer hover para contraste */
+  color: #ffffff;
 }
 
 .servicio-tarjeta h3 {
-  font-size: 18px; 
+  font-size: 20px; 
   font-weight: 800;
   color: #0f172a;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   text-transform: uppercase;
 }
 
 .servicio-tarjeta p {
-  font-size: 14px;
+  font-size: 15px;
   color: #64748b;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-
-@media (max-width: 1200px) {
+/* RESPONSIVE */
+@media (max-width: 1024px) {
   .servicios-grid {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 900px;
-    gap: 20px;
+    max-width: 800px;
   }
 }
 
@@ -109,7 +110,7 @@
   }
   .servicios-grid { 
     grid-template-columns: 1fr; 
-    max-width: 400px; 
+    max-width: 450px; 
   }
   .servicios-seccion {
     padding: 60px 20px;
