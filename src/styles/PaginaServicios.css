@@ -1,299 +1,193 @@
-.seccion-contacto-completa {
-    font-family: 'Inter', sans-serif;
-    color: #1e293b;
-    background-color: #f8fafc;
+/* PaginaServicios.css - ESTILO TALLER DARK NEON */
+
+.servicios-page {
+  background-color: #0f172a; /* Fondo azul oscuro profundo */
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
-/* 1. Banner Superior Optimizado */
-.banner-contacto {
-    position: relative;
-    width: 100%;
-    min-height: 300px; /* Usamos min-height para que sea flexible */
-    background-image: url('../assets/fondo-contacto.jpg'); 
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.servicios-contenido-wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 80px 20px;
 }
 
-.overlay-oscuro {
-    width: 100%;
-    min-height: 300px;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px; /* Padding generoso para el texto */
-    box-sizing: border-box;
+/* HEADER */
+.servicios-header {
+  text-align: center;
+  margin-bottom: 60px;
 }
 
-.banner-contacto h1 {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    font-weight: 800;
-    max-width: 900px;
-    line-height: 1.1;
+.servicios-header h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #fff, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.banner-contacto p {
-    font-size: 1.2rem;
-    max-width: 650px;
-    opacity: 0.95;
-    line-height: 1.5;
+.servicios-header p {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-/* 2. Contenedor Principal */
-.contenedor-principal-contacto {
-    max-width: 1200px;
-    margin: 60px auto;
-    padding: 0 20px;
-    display: flex;
-    gap: 50px;
-    align-items: flex-start;
+/* GRID DE SERVICIOS */
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas en escritorio */
+  gap: 30px;
+  margin-bottom: 80px;
 }
 
-/* Lado Izquierdo: Formulario */
-.bloque-formulario {
-    flex: 1.5;
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+.servicio-card {
+  background: #1e293b;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #334155;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.bloque-formulario h2 {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
+.servicio-card:hover {
+  transform: translateY(-10px);
+  border-color: #38bdf8;
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
 }
 
-.formulario-simulado {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.servicio-imagen {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
 }
 
-.fila-inputs {
-    display: flex;
-    gap: 20px;
+.servicio-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
-.grupo-input {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.servicio-card:hover .servicio-imagen img {
+  transform: scale(1.1);
 }
 
-.grupo-input label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #475569;
+.servicio-contenido {
+  padding: 30px;
+  text-align: center;
 }
 
-/* Inputs, Select y Textarea */
-.grupo-input input,
-.grupo-input textarea,
-.select-contacto {
-    padding: 12px 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
-    background-color: white; 
-    font-family: inherit;
-    width: 100%;
-    box-sizing: border-box;
+.servicio-icono {
+  font-size: 2.5rem;
+  color: #38bdf8;
+  margin-bottom: 15px;
 }
 
-.grupo-input textarea {
-    resize: none;
+.servicio-contenido h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
-.grupo-input input:focus,
-.grupo-input textarea:focus,
-.select-contacto:focus {
-    outline: none;
-    border-color: #f97316;
+.servicio-contenido p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-/* Botón Enviar */
-.boton-enviar {
-    background-color: #f97316;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s, opacity 0.2s;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
+.btn-saber-mas {
+  background: transparent;
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.boton-enviar:hover:not(:disabled) {
-    background-color: #ea580c;
+.btn-saber-mas:hover {
+  background: #38bdf8;
+  color: #0f172a;
 }
 
-.boton-enviar:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    background-color: #94a3b8;
+/* SECCIÓN CTA IA */
+.servicios-cta-ia {
+  margin-bottom: 80px;
 }
 
-.mensaje-enviado-suave {
-    color: #166534;
-    background-color: #dcfce7;
-    padding: 12px;
-    border-radius: 6px;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    border: 1px solid #bbf7d0;
+.cta-ia-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  padding: 60px;
+  border-radius: 30px;
+  border: 2px solid #38bdf8;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
 }
 
-/* Lado Derecho: Datos */
-.bloque-datos {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    width: 100%;
+.cta-ia-card h2 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 20px;
 }
 
-.grilla-datos {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
+.btn-ir-ia {
+  display: inline-block;
+  background: #38bdf8;
+  color: #0f172a;
+  padding: 15px 35px;
+  border-radius: 50px;
+  font-weight: 800;
+  text-decoration: none;
+  margin-top: 25px;
+  transition: all 0.3s ease;
 }
 
-.dato-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+.btn-ir-ia:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #38bdf8;
 }
 
-.icono-contacto {
-    font-size: 1.5rem;
-    color: #f97316;
-    margin-top: 3px;
+/* GARANTÍAS */
+.servicios-garantias-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
 }
 
-.dato-item strong {
-    font-size: 1rem;
-    color: #1e293b;
+.garantia-card {
+  text-align: center;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
 }
 
-.dato-item p {
-    font-size: 0.95rem;
-    color: #64748b;
-    margin: 0;
-    line-height: 1.5;
+.garantia-icon {
+  font-size: 3rem;
+  color: #38bdf8;
+  margin-bottom: 15px;
 }
 
-/* Mapa */
-.mapa-simulado {
-    width: 100%;
-    height: 300px;
-    background-color: #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    overflow: hidden; 
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .servicios-grid, .servicios-garantias-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.mapa-simulado iframe {
-    width: 100%;
-    height: 100%;
-}
-
-/* --- AJUSTES PARA MÓVIL TOTALMENTE CORREGIDO --- */
 @media (max-width: 768px) {
-    
-    /* 1. Ajuste Banner Superior Inmune a Cortes */
-    .banner-contacto {
-        min-height: 200px; 
-        height: auto; /* Permite que el contenido dicte la altura */
-    }
-
-    .overlay-oscuro {
-        min-height: 200px;
-        padding: 50px 20px; /* Padding para que el texto no toque bordes */
-    }
-
-    .banner-contacto h1 {
-        font-size: 1.7rem; /* Tamaño optimizado para móviles */
-        margin-bottom: 12px;
-        overflow-wrap: break-word; /* Rompe palabras si es necesario */
-        padding: 0;
-    }
-
-    .banner-contacto p {
-        font-size: 0.95rem;
-        line-height: 1.4;
-        max-width: 100%;
-    }
-
-    /* 2. Ajuste Contenedor Principal */
-    .contenedor-principal-contacto {
-        flex-direction: column;
-        gap: 25px;
-        margin: 20px auto;
-        padding: 0 10px;
-    }
-    
-    /* 3. Ajuste Formulario */
-    .bloque-formulario {
-        padding: 25px 15px; 
-        width: 100%;
-        box-sizing: border-box;
-        border-radius: 8px;
-    }
-
-    .bloque-formulario h2 {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-    }
-
-    .fila-inputs {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .grupo-input label {
-        font-size: 0.85rem;
-    }
-
-    .grupo-input input, 
-    .grupo-input textarea, 
-    .select-contacto {
-        font-size: 0.95rem;
-        padding: 10px 12px;
-    }
-    
-    .grilla-datos {
-        gap: 15px;
-    }
-
-    .dato-item {
-        padding: 15px;
-    }
-
-    .mapa-simulado {
-        height: 220px;
-    }
+  .servicios-grid, .servicios-garantias-container {
+    grid-template-columns: 1fr;
+  }
+  .servicios-header h1 {
+    font-size: 2.5rem;
+  }
 }

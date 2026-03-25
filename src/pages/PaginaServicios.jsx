@@ -1,7 +1,7 @@
-import { useState } from 'react'; // AÑADIDO
+import { useState } from 'react'; 
 import Footer from "../componentes/Footer";
-import ModalDetalleServicio from "../componentes/ModalDetalleServicio"; // AÑADIDO
-import { detallesServicios } from "../data/serviciosDetalles"; // AÑADIDO
+import ModalDetalleServicio from "../componentes/ModalDetalleServicio"; 
+import { detallesServicios } from "../data/serviciosDetalles"; 
 import "../styles/PaginaServicios.css";
 import { Link } from "react-router-dom";
 import { FaGears, FaMicrochip, FaCarSide, FaTemperatureArrowDown, FaClipboardCheck, FaCircleDot, FaShieldHalved, FaClockRotateLeft, FaMedal} from "react-icons/fa6";
@@ -37,7 +37,6 @@ function PaginaServicios() {
                 <div className="servicio-icono">{servicio.icono}</div>
                 <h3>{servicio.titulo}</h3>
                 <p>{servicio.descripcion}</p>
-                {/* BOTÓN ACTUALIZADO */}
                 <button 
                   className="btn-saber-mas"
                   onClick={() => setServicioSeleccionado(detallesServicios[servicio.id])}
