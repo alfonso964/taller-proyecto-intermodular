@@ -1,127 +1,111 @@
-/* --- CONTENEDOR CON LUCES DE FONDO --- */
+/* --- FONDO TECH CON MALLA --- */
 .contenedor-login {
-    position: relative;
-    padding: 100px 20px;
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #0f172a; /* Azul muy oscuro de base */
-    overflow: hidden;
+    padding: 20px;
+    /* Fondo con patrón de puntos/malla profesional */
+    background-color: #0f172a;
+    background-image: 
+        radial-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    position: relative;
 }
 
-/* Esferas de luz para que el fondo no sea plano */
+/* Decoración lateral para romper el negro */
 .contenedor-login::before {
     content: "";
     position: absolute;
-    width: 400px;
-    height: 400px;
-    top: -100px;
-    left: -100px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(60px);
-    z-index: 0;
-}
-
-.contenedor-login::after {
-    content: "";
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    bottom: -150px;
-    right: -100px;
-    background: radial-gradient(circle, rgba(30, 41, 59, 0.5) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(80px);
-    z-index: 0;
-}
-
-/* --- TARJETA GLASSMORPHISM --- */
-.tarjeta-login {
-    position: relative;
-    z-index: 1;
-    max-width: 420px;
     width: 100%;
-    background: rgba(30, 41, 59, 0.65); /* Transparencia */
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 50px 40px;
-    border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-    text-align: center;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(56, 189, 248, 0.05) 100%);
+    pointer-events: none;
+}
+
+/* --- TARJETA REFORZADA --- */
+.tarjeta-login {
+    width: 100%;
+    max-width: 400px;
+    background: #1e293b; /* Color sólido para que no dependa de transparencias */
+    padding: 45px 35px;
+    border-radius: 20px;
+    border-top: 4px solid #38bdf8; /* Línea de acento superior */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 10;
 }
 
 .titulo-login {
     color: #ffffff;
-    margin-bottom: 8px;
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 800;
-    letter-spacing: -1px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .subtitulo-login {
     color: #94a3b8;
-    margin-bottom: 35px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    text-align: center;
+    display: block;
 }
 
 /* --- FORMULARIO --- */
 .formulario-login {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
 }
 
 .entrada-login {
-    padding: 16px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(15, 23, 42, 0.8);
-    color: #f8fafc;
-    outline: none;
+    width: 100%;
+    padding: 14px 16px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    color: #f1f5f9;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    box-sizing: border-box; /* Importante para móvil */
 }
 
 .entrada-login:focus {
+    outline: none;
     border-color: #38bdf8;
-    background: rgba(15, 23, 42, 1);
-    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
 }
 
-/* --- BOTÓN --- */
+/* --- BOTÓN DE ACCESO --- */
 .boton-login {
-    margin-top: 10px;
-    padding: 16px;
-    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    width: 100%;
+    padding: 15px;
+    background: #38bdf8;
     color: #0f172a;
     border: none;
-    border-radius: 14px;
-    font-weight: 800;
+    border-radius: 10px;
     font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.3s ease;
+    margin-top: 10px;
 }
 
 .boton-login:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 20px -5px rgba(56, 189, 248, 0.4);
-    filter: brightness(1.1);
+    background: #0ea5e9;
 }
 
-/* --- AJUSTE MÓVIL --- */
+/* --- VISTA MÓVIL --- */
 @media (max-width: 480px) {
-    .contenedor-login {
-        padding: 20px;
-    }
     .tarjeta-login {
-        padding: 40px 25px;
+        padding: 35px 25px;
+        margin: 10px;
     }
+    
     .titulo-login {
-        font-size: 1.8rem;
+        font-size: 1.7rem;
     }
 }
