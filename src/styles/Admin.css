@@ -1,0 +1,118 @@
+.admin-principal {
+  padding: 120px 5% 50px; /* 5% de padding lateral para flexibilidad */
+  background-color: #0f172a;
+  min-height: 100vh;
+  color: #f1f5f9;
+}
+
+.admin-titulo {
+  font-size: clamp(1.8rem, 5vw, 2.5rem); /* Tamaño fluido según pantalla */
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.etiqueta-admin {
+  background: #38bdf8;
+  color: #0f172a;
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.cuadricula-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.tarjeta-dato {
+  background: rgba(30, 41, 59, 0.6);
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.tarjeta-dato:hover {
+  transform: translateY(-5px);
+  border-color: #38bdf8;
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.tarjeta-dato h3 {
+  color: #94a3b8;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.valor-dato {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #38bdf8;
+  margin: 0;
+}
+
+.zona-gestion {
+  background: rgba(15, 23, 42, 0.4);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cabecera-seccion h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  border-left: 4px solid #38bdf8;
+  padding-left: 15px;
+}
+
+.contenedor-lista-vacia {
+  margin-top: 20px;
+  padding: 60px 20px;
+  border: 2px dashed rgba(148, 163, 184, 0.2);
+  border-radius: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contenedor-lista-vacia p {
+  color: #f1f5f9;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.contenedor-lista-vacia span {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* --- ADAPTACIÓN MÓVIL (MÁX 768px) --- */
+@media (max-width: 768px) {
+  .admin-principal {
+    padding: 100px 20px 30px;
+  }
+
+  .cuadricula-resumen {
+    grid-template-columns: 1fr; /* Una columna en móvil */
+  }
+
+  .zona-gestion {
+    padding: 20px;
+  }
+
+  .valor-dato {
+    font-size: 2.2rem;
+  }
+}
