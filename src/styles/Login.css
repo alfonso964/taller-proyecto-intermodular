@@ -1,4 +1,4 @@
-/* --- CONTENEDOR PRINCIPAL CON EFECTO DE PROFUNDIDAD --- */
+/* --- CONTENEDOR CON LUCES DE FONDO --- */
 .contenedor-login {
     position: relative;
     padding: 100px 20px;
@@ -6,54 +6,50 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #0f172a; /* Fondo base oscuro */
-    overflow: hidden; /* Para que los círculos no se salgan */
+    background-color: #0f172a; /* Azul muy oscuro de base */
+    overflow: hidden;
 }
 
-/* Círculos de luz decorativos para dar profundidad */
-.contenedor-login::before,
-.contenedor-login::after {
+/* Esferas de luz para que el fondo no sea plano */
+.contenedor-login::before {
     content: "";
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.15), transparent 70%);
-    filter: blur(50px);
+    filter: blur(60px);
     z-index: 0;
 }
 
-.contenedor-login::before {
-    top: 20%;
-    left: 20%;
-    animation: flotar 15s infinite alternate;
-}
-
 .contenedor-login::after {
-    bottom: 20%;
-    right: 20%;
-    background: radial-gradient(circle, rgba(30, 41, 59, 0.4), transparent 70%);
-    animation: flotar 20s infinite alternate-reverse;
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(30, 41, 59, 0.5) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
 }
 
-@keyframes flotar {
-    from { transform: translate(0, 0); }
-    to { transform: translate(50px, 50px); }
-}
-
-/* --- TARJETA DE LOGIN (GLASSMORPHISM) --- */
+/* --- TARJETA GLASSMORPHISM --- */
 .tarjeta-login {
     position: relative;
-    z-index: 1; /* Por encima de los círculos */
+    z-index: 1;
     max-width: 420px;
     width: 100%;
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(30, 41, 59, 0.65); /* Transparencia */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 50px 40px;
     border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     text-align: center;
 }
 
@@ -71,7 +67,7 @@
     font-size: 0.95rem;
 }
 
-/* --- FORMULARIO Y ENTRADAS --- */
+/* --- FORMULARIO --- */
 .formulario-login {
     display: flex;
     flex-direction: column;
@@ -80,9 +76,9 @@
 
 .entrada-login {
     padding: 16px;
-    border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    background: rgba(15, 23, 42, 0.7);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(15, 23, 42, 0.8);
     color: #f8fafc;
     outline: none;
     font-size: 1rem;
@@ -91,53 +87,41 @@
 
 .entrada-login:focus {
     border-color: #38bdf8;
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 1);
     box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
 }
 
-/* --- BOTÓN PREMIUM --- */
+/* --- BOTÓN --- */
 .boton-login {
     margin-top: 10px;
     padding: 16px;
     background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
     color: #0f172a;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-weight: 800;
     font-size: 1rem;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .boton-login:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 20px -5px rgba(56, 189, 248, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -5px rgba(56, 189, 248, 0.4);
     filter: brightness(1.1);
 }
 
-.boton-login:active {
-    transform: translateY(-1px);
-}
-
-/* --- RESPONSIVE (MÓVIL) --- */
+/* --- AJUSTE MÓVIL --- */
 @media (max-width: 480px) {
     .contenedor-login {
         padding: 20px;
     }
-
     .tarjeta-login {
         padding: 40px 25px;
-        border-radius: 20px;
     }
-
     .titulo-login {
         font-size: 1.8rem;
-    }
-
-    .entrada-login {
-        padding: 14px;
-        font-size: 0.95rem;
     }
 }
