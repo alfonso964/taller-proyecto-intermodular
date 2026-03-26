@@ -51,7 +51,7 @@
   margin-left: 4px;
 }
 
-/* --- ENLACES DE NAVEGACIÓN (Escritorio) --- */
+/* --- ENLACES DE NAVEGACIÓN --- */
 .enlaces-lista {
   display: flex;
   gap: 30px;
@@ -87,6 +87,24 @@
   width: 100%;
 }
 
+/* --- BOTÓN SALIR (NUEVO) --- */
+.boton-salir-nav {
+  background: rgba(230, 57, 70, 0.1);
+  color: #e63946;
+  border: 1px solid #e63946;
+  padding: 8px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.boton-salir-nav:hover {
+  background: #e63946;
+  color: #ffffff;
+}
+
 /* --- BOTÓN DE RESERVA --- */
 .boton-reserva {
   background: #38bdf8;
@@ -106,7 +124,7 @@
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
 }
 
-/* --- MENÚ HAMBURGUESA (Icono Animado) --- */
+/* --- MENÚ HAMBURGUESA --- */
 .boton-menu {
   display: none;
   background: none;
@@ -124,7 +142,6 @@
   transition: all 0.3s ease;
 }
 
-/* Animación al abrir */
 .hamburguesa.abierto span:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
 }
@@ -135,7 +152,7 @@
   transform: translateY(-8px) rotate(-45deg);
 }
 
-/* --- RESPONSIVE (Móviles y Tablets) --- */
+/* --- RESPONSIVE --- */
 @media (max-width: 968px) {
   .navegacion-contenedor {
     padding: 0 25px;
@@ -148,7 +165,7 @@
   .enlaces-lista {
     position: fixed;
     top: 0;
-    right: -100%; /* Oculto fuera de pantalla */
+    right: -100%;
     width: 70%;
     height: 100vh;
     background: rgba(15, 23, 42, 0.98);
@@ -160,7 +177,7 @@
   }
 
   .enlaces-lista.abierto {
-    right: 0; /* Desliza hacia adentro */
+    right: 0;
   }
 
   .enlace-item {
@@ -169,5 +186,11 @@
 
   .boton-reserva {
     margin-top: 20px;
+  }
+
+  .boton-salir-nav {
+    width: 80%;
+    text-align: center;
+    margin-top: 10px;
   }
 }
