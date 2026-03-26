@@ -11,7 +11,15 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    // 1. Obtenemos la sesión inicial al cargar el componente
+    const obtenerSesionInicial = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      actualizarEstadoUsuario(session);
+    };
+    obtenerSesionInicial();
+
+    // 2. Función para actualizar usuario y rol
+    const actualizarEstadoUsuario = async (session) => {
       setUsuario(session?.user || null);
       if (session?.user) {
         const { data } = await supabase
@@ -19,23 +27,36 @@ function Navbar() {
           .select('rol')
           .eq('id', session.user.id)
           .single();
-        
-        // Normalizamos el rol a minúsculas según nuestra nueva regla de base de datos
         setRol(data?.rol?.toLowerCase() || 'user'); 
       } else {
         setRol(null);
       }
+    };
+
+    // 3. Escuchador de cambios de autenticación
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      actualizarEstadoUsuario(session);
     });
+
     return () => subscription.unsubscribe();
   }, []);
 
   const cerrarSesion = async () => {
-    // 1. Ejecuta el cierre de sesión en Supabase
-    await supabase.auth.signOut();
-    // 2. Cierra el menú móvil
-    setEstaAbierto(false);
-    // 3. Redirige al inicio
-    navigate('/');
+    try {
+      // Forzamos el cierre de sesión en Supabase
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+
+      // Limpieza manual de estados para asegurar que la UI responda rápido
+      setUsuario(null);
+      setRol(null);
+      setEstaAbierto(false);
+      
+      console.log("Sesión cerrada con éxito");
+      navigate('/');
+    } catch (error) {
+      alert("Error al cerrar sesión: " + error.message);
+    }
   };
 
   const cerrarMenu = () => setEstaAbierto(false);
@@ -51,12 +72,10 @@ function Navbar() {
         </div>
 
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
-          {/* ENLACES PÚBLICOS */}
           <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
           <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
           <NavLink to="/contacto" className="enlace-item" onClick={cerrarMenu}>Contacto</NavLink>
           
-          {/* ENLACES PRIVADOS SEGÚN ROL */}
           {usuario ? (
             <>
               {rol === 'admin' ? (
@@ -64,7 +83,7 @@ function Navbar() {
               ) : (
                 <NavLink to="/historial" className="enlace-item" onClick={cerrarMenu}>Mis Reparaciones</NavLink>
               )}
-              {/* Este botón ahora tiene la clase para quitarle el estilo de 'botón gris' */}
+              {/* IMPORTANTE: El botón debe disparar cerrarSesion */}
               <button onClick={cerrarSesion} className="enlace-item btn-logout-limpio">
                 Salir
               </button>
