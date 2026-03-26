@@ -30,7 +30,11 @@ function Navbar() {
       .select('rol')
       .eq('id', userId)
       .single();
-    setRol(data?.rol);
+    
+    // Normalizamos el rol a minúsculas para que coincida siempre
+    if (data?.rol) {
+      setRol(data.rol.toLowerCase());
+    }
   };
 
   const cerrarSesion = async () => {
@@ -68,7 +72,7 @@ function Navbar() {
           <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
           <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
           
-          {/* Enlaces condicionales */}
+          {/* Enlaces condicionales con lógica de rol protegida */}
           {usuario ? (
             <>
               {rol === 'admin' ? (
