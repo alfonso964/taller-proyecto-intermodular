@@ -19,6 +19,7 @@ function Navbar() {
           .select('rol')
           .eq('id', session.user.id)
           .single();
+        
         // Normalizamos el rol a minúsculas según nuestra nueva regla de base de datos
         setRol(data?.rol?.toLowerCase() || 'user'); 
       } else {
@@ -29,8 +30,11 @@ function Navbar() {
   }, []);
 
   const cerrarSesion = async () => {
+    // 1. Ejecuta el cierre de sesión en Supabase
     await supabase.auth.signOut();
+    // 2. Cierra el menú móvil
     setEstaAbierto(false);
+    // 3. Redirige al inicio
     navigate('/');
   };
 
@@ -47,12 +51,12 @@ function Navbar() {
         </div>
 
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
-          {/* ENLACES PÚBLICOS: Siempre visibles para todos */}
+          {/* ENLACES PÚBLICOS */}
           <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
           <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
           <NavLink to="/contacto" className="enlace-item" onClick={cerrarMenu}>Contacto</NavLink>
           
-          {/* ENLACES PRIVADOS: Cambian según el usuario */}
+          {/* ENLACES PRIVADOS SEGÚN ROL */}
           {usuario ? (
             <>
               {rol === 'admin' ? (
@@ -60,6 +64,7 @@ function Navbar() {
               ) : (
                 <NavLink to="/historial" className="enlace-item" onClick={cerrarMenu}>Mis Reparaciones</NavLink>
               )}
+              {/* Este botón ahora tiene la clase para quitarle el estilo de 'botón gris' */}
               <button onClick={cerrarSesion} className="enlace-item btn-logout-limpio">
                 Salir
               </button>
