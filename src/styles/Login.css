@@ -1,4 +1,4 @@
-/* --- FONDO TECH CON MALLA --- */
+/* --- FONDO MODERNO Y LIMPIO --- */
 .contenedor-login {
     width: 100%;
     min-height: 100vh;
@@ -6,50 +6,42 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-    /* Fondo con patrón de puntos/malla profesional */
-    background-color: #0f172a;
-    background-image: 
-        radial-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
+    /* Degradado sutil para que el fondo no sea plano */
+    background: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0, transparent 50%), 
+                #f1f5f9;
     position: relative;
 }
 
-/* Decoración lateral para romper el negro */
-.contenedor-login::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(56, 189, 248, 0.05) 100%);
-    pointer-events: none;
-}
-
-/* --- TARJETA REFORZADA --- */
+/* --- TARJETA MINIMALISTA --- */
 .tarjeta-login {
     width: 100%;
     max-width: 400px;
-    background: #1e293b; /* Color sólido para que no dependa de transparencias */
-    padding: 45px 35px;
-    border-radius: 20px;
-    border-top: 4px solid #38bdf8; /* Línea de acento superior */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    /* Sombra más suave y extendida */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
     z-index: 10;
 }
 
 .titulo-login {
-    color: #ffffff;
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 10px;
+    color: #1e3a8a; /* AZUL OSCURO PREMIUM */
+    font-size: 2.4rem;
+    font-weight: 900;
+    margin-bottom: 8px;
     text-align: center;
+    letter-spacing: -1.5px;
+    text-transform: uppercase;
 }
 
 .subtitulo-login {
-    color: #94a3b8;
+    color: #64748b;
     font-size: 0.9rem;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     text-align: center;
     display: block;
+    font-weight: 500;
 }
 
 /* --- FORMULARIO --- */
@@ -61,51 +53,60 @@
 
 .entrada-login {
     width: 100%;
-    padding: 14px 16px;
-    background: #0f172a;
-    border: 1px solid #334155;
-    border-radius: 10px;
-    color: #f1f5f9;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    color: #0f172a;
     font-size: 1rem;
     transition: all 0.2s ease;
-    box-sizing: border-box; /* Importante para móvil */
+    box-sizing: border-box;
 }
 
 .entrada-login:focus {
     outline: none;
-    border-color: #38bdf8;
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+    border-color: #1e3a8a; /* Cambia al azul oscuro */
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
 }
 
-/* --- BOTÓN DE ACCESO --- */
+/* --- BOTÓN CON HOVER MEJORADO --- */
 .boton-login {
     width: 100%;
-    padding: 15px;
-    background: #38bdf8;
-    color: #0f172a;
+    padding: 16px;
+    background: #1e3a8a; /* Azul oscuro de base */
+    color: #ffffff;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: background 0.3s ease;
     margin-top: 10px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación elástica */
+    position: relative;
+    overflow: hidden;
 }
 
 .boton-login:hover {
-    background: #0ea5e9;
+    background: #1e40af; /* Un tono ligeramente más claro al pasar el ratón */
+    transform: translateY(-3px); /* Se eleva */
+    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.25);
+}
+
+.boton-login:active {
+    transform: translateY(0);
 }
 
 /* --- VISTA MÓVIL --- */
 @media (max-width: 480px) {
     .tarjeta-login {
-        padding: 35px 25px;
-        margin: 10px;
+        padding: 40px 25px;
+        border-radius: 20px;
     }
     
     .titulo-login {
-        font-size: 1.7rem;
+        font-size: 2rem;
     }
 }
