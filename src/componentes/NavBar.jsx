@@ -19,7 +19,8 @@ function Navbar() {
           .select('rol')
           .eq('id', session.user.id)
           .single();
-        setRol(data?.rol?.toLowerCase() || 'user'); // Forzamos minúsculas
+        // Normalizamos el rol a minúsculas según nuestra nueva regla de base de datos
+        setRol(data?.rol?.toLowerCase() || 'user'); 
       } else {
         setRol(null);
       }
@@ -33,36 +34,43 @@ function Navbar() {
     navigate('/');
   };
 
+  const cerrarMenu = () => setEstaAbierto(false);
+
   return (
     <header className="navegacion-cabecera">
       <div className="navegacion-contenedor">
         <div className="nav-logo">
-          <NavLink to="/" className="enlace-logo">
+          <NavLink to="/" className="enlace-logo" onClick={cerrarMenu}>
             <img src="/logoTaller.png" alt="Logo" className="logo-imagen" />
             <span className="navegacion-titulo">Taller<span className="texto-acento">Motors</span></span>
           </NavLink>
         </div>
 
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
-          <NavLink to="/" className="enlace-item">Inicio</NavLink>
+          {/* ENLACES PÚBLICOS: Siempre visibles para todos */}
+          <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
+          <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
+          <NavLink to="/contacto" className="enlace-item" onClick={cerrarMenu}>Contacto</NavLink>
           
+          {/* ENLACES PRIVADOS: Cambian según el usuario */}
           {usuario ? (
             <>
-              {/* Aquí está la clave: si el rol es admin, muestra Panel */}
               {rol === 'admin' ? (
-                <NavLink to="/admin" className="enlace-item">Panel Admin</NavLink>
+                <NavLink to="/admin" className="enlace-item" onClick={cerrarMenu}>Panel Admin</NavLink>
               ) : (
-                <NavLink to="/historial" className="enlace-item">Mis Reparaciones</NavLink>
+                <NavLink to="/historial" className="enlace-item" onClick={cerrarMenu}>Mis Reparaciones</NavLink>
               )}
               <button onClick={cerrarSesion} className="enlace-item btn-logout-limpio">
                 Salir
               </button>
             </>
           ) : (
-            <NavLink to="/login" className="enlace-item">Acceso</NavLink>
+            <NavLink to="/login" className="enlace-item" onClick={cerrarMenu}>Acceso</NavLink>
           )}
 
-          <NavLink to="/reserva-ia" className="boton-reserva">Diagnóstico y Cita</NavLink>
+          <NavLink to="/reserva-ia" className="boton-reserva" onClick={cerrarMenu}>
+            Diagnóstico y Cita
+          </NavLink>
         </nav>
       </div>
     </header>
