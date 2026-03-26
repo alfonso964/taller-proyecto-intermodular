@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/immutability */
+/* --- src/components/Navbar.jsx --- */
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
@@ -11,31 +11,21 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Escuchar cambios en la sesión (login/logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUsuario(session?.user || null);
       if (session?.user) {
-        obtenerRol(session.user.id);
+        const { data } = await supabase
+          .from('perfiles')
+          .select('rol')
+          .eq('id', session.user.id)
+          .single();
+        setRol(data?.rol?.toLowerCase() || 'user'); // Forzamos minúsculas
       } else {
         setRol(null);
       }
     });
-
     return () => subscription.unsubscribe();
   }, []);
-
-  const obtenerRol = async (userId) => {
-    const { data } = await supabase
-      .from('perfiles')
-      .select('rol')
-      .eq('id', userId)
-      .single();
-    
-    // Normalizamos el rol a minúsculas para que coincida siempre
-    if (data?.rol) {
-      setRol(data.rol.toLowerCase());
-    }
-  };
 
   const cerrarSesion = async () => {
     await supabase.auth.signOut();
@@ -43,56 +33,39 @@ function Navbar() {
     navigate('/');
   };
 
-  const cambiarMenu = () => setEstaAbierto(!estaAbierto);
-  const cerrarMenu = () => setEstaAbierto(false);
-
   return (
     <header className="navegacion-cabecera">
       <div className="navegacion-contenedor">
-        
-        {/* LOGO */}
         <div className="nav-logo">
-          <NavLink to="/" className="enlace-logo" onClick={cerrarMenu}>
-            <img src="/logoTaller.png" alt="Logo Taller" className="logo-imagen" />
-            <span className="navegacion-titulo">
-              Taller<span className="texto-acento">Motors</span>
-            </span>
+          <NavLink to="/" className="enlace-logo">
+            <img src="/logoTaller.png" alt="Logo" className="logo-imagen" />
+            <span className="navegacion-titulo">Taller<span className="texto-acento">Motors</span></span>
           </NavLink>
         </div>
 
-        {/* BOTÓN HAMBURGUESA */}
-        <button className="boton-menu" onClick={cambiarMenu} aria-label="Menu">
-          <div className={`hamburguesa ${estaAbierto ? "abierto" : ""}`}>
-            <span></span><span></span><span></span>
-          </div>
-        </button>
-
-        {/* ENLACES */}
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
-          <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
-          <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
+          <NavLink to="/" className="enlace-item">Inicio</NavLink>
           
-          {/* Enlaces condicionales con lógica de rol protegida */}
           {usuario ? (
             <>
+              {/* Aquí está la clave: si el rol es admin, muestra Panel */}
               {rol === 'admin' ? (
-                <NavLink to="/admin" className="enlace-item" onClick={cerrarMenu}>Panel Admin</NavLink>
+                <NavLink to="/admin" className="enlace-item">Panel Admin</NavLink>
               ) : (
-                <NavLink to="/historial" className="enlace-item" onClick={cerrarMenu}>Mis Reparaciones</NavLink>
+                <NavLink to="/historial" className="enlace-item">Mis Reparaciones</NavLink>
               )}
-              <button onClick={cerrarSesion} className="boton-salir">Salir</button>
+              <button onClick={cerrarSesion} className="enlace-item btn-logout-limpio">
+                Salir
+              </button>
             </>
           ) : (
-            <NavLink to="/login" className="enlace-item" onClick={cerrarMenu}>Acceso</NavLink>
+            <NavLink to="/login" className="enlace-item">Acceso</NavLink>
           )}
 
-          <NavLink to="/reserva-ia" className="boton-reserva" onClick={cerrarMenu}>
-            Diagnóstico y Cita
-          </NavLink>
+          <NavLink to="/reserva-ia" className="boton-reserva">Diagnóstico y Cita</NavLink>
         </nav>
       </div>
     </header>
   );
 }
-
 export default Navbar;

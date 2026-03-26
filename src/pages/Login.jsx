@@ -27,7 +27,7 @@ const Login = () => {
         .eq('id', data.user.id)
         .single();
 
-      // 3. Normalizamos el rol a minúsculas para evitar fallos (admin vs ADMIN)
+      // 3. Normalizamos el rol a minúsculas (evitamos fallos admin vs ADMIN)
       const rolNormalizado = perfil?.rol?.toLowerCase();
 
       // 4. Redirección inteligente
@@ -68,6 +68,26 @@ const Login = () => {
             Iniciar Sesión
           </button>
         </form>
+
+        {/* --- NUEVO: Enlace para ir a la página de Registro --- */}
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
+            ¿No tienes cuenta todavía? 
+            <button 
+              onClick={() => navigate('/signup')} 
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                color: '#38bdf8', 
+                cursor: 'pointer', 
+                fontWeight: 'bold',
+                marginLeft: '5px'
+              }}
+            >
+              Regístrate aquí
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );

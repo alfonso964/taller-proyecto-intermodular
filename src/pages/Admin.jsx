@@ -5,13 +5,35 @@ import '../styles/Admin.css';
 
 const Admin = () => {
   const [resumen, setResumen] = useState({ citas: 0, usuarios: 0 });
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    const cargarDatosIniciales = async () => {
-      // Simulación de datos hasta que conectemos las tablas reales
-      setResumen({ citas: 5, usuarios: 12 });
+    const cargarDatosReales = async () => {
+      try {
+        // 1. Contar usuarios reales en la tabla 'perfiles'
+        const { count: conteoUsuarios, error: errUser } = await supabase
+          .from('perfiles')
+          .select('*', { count: 'exact', head: true });
+
+        // 2. Contar citas reales en la tabla 'Cita'
+        const { count: conteoCitas, error: errCita } = await supabase
+          .from('Cita')
+          .select('*', { count: 'exact', head: true });
+
+        if (errUser || errCita) console.error("Error al obtener datos:", errUser || errCita);
+
+        setResumen({ 
+          citas: conteoCitas || 0, 
+          usuarios: conteoUsuarios || 0 
+        });
+      } catch (error) {
+        console.error("Error de conexión:", error);
+      } finally {
+        setCargando(false);
+      }
     };
-    cargarDatosIniciales();
+    
+    cargarDatosReales();
   }, []);
 
   return (
@@ -26,15 +48,16 @@ const Admin = () => {
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
           <h3>Citas Pendientes</h3>
-          <p className="valor-dato">{resumen.citas}</p>
+          <p className="valor-dato">{cargando ? "..." : resumen.citas}</p>
         </div>
         <div className="tarjeta-dato">
           <h3>Usuarios Totales</h3>
-          <p className="valor-dato">{resumen.usuarios}</p>
+          <p className="valor-dato">{cargando ? "..." : resumen.usuarios}</p>
         </div>
         <div className="tarjeta-dato">
           <h3>Ingresos Estimados</h3>
-          <p className="valor-dato">1.250€</p>
+          {/* Este valor lo calcularemos cuando tengas facturas o precios */}
+          <p className="valor-dato">0€</p>
         </div>
       </div>
 
@@ -53,3 +76,4 @@ const Admin = () => {
 };
 
 export default Admin;
+

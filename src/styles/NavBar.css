@@ -194,3 +194,18 @@
     margin-top: 10px;
   }
 }
+
+.btn-logout-limpio {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    text-transform: none;
+}
+
+.btn-logout-limpio:hover {
+    color: #38bdf8;
+}
