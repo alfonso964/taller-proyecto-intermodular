@@ -11,16 +11,20 @@ const Login = () => {
   const manejarLogin = async (e) => {
     e.preventDefault();
     
-    // 1. Inicio de sesión
+    // 1. Limpieza preventiva: nos aseguramos de que no haya restos de sesiones fallidas
+    await supabase.auth.signOut();
+    localStorage.clear();
+
+    // 2. Inicio de sesión real
     const { data, error } = await supabase.auth.signInWithPassword({
-      email,
+      email: email.trim(), // El trim() evita errores por espacios invisibles al final
       password,
     });
 
     if (error) {
       alert("Error: " + error.message);
     } else if (data?.user) {
-      // 2. Buscamos el rol real en la tabla 'perfiles'
+      // 3. Buscamos el rol real en la tabla 'perfiles'
       const { data: perfil, error: perfilError } = await supabase
         .from('perfiles')
         .select('rol')
@@ -30,15 +34,15 @@ const Login = () => {
       // --- CAMBIO APLICADO AQUÍ ---
       if (perfilError) {
         console.error("DETALLE DEL ERROR 403:", perfilError); 
-        // Forzamos limpieza para que no use datos de sesión corruptos
+        // Forzamos limpieza total si hay un error de permisos
         localStorage.clear(); 
-        alert("Error de permisos: Limpia el LocalStorage y reintenta.");
+        alert("Error de permisos: La base de datos aún bloquea el acceso. Revisa las políticas SQL.");
         navigate('/historial'); // Redirección por defecto si algo falla
         return;
       }
       // ----------------------------
 
-      // 3. Normalizamos y Redirigimos
+      // 4. Normalizamos y Redirigimos
       const rol = perfil?.rol?.toLowerCase();
       
       if (rol === 'admin') {
