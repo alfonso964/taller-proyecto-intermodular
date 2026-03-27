@@ -27,11 +27,16 @@ const Login = () => {
         .eq('id', data.user.id)
         .single();
 
+      // --- CAMBIO APLICADO AQUÍ ---
       if (perfilError) {
-        console.error("Error obteniendo perfil:", perfilError);
+        console.error("DETALLE DEL ERROR 403:", perfilError); 
+        // Forzamos limpieza para que no use datos de sesión corruptos
+        localStorage.clear(); 
+        alert("Error de permisos: Limpia el LocalStorage y reintenta.");
         navigate('/historial'); // Redirección por defecto si algo falla
         return;
       }
+      // ----------------------------
 
       // 3. Normalizamos y Redirigimos
       const rol = perfil?.rol?.toLowerCase();
