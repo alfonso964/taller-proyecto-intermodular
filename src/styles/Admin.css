@@ -1,18 +1,19 @@
-/* Admin.css - Estilo Profesional Moderno */
+/* Admin.css - Estilo Premium Medianoche */
 :root {
-  --bg-principal: #f8fafc; /* Fondo gris muy claro, casi blanco */
-  --bg-tarjeta: #ffffff;
-  --primario: #2563eb; /* Azul corporativo */
-  --primario-brillante: #3b82f6;
-  --texto-oscuro: #1e293b;
-  --texto-suave: #64748b;
-  --borde: #e2e8f0;
-  --sombra: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --bg-principal: #0f172a; /* Azul medianoche profundo */
+  --bg-tarjeta: #1e293b; /* Gris azulado oscuro */
+  --primario: #38bdf8; /* Cian neón */
+  --primario-brillante: #0ea5e9;
+  --texto-oscuro: #f1f5f9; /* Texto claro sobre fondo oscuro */
+  --texto-suave: #94a3b8;
+  --borde: rgba(56, 189, 248, 0.1);
+  --sombra: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  --sombra-hover: 0 20px 25px -5px rgba(56, 189, 248, 0.2);
 }
 
 .admin-principal {
   padding: 100px 5% 50px;
-  background: radial-gradient(circle at top right, #eff6ff, #f8fafc); /* Degradado suave */
+  background: radial-gradient(circle at top right, #111827, #0f172a); /* Degradado suave */
   min-height: 100vh;
   color: var(--texto-oscuro);
   font-family: 'Inter', sans-serif;
@@ -30,14 +31,14 @@
 }
 
 .etiqueta-admin {
-  background: #dbeafe;
+  background: rgba(56, 189, 248, 0.1);
   color: var(--primario);
   font-size: 0.75rem;
   padding: 4px 14px;
   border-radius: 6px;
   text-transform: uppercase;
   font-weight: 700;
-  border: 1px solid #bfdbfe;
+  border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 .cuadricula-resumen {
@@ -52,25 +53,35 @@
   padding: 30px;
   border-radius: 20px;
   border: 1px solid var(--borde);
-  text-align: left; /* Alineación más profesional */
+  text-align: left;
   box-shadow: var(--sombra);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica */
   position: relative;
   overflow: hidden;
 }
 
-.tarjeta-dato::before {
+/* Hover profesional con neón y elevación */
+.tarjeta-dato:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--sombra-hover);
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(30, 41, 59, 0.9);
+}
+
+/* Efecto de barra lateral luminosa al hacer hover */
+.tarjeta-dato::after {
   content: "";
   position: absolute;
   top: 0; left: 0;
   width: 4px; height: 100%;
   background: var(--primario);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 10px var(--primario);
 }
 
-.tarjeta-dato:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  border-color: var(--primario-brillante);
+.tarjeta-dato:hover::after {
+  transform: scaleY(1);
 }
 
 .tarjeta-dato h3 {
@@ -79,13 +90,15 @@
   margin-bottom: 5px;
   text-transform: uppercase;
   font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .valor-dato {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 800;
-  color: var(--texto-oscuro);
+  color: var(--primario); /* Valor numérico en color neón */
   margin: 0;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
 
 .zona-gestion {
@@ -113,11 +126,12 @@
   margin-left: 20px;
 }
 
+/* Estilo para lista vacía integrado con fondo oscuro */
 .contenedor-lista-vacia {
   margin-top: 20px;
   padding: 80px 20px;
-  background: #f1f5f9;
-  border: 2px dashed #cbd5e1;
+  background: rgba(15, 23, 42, 0.5);
+  border: 2px dashed rgba(148, 163, 184, 0.15);
   border-radius: 20px;
   text-align: center;
 }
@@ -144,5 +158,8 @@
   }
   .zona-gestion {
     padding: 25px;
+  }
+  .valor-dato {
+    font-size: 2.5rem;
   }
 }
