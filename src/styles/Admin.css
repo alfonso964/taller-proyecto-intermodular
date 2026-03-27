@@ -1,19 +1,18 @@
-/* Admin.css - Estilo Premium Light */
+/* Admin.css - Mix Premium: Fondo Light + Tarjetas Deep Blue */
 :root {
-  --bg-principal: #f1f5f9; /* Gris azulado muy claro y limpio */
-  --bg-tarjeta: #ffffff;   /* Tarjetas blancas puras */
-  --primario: #2563eb;    /* Azul vibrante */
-  --primario-glow: rgba(37, 99, 235, 0.2);
-  --texto-oscuro: #0f172a;
-  --texto-suave: #64748b;
-  --borde: #e2e8f0;
-  --sombra: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-  --sombra-hover: 0 20px 25px -5px rgba(37, 99, 235, 0.1);
+  --bg-principal: #f1f5f9; 
+  --bg-tarjeta: #1e293b;   /* Azul medianoche para las tarjetas */
+  --primario: #38bdf8;     /* Cian neón para resaltar sobre el azul */
+  --texto-claro: #f1f5f9;  /* Texto para dentro de las tarjetas */
+  --texto-oscuro: #0f172a; /* Texto para el título principal */
+  --texto-suave: #94a3b8;
+  --borde-tarjeta: rgba(56, 189, 248, 0.1);
+  --sombra: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .admin-principal {
   padding: 100px 5% 50px;
-  background: radial-gradient(circle at top right, #e0e7ff, #f1f5f9); 
+  background: radial-gradient(circle at top right, #e2e8f0, #f1f5f9); 
   min-height: 100vh;
   color: var(--texto-oscuro);
   font-family: 'Inter', sans-serif;
@@ -27,18 +26,17 @@
   gap: 12px;
   color: var(--texto-oscuro);
   font-weight: 800;
-  letter-spacing: -0.025em;
 }
 
 .etiqueta-admin {
-  background: #dbeafe;
+  background: #1e293b;
   color: var(--primario);
   font-size: 0.75rem;
   padding: 4px 14px;
   border-radius: 6px;
   text-transform: uppercase;
   font-weight: 700;
-  border: 1px solid #bfdbfe;
+  border: 1px solid var(--primario);
 }
 
 .cuadricula-resumen {
@@ -52,7 +50,7 @@
   background: var(--bg-tarjeta);
   padding: 30px;
   border-radius: 20px;
-  border: 1px solid var(--borde);
+  border: 1px solid var(--borde-tarjeta);
   text-align: left;
   box-shadow: var(--sombra);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -62,23 +60,8 @@
 
 .tarjeta-dato:hover {
   transform: translateY(-10px);
-  box-shadow: var(--sombra-hover);
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.2);
   border-color: var(--primario);
-}
-
-/* Barra lateral de color que aparece al hacer hover */
-.tarjeta-dato::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 5px; height: 100%;
-  background: var(--primario);
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
-}
-
-.tarjeta-dato:hover::after {
-  transform: scaleY(1);
 }
 
 .tarjeta-dato h3 {
@@ -92,7 +75,7 @@
 .valor-dato {
   font-size: 3rem;
   font-weight: 800;
-  color: var(--texto-oscuro);
+  color: var(--primario); /* El número resalta en cian */
   margin: 0;
 }
 
@@ -100,15 +83,46 @@
   background: var(--bg-tarjeta);
   padding: 40px;
   border-radius: 24px;
-  border: 1px solid var(--borde);
+  border: 1px solid var(--borde-tarjeta);
   box-shadow: var(--sombra);
+  color: var(--texto-claro);
+}
+
+.cabecera-seccion h2 {
+  color: var(--texto-claro);
+  border-left: 4px solid var(--primario);
+  padding-left: 15px;
 }
 
 .contenedor-lista-vacia {
   margin-top: 20px;
   padding: 60px 20px;
-  background: #f8fafc;
-  border: 2px dashed #cbd5e1;
+  background: rgba(15, 23, 42, 0.3);
+  border: 2px dashed rgba(148, 163, 184, 0.2);
   border-radius: 20px;
   text-align: center;
+}
+
+.contenedor-lista-vacia p {
+  color: var(--texto-claro);
+}
+
+/* Estilos para la futura tabla dentro del cuadro azul */
+.tabla-admin {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: var(--texto-claro);
+}
+
+.tabla-admin th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  color: var(--texto-suave);
+}
+
+.tabla-admin td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
