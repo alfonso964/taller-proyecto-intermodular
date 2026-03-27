@@ -5,6 +5,7 @@ import '../styles/Admin.css';
 
 const Admin = () => {
   const [resumen, setResumen] = useState({ citas: 0, usuarios: 0 });
+  const [listaCitas, setListaCitas] = useState([]); // Nuevo estado para la tabla
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -15,10 +16,15 @@ const Admin = () => {
           .from('perfiles')
           .select('*', { count: 'exact', head: true });
 
-        // 2. Contar citas reales en la tabla 'Cita'
-        const { count: conteoCitas, error: errCita } = await supabase
+        // 2. Traer la LISTA de citas vinculada con el EMAIL del perfil
+        const { data: datosCitas, count: conteoCitas, error: errCita } = await supabase
           .from('citas')
-          .select('*', { count: 'exact', head: true });
+          .select(`
+            *,
+            perfiles (
+              email
+            )
+          `, { count: 'exact' });
 
         if (errUser || errCita) console.error("Error al obtener datos:", errUser || errCita);
 
@@ -26,6 +32,9 @@ const Admin = () => {
           citas: conteoCitas || 0, 
           usuarios: conteoUsuarios || 0 
         });
+        
+        setListaCitas(datosCitas || []); // Guardamos las citas reales en el estado
+
       } catch (error) {
         console.error("Error de conexión:", error);
       } finally {
@@ -44,7 +53,7 @@ const Admin = () => {
         </h1>
       </header>
       
-      {/* TARJETAS DE ESTADÍSTICAS */}
+      {/* TARJETAS DE ESTADÍSTICAS (Ahora en azul medianoche por el CSS) */}
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
           <h3>Citas Pendientes</h3>
@@ -56,7 +65,6 @@ const Admin = () => {
         </div>
         <div className="tarjeta-dato">
           <h3>Ingresos Estimados</h3>
-          {/* Este valor lo calcularemos cuando tengas facturas o precios */}
           <p className="valor-dato">0€</p>
         </div>
       </div>
@@ -64,16 +72,50 @@ const Admin = () => {
       {/* SECCIÓN DE GESTIÓN DE REPARACIONES */}
       <div className="zona-gestion">
         <div className="cabecera-seccion">
-          <h2>Gestión de Reparaciones</h2>
+          <h2>Gestión de Reparaciones Activas</h2>
         </div>
-        <div className="contenedor-lista-vacia">
-          <p>No hay reparaciones activas para mostrar.</p>
-          <span>Aquí podrás añadir piezas y precios próximamente.</span>
-        </div>
+
+        {listaCitas.length > 0 ? (
+          <div className="tabla-contenedor" style={{ overflowX: 'auto' }}>
+            <table className="tabla-admin">
+              <thead>
+                <tr>
+                  <th>Cliente (Email)</th>
+                  <th>Vehículo</th>
+                  <th>Reparación</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listaCitas.map((cita) => (
+                  <tr key={cita.id}>
+                    {/* Mostramos el email que viene del JOIN con perfiles */}
+                    <td style={{ color: '#38bdf8', fontWeight: 'bold' }}>
+                        {cita.perfiles?.email || 'Usuario General'}
+                    </td>
+                    <td>{cita.marca} {cita.modelo} ({cita.anio})</td>
+                    <td>{cita.reparacion}</td>
+                    <td>{new Date(cita.fecha).toLocaleDateString()}</td>
+                    <td>
+                      <span className="etiqueta-estado">
+                        {cita.estado || 'Pendiente'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="contenedor-lista-vacia">
+            <p>No hay reparaciones activas para mostrar.</p>
+            <span>Las citas solicitadas por los clientes aparecerán aquí automáticamente.</span>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default Admin;
-
