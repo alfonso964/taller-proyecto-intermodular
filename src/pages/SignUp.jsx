@@ -12,6 +12,8 @@ const SignUp = () => {
     e.preventDefault();
     
     // 1. Registro en Supabase Auth
+    // El Trigger "on_auth_user_created" en SQL se encargará de crear 
+    // automáticamente el perfil en la tabla 'perfiles'.
     const { data, error } = await supabase.auth.signUp({ 
       email, 
       password,
@@ -21,19 +23,11 @@ const SignUp = () => {
     });
 
     if (error) {
-      alert("Error en Auth: " + error.message);
-    } else if (data.user) {
-      // 2. Insertar en la tabla 'perfiles'
-      const { error: dbError } = await supabase
-        .from('perfiles')
-        .insert([{ id: data.user.id, email: email }]);
-
-      if (dbError) {
-        alert("Error en Base de Datos: " + dbError.message);
-      } else {
-        alert("¡Cuenta creada con éxito!");
-        navigate('/login');
-      }
+      alert("Error: " + error.message);
+    } else if (data?.user) {
+      // Si el usuario se crea en Auth, el Trigger ya hizo su trabajo en la DB
+      alert("¡Cuenta creada con éxito! El perfil se ha generado automáticamente.");
+      navigate('/login');
     }
   };
 
