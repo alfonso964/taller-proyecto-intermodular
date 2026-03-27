@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import ModalInventario from './ModalInventario'; 
+import ModalInventario from '../components/ModalInventario';
 import '../styles/Admin.css';
 
 const Admin = () => {
