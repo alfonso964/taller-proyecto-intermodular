@@ -5,7 +5,7 @@ import '../styles/Admin.css';
 
 const Admin = () => {
   const [resumen, setResumen] = useState({ citas: 0, usuarios: 0 });
-  const [listaCitas, setListaCitas] = useState([]); // Nuevo estado para la tabla
+  const [listaCitas, setListaCitas] = useState([]); 
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Admin = () => {
           usuarios: conteoUsuarios || 0 
         });
         
-        setListaCitas(datosCitas || []); // Guardamos las citas reales en el estado
+        setListaCitas(datosCitas || []); 
 
       } catch (error) {
         console.error("Error de conexión:", error);
@@ -53,7 +53,7 @@ const Admin = () => {
         </h1>
       </header>
       
-      {/* TARJETAS DE ESTADÍSTICAS (Ahora en azul medianoche por el CSS) */}
+      {/* TARJETAS DE ESTADÍSTICAS */}
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
           <h3>Citas Pendientes</h3>
@@ -80,7 +80,7 @@ const Admin = () => {
             <table className="tabla-admin">
               <thead>
                 <tr>
-                  <th>Cliente (Email)</th>
+                  <th>Cliente / Contacto</th>
                   <th>Vehículo</th>
                   <th>Reparación</th>
                   <th>Fecha</th>
@@ -90,9 +90,12 @@ const Admin = () => {
               <tbody>
                 {listaCitas.map((cita) => (
                   <tr key={cita.id}>
-                    {/* Mostramos el email que viene del JOIN con perfiles */}
-                    <td style={{ color: '#38bdf8', fontWeight: 'bold' }}>
-                        {cita.perfiles?.email || 'Usuario General'}
+                    {/* Lógica corregida: Muestra Email si existe, si no, el contacto de invitado */}
+                    <td style={{ 
+                      color: cita.perfiles?.email ? '#38bdf8' : '#94a3b8', 
+                      fontWeight: 'bold' 
+                    }}>
+                        {cita.perfiles?.email || cita.contacto_invitado || 'Invitado sin contacto'}
                     </td>
                     <td>{cita.marca} {cita.modelo} ({cita.anio})</td>
                     <td>{cita.reparacion}</td>
