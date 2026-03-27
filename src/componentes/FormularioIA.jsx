@@ -5,9 +5,9 @@ import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCarSide, FaCheckCircle } from 'react-icons/fa'; 
 import ModalCalendario from './ModalCalendario'; 
+import { supabase } from '../supabaseClient';
 import '../styles/FormularioIA.css';
 
-// --- CONFIGURACIÓN DE URL PARA DESPLIEGUE ---
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 function FormularioIA() {
@@ -38,7 +38,6 @@ function FormularioIA() {
     };
 
     try {
-      // Usamos API_URL en lugar de localhost fijo
       const res = await axios.post(`${API_URL}/api/agente-ia`, contextoTemporal);
       setRespuestaIA(res.data.respuesta);
       
@@ -49,7 +48,7 @@ function FormularioIA() {
       }
 
     } catch (error) {
-      setRespuestaIA("Error al conectar con el servidor.");
+      setRespuestaIA("Error al conectar con el servidor de IA.");
     } finally {
       setCargando(false);
     }
@@ -57,17 +56,33 @@ function FormularioIA() {
 
   const guardarCita = async (fechaElegida) => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        alert("Debes estar logueado para pedir una cita.");
+        return;
+      }
+
       const fechaFinal = typeof fechaElegida === 'string' ? fechaElegida : fechaElegida.toISOString();
       
-      // Usamos API_URL en lugar de localhost fijo
-      await axios.post(`${API_URL}/api/citas`, { 
-        ...vehiculo, 
-        fecha: fechaFinal,
-        duracionEstimada: 60,
-        usuarioId: 1 
-      });
+      const { error } = await supabase
+        .from('citas')
+        .insert([
+          { 
+            marca: vehiculo.marca,
+            modelo: vehiculo.modelo,
+            anio: vehiculo.anio,
+            kilometraje: vehiculo.kilometraje,
+            reparacion: vehiculo.reparacion,
+            fecha: fechaFinal,
+            id_usuario: user.id, 
+            estado: 'Pendiente'
+          }
+        ]);
 
-      alert("✅ Cita confirmada correctamente.");
+      if (error) throw error;
+
+      alert("✅ Cita confirmada correctamente en el sistema.");
       setVehiculo({ marca: '', modelo: '', anio: '', kilometraje: '', reparacion: '' });
       setRespuestaIA('');
       setFechaSugeridaIA(null);
@@ -75,7 +90,7 @@ function FormularioIA() {
 
     } catch (error) {
       console.error("Error al guardar la cita:", error);
-      alert("❌ Error al guardar la cita. Revisa la consola.");
+      alert("❌ Error al guardar la cita: " + error.message);
     }
   };
 
@@ -127,7 +142,7 @@ function FormularioIA() {
                     <FaCarSide size={35} color="#38bdf8" />
                   </motion.div>
                 </div>
-                <p>Nuestra IA está revisando los sistemas...</p>
+                <p>Nuestra IA está pensando...</p>
               </motion.div>
             )}
           </AnimatePresence>

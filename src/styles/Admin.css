@@ -1,118 +1,148 @@
+/* Admin.css - Estilo Profesional Moderno */
+:root {
+  --bg-principal: #f8fafc; /* Fondo gris muy claro, casi blanco */
+  --bg-tarjeta: #ffffff;
+  --primario: #2563eb; /* Azul corporativo */
+  --primario-brillante: #3b82f6;
+  --texto-oscuro: #1e293b;
+  --texto-suave: #64748b;
+  --borde: #e2e8f0;
+  --sombra: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
 .admin-principal {
-  padding: 120px 5% 50px; /* 5% de padding lateral para flexibilidad */
-  background-color: #0f172a;
+  padding: 100px 5% 50px;
+  background: radial-gradient(circle at top right, #eff6ff, #f8fafc); /* Degradado suave */
   min-height: 100vh;
-  color: #f1f5f9;
+  color: var(--texto-oscuro);
+  font-family: 'Inter', sans-serif;
 }
 
 .admin-titulo {
-  font-size: clamp(1.8rem, 5vw, 2.5rem); /* Tamaño fluido según pantalla */
-  margin-bottom: 40px;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  margin-bottom: 35px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--texto-oscuro);
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
 .etiqueta-admin {
-  background: #38bdf8;
-  color: #0f172a;
-  font-size: 0.8rem;
-  padding: 4px 12px;
-  border-radius: 20px;
+  background: #dbeafe;
+  color: var(--primario);
+  font-size: 0.75rem;
+  padding: 4px 14px;
+  border-radius: 6px;
   text-transform: uppercase;
-  font-weight: 800;
+  font-weight: 700;
+  border: 1px solid #bfdbfe;
 }
 
 .cuadricula-resumen {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
   margin-bottom: 40px;
 }
 
 .tarjeta-dato {
-  background: rgba(30, 41, 59, 0.6);
-  padding: 25px;
-  border-radius: 16px;
-  border: 1px solid rgba(56, 189, 248, 0.15);
-  text-align: center;
-  transition: all 0.3s ease;
+  background: var(--bg-tarjeta);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--borde);
+  text-align: left; /* Alineación más profesional */
+  box-shadow: var(--sombra);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.tarjeta-dato::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--primario);
 }
 
 .tarjeta-dato:hover {
-  transform: translateY(-5px);
-  border-color: #38bdf8;
-  background: rgba(30, 41, 59, 0.8);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: var(--primario-brillante);
 }
 
 .tarjeta-dato h3 {
-  color: #94a3b8;
-  font-size: 1rem;
-  margin-bottom: 8px;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  margin-bottom: 5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  font-weight: 600;
 }
 
 .valor-dato {
-  font-size: 2.8rem;
-  font-weight: 900;
-  color: #38bdf8;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--texto-oscuro);
   margin: 0;
 }
 
 .zona-gestion {
-  background: rgba(15, 23, 42, 0.4);
-  padding: 30px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-tarjeta);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
 }
 
 .cabecera-seccion h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  border-left: 4px solid #38bdf8;
-  padding-left: 15px;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: var(--texto-oscuro);
+  display: flex;
+  align-items: center;
+}
+
+.cabecera-seccion h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--borde);
+  margin-left: 20px;
 }
 
 .contenedor-lista-vacia {
   margin-top: 20px;
-  padding: 60px 20px;
-  border: 2px dashed rgba(148, 163, 184, 0.2);
-  border-radius: 15px;
+  padding: 80px 20px;
+  background: #f1f5f9;
+  border: 2px dashed #cbd5e1;
+  border-radius: 20px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 .contenedor-lista-vacia p {
-  color: #f1f5f9;
-  font-weight: 600;
-  font-size: 1.1rem;
-  margin: 0;
+  color: var(--texto-oscuro);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
 }
 
 .contenedor-lista-vacia span {
-  color: #64748b;
-  font-size: 0.9rem;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
 }
 
-/* --- ADAPTACIÓN MÓVIL (MÁX 768px) --- */
+/* --- ADAPTACIÓN MÓVIL --- */
 @media (max-width: 768px) {
   .admin-principal {
-    padding: 100px 20px 30px;
+    padding: 90px 15px 30px;
   }
-
   .cuadricula-resumen {
-    grid-template-columns: 1fr; /* Una columna en móvil */
+    grid-template-columns: 1fr;
   }
-
   .zona-gestion {
-    padding: 20px;
-  }
-
-  .valor-dato {
-    font-size: 2.2rem;
+    padding: 25px;
   }
 }

@@ -17,7 +17,7 @@ const Admin = () => {
 
         // 2. Contar citas reales en la tabla 'Cita'
         const { count: conteoCitas, error: errCita } = await supabase
-          .from('Cita')
+          .from('citas')
           .select('*', { count: 'exact', head: true });
 
         if (errUser || errCita) console.error("Error al obtener datos:", errUser || errCita);
