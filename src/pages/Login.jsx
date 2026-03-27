@@ -20,14 +20,14 @@ const Login = () => {
     if (error) {
       alert("Error: " + error.message);
     } else {
-      // 2. Buscamos el rol en la tabla 'perfiles' (la que usa el UUID)
+      // 2. Buscamos el rol en la tabla 'perfiles'
       const { data: perfil } = await supabase
         .from('perfiles')
         .select('rol')
         .eq('id', data.user.id)
         .single();
 
-      // 3. Normalizamos el rol a minúsculas (evitamos fallos admin vs ADMIN)
+      // 3. Normalizamos el rol
       const rolNormalizado = perfil?.rol?.toLowerCase();
 
       // 4. Redirección inteligente
@@ -69,20 +69,13 @@ const Login = () => {
           </button>
         </form>
 
-        {/* --- NUEVO: Enlace para ir a la página de Registro --- */}
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
+        {/* --- Sección de navegación corregida con clases CSS --- */}
+        <div className="contenedor-enlace-secundario">
+          <p className="texto-secundario">
             ¿No tienes cuenta todavía? 
             <button 
               onClick={() => navigate('/signup')} 
-              style={{ 
-                background: 'none', 
-                border: 'none', 
-                color: '#38bdf8', 
-                cursor: 'pointer', 
-                fontWeight: 'bold',
-                marginLeft: '5px'
-              }}
+              className="boton-enlace"
             >
               Regístrate aquí
             </button>

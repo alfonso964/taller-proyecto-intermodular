@@ -99,6 +99,38 @@
     transform: translateY(0);
 }
 
+/* --- ENLACES DE NAVEGACIÓN (REGISTRO/LOGIN) --- */
+.contenedor-enlace-secundario {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.texto-secundario {
+    color: #64748b;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.boton-enlace {
+    background: none;
+    border: none;
+    color: #38bdf8; /* Azul cyan para resaltar */
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-left: 5px;
+    padding: 0;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.boton-enlace:hover {
+    color: #0ea5e9;
+    text-decoration: underline;
+    transform: scale(1.02);
+}
+
 /* --- VISTA MÓVIL --- */
 @media (max-width: 480px) {
     .tarjeta-login {
