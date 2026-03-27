@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import '../styles/ModalStock.css';
 
-const ModalInventario = ({ isOpen, onClose, onUpdate }) => {
+const ModalStock = ({ isOpen, onClose, onUpdate }) => {
   const [piezas, setPiezas] = useState([]);
   const [nuevaPieza, setNuevaPieza] = useState({ nombre: '', referencia: '', stock: '', precio: '' });
 
@@ -132,4 +132,4 @@ const ModalInventario = ({ isOpen, onClose, onUpdate }) => {
   );
 };
 
-export default ModalInventario;
+export default ModalStock;

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import ModalInventario from '../components/ModalInventario';
+import ModalStock from '../componentes/ModalStock';
 import '../styles/Admin.css';
 
 const Admin = () => {
@@ -145,7 +145,7 @@ const Admin = () => {
         )}
       </div>
 
-      <ModalInventario 
+      <ModalStock
         isOpen={modalAbierto} 
         onClose={() => setModalAbierto(false)} 
         onUpdate={cargarDatosReales} 
