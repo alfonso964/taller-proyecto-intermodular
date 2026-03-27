@@ -29,9 +29,9 @@ function App() {
           {/* Ruta de Administración */}
           <Route path="/admin" element={<Admin />} />
           
-          {/* Ruta de Historial para clientes */}
+        {/* Busca esta parte en tu App.jsx y cambia 'white' por '#1a2a4d' */}
           <Route path="/historial" element={
-            <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>
+            <div style={{paddingTop: '100px', color: '#1a2a4d', textAlign: 'center'}}>
               <h2>Mis Reparaciones</h2>
               <p>Próximamente: Tu historial de reparaciones y estado del vehículo.</p>
             </div>
