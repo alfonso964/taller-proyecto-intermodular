@@ -1,49 +1,72 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
+import ModalInventario from './ModalInventario'; 
 import '../styles/Admin.css';
 
 const Admin = () => {
-  const [resumen, setResumen] = useState({ citas: 0, usuarios: 0 });
+  const [resumen, setResumen] = useState({ citas: 0, usuarios: 0, piezas: 0 });
   const [listaCitas, setListaCitas] = useState([]); 
   const [cargando, setCargando] = useState(true);
+  const [modalAbierto, setModalAbierto] = useState(false);
+
+  const cargarDatosReales = async () => {
+    try {
+      // 1. Contar usuarios
+      const { count: conteoUsuarios } = await supabase
+        .from('perfiles')
+        .select('*', { count: 'exact', head: true });
+
+      // 2. Contar piezas en stock
+      const { count: conteoPiezas } = await supabase
+        .from('piezas')
+        .select('*', { count: 'exact', head: true });
+
+      // 3. Traer citas vinculadas con perfiles
+      const { data: datosCitas, count: conteoCitas, error: errCita } = await supabase
+        .from('citas')
+        .select(`
+          *,
+          perfiles ( email )
+        `, { count: 'exact' });
+
+      if (errCita) throw errCita;
+
+      setResumen({ 
+        citas: conteoCitas || 0, 
+        usuarios: conteoUsuarios || 0,
+        piezas: conteoPiezas || 0
+      });
+      
+      setListaCitas(datosCitas || []); 
+
+    } catch (error) {
+      console.error("Error al cargar datos:", error.message);
+    } finally {
+      setCargando(false);
+    }
+  };
 
   useEffect(() => {
-    const cargarDatosReales = async () => {
-      try {
-        // 1. Contar usuarios reales en la tabla 'perfiles'
-        const { count: conteoUsuarios, error: errUser } = await supabase
-          .from('perfiles')
-          .select('*', { count: 'exact', head: true });
-
-        // 2. Traer la LISTA de citas vinculada con el EMAIL del perfil
-        const { data: datosCitas, count: conteoCitas, error: errCita } = await supabase
-          .from('citas')
-          .select(`
-            *,
-            perfiles (
-              email
-            )
-          `, { count: 'exact' });
-
-        if (errUser || errCita) console.error("Error al obtener datos:", errUser || errCita);
-
-        setResumen({ 
-          citas: conteoCitas || 0, 
-          usuarios: conteoUsuarios || 0 
-        });
-        
-        setListaCitas(datosCitas || []); 
-
-      } catch (error) {
-        console.error("Error de conexión:", error);
-      } finally {
-        setCargando(false);
-      }
-    };
-    
     cargarDatosReales();
   }, []);
+
+  const toggleFinalizar = async (idCita, estadoActual) => {
+    try {
+      const { error } = await supabase
+        .from('citas')
+        .update({ finalizada: !estadoActual })
+        .eq('id', idCita);
+
+      if (error) throw error;
+      
+      setListaCitas(prev => 
+        prev.map(c => c.id === idCita ? { ...c, finalizada: !estadoActual } : c)
+      );
+    } catch (error) {
+      alert("Error al actualizar el estado");
+    }
+  };
 
   return (
     <div className="admin-principal">
@@ -51,9 +74,16 @@ const Admin = () => {
         <h1 className="admin-titulo">
           Panel de Control <span className="etiqueta-admin">Admin</span>
         </h1>
+        
+        {/* Botón para abrir el Inventario */}
+        <button 
+          className="btn-abrir-inventario" 
+          onClick={() => setModalAbierto(true)}
+        >
+          📦 Gestionar Inventario
+        </button>
       </header>
       
-      {/* TARJETAS DE ESTADÍSTICAS */}
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
           <h3>Citas Pendientes</h3>
@@ -64,19 +94,18 @@ const Admin = () => {
           <p className="valor-dato">{cargando ? "..." : resumen.usuarios}</p>
         </div>
         <div className="tarjeta-dato">
-          <h3>Ingresos Estimados</h3>
-          <p className="valor-dato">0€</p>
+          <h3>Piezas Inventario</h3>
+          <p className="valor-dato">{cargando ? "..." : resumen.piezas}</p>
         </div>
       </div>
 
-      {/* SECCIÓN DE GESTIÓN DE REPARACIONES */}
       <div className="zona-gestion">
         <div className="cabecera-seccion">
           <h2>Gestión de Reparaciones Activas</h2>
         </div>
 
         {listaCitas.length > 0 ? (
-          <div className="tabla-contenedor" style={{ overflowX: 'auto' }}>
+          <div className="tabla-contenedor">
             <table className="tabla-admin">
               <thead>
                 <tr>
@@ -90,20 +119,19 @@ const Admin = () => {
               <tbody>
                 {listaCitas.map((cita) => (
                   <tr key={cita.id}>
-                    {/* Lógica corregida: Muestra Email si existe, si no, el contacto de invitado */}
-                    <td style={{ 
-                      color: cita.perfiles?.email ? '#38bdf8' : '#94a3b8', 
-                      fontWeight: 'bold' 
-                    }}>
-                        {cita.perfiles?.email || cita.contacto_invitado || 'Invitado sin contacto'}
+                    <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
+                      {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
                     </td>
-                    <td>{cita.marca} {cita.modelo} ({cita.anio})</td>
+                    <td>{cita.marca} {cita.modelo}</td>
                     <td>{cita.reparacion}</td>
                     <td>{new Date(cita.fecha).toLocaleDateString()}</td>
                     <td>
-                      <span className="etiqueta-estado">
-                        {cita.estado || 'Pendiente'}
-                      </span>
+                      <button 
+                        className={`btn-estado ${cita.finalizada ? 'finalizado' : 'pendiente'}`}
+                        onClick={() => toggleFinalizar(cita.id, cita.finalizada)}
+                      >
+                        {cita.finalizada ? '✅ Finalizada' : '⏳ En Proceso'}
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -112,11 +140,16 @@ const Admin = () => {
           </div>
         ) : (
           <div className="contenedor-lista-vacia">
-            <p>No hay reparaciones activas para mostrar.</p>
-            <span>Las citas solicitadas por los clientes aparecerán aquí automáticamente.</span>
+            <p>No hay reparaciones activas.</p>
           </div>
         )}
       </div>
+
+      <ModalInventario 
+        isOpen={modalAbierto} 
+        onClose={() => setModalAbierto(false)} 
+        onUpdate={cargarDatosReales} 
+      />
     </div>
   );
 };
