@@ -11,7 +11,7 @@ const Login = () => {
   const manejarLogin = async (e) => {
     e.preventDefault();
     
-    // 1. Inicio de sesión oficial con Supabase Auth
+    // 1. Inicio de sesión
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -19,20 +19,25 @@ const Login = () => {
 
     if (error) {
       alert("Error: " + error.message);
-    } else {
-      // 2. Buscamos el rol en la tabla 'perfiles'
-      const { data: perfil } = await supabase
+    } else if (data?.user) {
+      // 2. Buscamos el rol real en la tabla 'perfiles'
+      const { data: perfil, error: perfilError } = await supabase
         .from('perfiles')
         .select('rol')
         .eq('id', data.user.id)
         .single();
 
-      // 3. Normalizamos el rol
-      const rolNormalizado = perfil?.rol?.toLowerCase();
+      if (perfilError) {
+        console.error("Error obteniendo perfil:", perfilError);
+        navigate('/historial'); // Redirección por defecto si algo falla
+        return;
+      }
 
-      // 4. Redirección inteligente
-      if (rolNormalizado === 'admin') {
-        console.log("Acceso concedido al Panel de Admin");
+      // 3. Normalizamos y Redirigimos
+      const rol = perfil?.rol?.toLowerCase();
+      
+      if (rol === 'admin') {
+        console.log("Acceso como Administrador");
         navigate('/admin');
       } else {
         console.log("Acceso como Cliente");
@@ -44,7 +49,7 @@ const Login = () => {
   return (
     <div className="contenedor-login">
       <div className="tarjeta-login">
-        <h2 className="titulo-login">Bienvenido</h2>
+        <h2 className="titulo-login">BIENVENIDO</h2>
         <p className="subtitulo-login">Accede a la plataforma de TallerMotors</p>
         
         <form onSubmit={manejarLogin} className="formulario-login">
@@ -65,11 +70,10 @@ const Login = () => {
             required
           />
           <button type="submit" className="boton-login">
-            Iniciar Sesión
+            INICIAR SESIÓN
           </button>
         </form>
 
-        {/* --- Sección de navegación corregida con clases CSS --- */}
         <div className="contenedor-enlace-secundario">
           <p className="texto-secundario">
             ¿No tienes cuenta todavía? 
