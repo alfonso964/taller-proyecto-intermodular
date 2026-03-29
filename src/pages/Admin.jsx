@@ -12,17 +12,14 @@ const Admin = () => {
 
   const cargarDatosReales = async () => {
     try {
-      // 1. Contar usuarios
       const { count: conteoUsuarios } = await supabase
         .from('perfiles')
         .select('*', { count: 'exact', head: true });
 
-      // 2. Contar piezas en stock
       const { count: conteoPiezas } = await supabase
         .from('piezas')
         .select('*', { count: 'exact', head: true });
 
-      // 3. Traer citas vinculadas con perfiles
       const { data: datosCitas, count: conteoCitas, error: errCita } = await supabase
         .from('citas')
         .select(`
@@ -51,20 +48,26 @@ const Admin = () => {
     cargarDatosReales();
   }, []);
 
+  // Función corregida: Usamos la columna 'estado' y valores de texto
   const toggleFinalizar = async (idCita, estadoActual) => {
     try {
+      // Determinamos el nuevo texto basado en lo que hay en la BD
+      const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
+
       const { error } = await supabase
         .from('citas')
-        .update({ finalizada: !estadoActual })
+        .update({ estado: nuevoEstado }) // CAMBIO: Usamos 'estado' en lugar de 'finalizada'
         .eq('id', idCita);
 
       if (error) throw error;
       
+      // Actualizamos el estado local para que el botón cambie al instante
       setListaCitas(prev => 
-        prev.map(c => c.id === idCita ? { ...c, finalizada: !estadoActual } : c)
+        prev.map(c => c.id === idCita ? { ...c, estado: nuevoEstado } : c)
       );
     } catch (error) {
-      alert("Error al actualizar el estado");
+      console.error("Error Supabase:", error);
+      alert("Error al actualizar el estado en la base de datos");
     }
   };
 
@@ -75,7 +78,6 @@ const Admin = () => {
           Panel de Control <span className="etiqueta-admin">Admin</span>
         </h1>
         
-        {/* Botón para abrir el Inventario */}
         <button 
           className="btn-abrir-inventario" 
           onClick={() => setModalAbierto(true)}
@@ -117,24 +119,29 @@ const Admin = () => {
                 </tr>
               </thead>
               <tbody>
-                {listaCitas.map((cita) => (
-                  <tr key={cita.id}>
-                    <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
-                      {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
-                    </td>
-                    <td>{cita.marca} {cita.modelo}</td>
-                    <td>{cita.reparacion}</td>
-                    <td>{new Date(cita.fecha).toLocaleDateString()}</td>
-                    <td>
-                      <button 
-                        className={`btn-estado ${cita.finalizada ? 'finalizado' : 'pendiente'}`}
-                        onClick={() => toggleFinalizar(cita.id, cita.finalizada)}
-                      >
-                        {cita.finalizada ? '✅ Finalizada' : '⏳ En Proceso'}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {listaCitas.map((cita) => {
+                  // Lógica para determinar si visualmente está finalizada
+                  const esFinalizada = cita.estado === 'FINALIZADA';
+
+                  return (
+                    <tr key={cita.id}>
+                      <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
+                        {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
+                      </td>
+                      <td>{cita.marca} {cita.modelo}</td>
+                      <td>{cita.reparacion}</td>
+                      <td>{new Date(cita.fecha).toLocaleDateString()}</td>
+                      <td>
+                        <button 
+                          className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`}
+                          onClick={() => toggleFinalizar(cita.id, cita.estado)}
+                        >
+                          {esFinalizada ? '✅ Finalizada' : '⏳ En Proceso'}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
