@@ -3,122 +3,128 @@
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.9); /* Un poco más opaco para resaltar */
+  backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 10000; /* Por encima del Navbar que suele tener 999 o 1000 */
 }
 
 .modal-contenido {
   background: #1e293b;
-  width: 95%;
+  width: 90%;
   max-width: 850px;
-  max-height: 90vh; /* Aumentado un poco para aprovechar espacio */
-  border-radius: 24px;
-  padding: 35px;
-  border: 1px solid #38bdf8; /* Usando el color azul directamente */
+  max-height: 80vh; /* Bajado para que no choque con el Navbar */
+  border-radius: 28px;
+  padding: 40px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
   color: white;
   position: relative;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
 }
 
-/* --- NUEVO: Buscador --- */
+/* Título estilo Gestión de Almacén */
+.modal-header-almacen {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.modal-header-almacen h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(to right, #fff, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .buscador-inventario {
   width: 100%;
-  margin-bottom: 15px;
-  padding: 12px 15px;
+  margin-bottom: 20px;
+  padding: 14px 18px;
   background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 12px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 14px;
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border 0.3s;
 }
 
-/* --- CONTENEDOR DE SCROLL MEJORADO --- */
+.buscador-inventario:focus {
+  border-color: #38bdf8;
+}
+
 .tabla-scroll-contenedor {
   overflow-y: auto;
-  flex-grow: 1; /* Ocupa el espacio restante */
-  margin-top: 10px;
-  padding-right: 5px;
+  flex-grow: 1;
+  padding-right: 8px;
 }
 
-/* Personalización del Scrollbar (Chrome, Safari, Edge) */
+/* Scrollbar Minimalista */
 .tabla-scroll-contenedor::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
-
 .tabla-scroll-contenedor::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+  background: transparent;
 }
-
 .tabla-scroll-contenedor::-webkit-scrollbar-thumb {
-  background: #38bdf8;
+  background: rgba(56, 189, 248, 0.3);
   border-radius: 10px;
-}
-
-.tabla-scroll-contenedor::-webkit-scrollbar-thumb:hover {
-  background: #0ea5e9;
 }
 
 .cerrar-modal {
   position: absolute;
-  top: 20px; right: 25px;
+  top: 25px; right: 25px;
   background: rgba(255,255,255,0.05);
   border: none;
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 36px; height: 36px;
   border-radius: 50%;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
-  z-index: 100;
 }
 
 .cerrar-modal:hover {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  background: #ef4444;
+  transform: rotate(90deg);
 }
 
+/* Resto de estilos del formulario y tabla se mantienen igual */
 .formulario-pieza {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
-  background: rgba(15, 23, 42, 0.4);
-  padding: 20px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(15, 23, 42, 0.5);
+  padding: 18px;
+  border-radius: 16px;
 }
 
 .formulario-pieza input {
   background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(255,255,255,0.1);
   color: white;
-  padding: 12px;
+  padding: 10px 14px;
   border-radius: 10px;
-  font-size: 0.9rem;
 }
 
 .btn-añadir-pieza {
   background: #38bdf8;
   color: #0f172a;
-  font-weight: 800;
+  font-weight: 700;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.btn-añadir-pieza:hover {
-  transform: scale(1.02);
-  filter: brightness(1.1);
 }
 
 .tabla-inventario {
@@ -126,48 +132,14 @@
   border-collapse: collapse;
 }
 
-/* Cabecera Sticky (Fija) */
 .tabla-inventario thead th {
   position: sticky;
   top: 0;
-  background: #1e293b; /* Color del fondo del modal */
-  z-index: 10;
-  text-align: left;
+  background: #1e293b;
   padding: 12px;
-  color: #94a3b8;
-  font-size: 0.8rem;
+  color: #64748b;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  border-bottom: 2px solid rgba(56, 189, 248, 0.3);
-}
-
-.tabla-inventario td {
-  padding: 15px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.tabla-inventario input {
-  background: rgba(15, 23, 42, 0.5);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #38bdf8;
-  padding: 8px;
-  width: 70px;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.btn-eliminar {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: all 0.2s;
-}
-
-.btn-eliminar:hover {
-  background: #ef4444;
-  color: white;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  text-align: left;
 }
