@@ -194,3 +194,30 @@
   padding: 40px;
   color: var(--texto-suave);
 }
+
+.banner-alertas {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.alerta-item {
+    background: rgba(239, 68, 68, 0.2);
+    border-left: 5px solid #ef4444;
+    color: #fca5a5;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    animation: pulse-border 2s infinite;
+}
+
+.tarjeta-dinero {
+    border-bottom: 3px solid #10b981; 
+}
+
+@keyframes pulse-border {
+    0% { border-left-color: #ef4444; }
+    50% { border-left-color: #7f1d1d; }
+    100% { border-left-color: #ef4444; }
+}
