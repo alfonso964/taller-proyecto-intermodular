@@ -28,16 +28,30 @@ ChartJS.register(
 
 const DashboardStats = ({ listaCitas, piezasUsadas }) => {
   
-  // --- 1. LÓGICA DE ACTIVIDAD DE CITAS (GRÁFICO DE LÍNEAS) ---
+  // --- 1. FUNCIÓN DE CLASIFICACIÓN (Mapeo de reparaciones a categorías) ---
+  const clasificarReparacion = (texto) => {
+    if (!texto) return 'Otros';
+    const t = texto.toLowerCase();
+    
+    if (t.includes('rueda') || t.includes('neumatico') || t.includes('llanta')) return 'Neumáticos';
+    if (t.includes('aceite') || t.includes('filtro') || t.includes('revision') || t.includes('mantenimiento')) return 'Mantenimiento';
+    if (t.includes('freno') || t.includes('pastilla') || t.includes('disco')) return 'Seguridad y Frenos';
+    if (t.includes('motor') || t.includes('distribucion') || t.includes('escape') || t.includes('embrague')) return 'Mecánica General';
+    if (t.includes('suspension') || t.includes('amortiguador')) return 'Suspensión';
+    if (t.includes('luna') || t.includes('cristal') || t.includes('ventana') || t.includes('parabrisas')) return 'Cristalería';
+    
+    return 'Otros';
+  };
+
+  // --- 2. LÓGICA DE ACTIVIDAD DE CITAS (LÍNEAS) ---
   const flujoFechas = listaCitas.reduce((acc, cita) => {
-    // Usamos la fecha tal cual viene para agrupar
     const fecha = new Date(cita.fecha).toLocaleDateString();
     acc[fecha] = (acc[fecha] || 0) + 1;
     return acc;
   }, {});
 
   const dataLineas = {
-    labels: Object.keys(flujoFechas).slice(-7), // Últimos 7 días con actividad
+    labels: Object.keys(flujoFechas).slice(-7),
     datasets: [{
       label: 'Citas registradas',
       data: Object.values(flujoFechas).slice(-7),
@@ -51,30 +65,32 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
     }],
   };
 
-  // --- 2. LÓGICA DE REPARACIONES (GRÁFICO DE BARRAS MULTICOLOR) ---
-  const conteoReparaciones = listaCitas.reduce((acc, cita) => {
-    const tipo = cita.reparacion || 'Otros';
-    acc[tipo] = (acc[tipo] || 0) + 1;
+  // --- 3. LÓGICA DE REPARACIONES POR CATEGORÍA (BARRAS) ---
+  const conteoCategorias = listaCitas.reduce((acc, cita) => {
+    const categoria = clasificarReparacion(cita.reparacion);
+    acc[categoria] = (acc[categoria] || 0) + 1;
     return acc;
   }, {});
 
   const dataBarras = {
-    labels: Object.keys(conteoReparaciones),
+    labels: Object.keys(conteoCategorias),
     datasets: [{
-      label: 'Número de Reparaciones',
-      data: Object.values(conteoReparaciones),
+      label: 'Servicios por Categoría',
+      data: Object.values(conteoCategorias),
       backgroundColor: [
-        '#38bdf8', // Azul
-        '#818cf8', // Indigo
-        '#2dd4bf', // Teal
-        '#fbbf24', // Ámbar
-        '#f472b6', // Rosa
-        '#a78bfa'  // Violeta
+        '#38bdf8', // Neumáticos
+        '#818cf8', // Mantenimiento
+        '#2dd4bf', // Mecánica General
+        '#fbbf24', // Seguridad
+        '#f472b6', // Suspensión
+        '#a78bfa', // Cristalería
+        '#94a3b8'  // Otros
       ],
       borderRadius: 8,
     }],
   };
 
+  // --- 4. LÓGICA DE PIEZAS (TARTA) ---
   const conteoPiezas = piezasUsadas.reduce((acc, p) => {
     const nombre = p.piezas?.nombre || 'Desconocido';
     acc[nombre] = (acc[nombre] || 0) + (p.cantidad || 0);
@@ -95,7 +111,6 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
     }],
   };
 
-  // --- CONFIGURACIÓN VISUAL (OPCIONES) ---
   const opciones = {
     responsive: true,
     maintainAspectRatio: false,
@@ -134,21 +149,21 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
     <div className="contenedor-graficos">
       <div className="grafico-card full-width">
         <h3>📈 Actividad de Citas Reciente</h3>
-        <div style={{ height: '300px' }}>
+        <div className="canvas-container">
             <Line data={dataLineas} options={opciones} />
         </div>
       </div>
 
       <div className="grafico-card">
-        <h3>📊 Tipos de Reparación</h3>
-        <div style={{ height: '300px' }}>
+        <h3>📊 Tipos de Reparación (Categorías)</h3>
+        <div className="canvas-container">
             <Bar data={dataBarras} options={opciones} />
         </div>
       </div>
       
       <div className="grafico-card">
-        <h3> Top 5 Piezas Usadas</h3>
-        <div style={{ height: '300px' }}>
+        <h3>🍰 Top 5 Piezas Usadas</h3>
+        <div className="canvas-container">
             <Pie data={dataTarta} options={{ ...opciones, scales: {} }} />
         </div>
       </div>
