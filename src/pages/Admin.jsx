@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import ModalStock from '../componentes/ModalStock';
+import ModalDetalleCita from '../componentes/ModalDetalleCita'; // IMPORTACIÓN NUEVA
 import '../styles/Admin.css';
 
 const Admin = () => {
@@ -9,6 +10,10 @@ const Admin = () => {
   const [listaCitas, setListaCitas] = useState([]); 
   const [cargando, setCargando] = useState(true);
   const [modalAbierto, setModalAbierto] = useState(false);
+  
+  // ESTADOS NUEVOS PARA EL DETALLE
+  const [modalDetalleAbierto, setModalDetalleAbierto] = useState(false);
+  const [citaSeleccionada, setCitaSeleccionada] = useState(null);
 
   const cargarDatosReales = async () => {
     try {
@@ -48,20 +53,25 @@ const Admin = () => {
     cargarDatosReales();
   }, []);
 
-  // Función corregida: Usamos la columna 'estado' y valores de texto
-  const toggleFinalizar = async (idCita, estadoActual) => {
+  // FUNCIÓN NUEVA PARA ABRIR EL DETALLE
+  const abrirDetalleCita = (cita) => {
+    setCitaSeleccionada(cita);
+    setModalDetalleAbierto(true);
+  };
+
+  const toggleFinalizar = async (idCita, estadoActual, e) => {
+    // IMPORTANTE: stopPropagation evita que se abra el modal de detalle al pulsar el botón
+    e.stopPropagation(); 
     try {
-      // Determinamos el nuevo texto basado en lo que hay en la BD
       const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
 
       const { error } = await supabase
         .from('citas')
-        .update({ estado: nuevoEstado }) // CAMBIO: Usamos 'estado' en lugar de 'finalizada'
+        .update({ estado: nuevoEstado })
         .eq('id', idCita);
 
       if (error) throw error;
       
-      // Actualizamos el estado local para que el botón cambie al instante
       setListaCitas(prev => 
         prev.map(c => c.id === idCita ? { ...c, estado: nuevoEstado } : c)
       );
@@ -120,11 +130,15 @@ const Admin = () => {
               </thead>
               <tbody>
                 {listaCitas.map((cita) => {
-                  // Lógica para determinar si visualmente está finalizada
                   const esFinalizada = cita.estado === 'FINALIZADA';
 
                   return (
-                    <tr key={cita.id}>
+                    <tr 
+                      key={cita.id} 
+                      onClick={() => abrirDetalleCita(cita)} // CLICK EN FILA ABRE DETALLE
+                      style={{ cursor: 'pointer' }}
+                      className="fila-cita"
+                    >
                       <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
                         {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
                       </td>
@@ -134,7 +148,7 @@ const Admin = () => {
                       <td>
                         <button 
                           className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`}
-                          onClick={() => toggleFinalizar(cita.id, cita.estado)}
+                          onClick={(e) => toggleFinalizar(cita.id, cita.estado, e)} // PASAMOS 'e'
                         >
                           {esFinalizada ? '✅ Finalizada' : '⏳ En Proceso'}
                         </button>
@@ -152,10 +166,19 @@ const Admin = () => {
         )}
       </div>
 
+      {/* MODAL DE INVENTARIO (TUYO ORIGINAL) */}
       <ModalStock
         isOpen={modalAbierto} 
         onClose={() => setModalAbierto(false)} 
         onUpdate={cargarDatosReales} 
+      />
+
+      {/* MODAL DE DETALLE DE CITA (NUEVO) */}
+      <ModalDetalleCita 
+        isOpen={modalDetalleAbierto}
+        onClose={() => setModalDetalleAbierto(false)}
+        cita={citaSeleccionada}
+        onUpdate={cargarDatosReales}
       />
     </div>
   );
