@@ -28,18 +28,20 @@ ChartJS.register(
 
 const DashboardStats = ({ listaCitas, piezasUsadas }) => {
   
+  // --- 1. LÓGICA DE ACTIVIDAD DE CITAS (GRÁFICO DE LÍNEAS) ---
   const flujoFechas = listaCitas.reduce((acc, cita) => {
+    // Usamos la fecha tal cual viene para agrupar
     const fecha = new Date(cita.fecha).toLocaleDateString();
     acc[fecha] = (acc[fecha] || 0) + 1;
     return acc;
   }, {});
 
   const dataLineas = {
-    labels: Object.keys(flujoFechas).slice(-7),
+    labels: Object.keys(flujoFechas).slice(-7), // Últimos 7 días con actividad
     datasets: [{
       label: 'Citas registradas',
       data: Object.values(flujoFechas).slice(-7),
-      borderColor: '#38bdf8', // Azul brillante
+      borderColor: '#38bdf8',
       backgroundColor: 'rgba(56, 189, 248, 0.1)',
       tension: 0.4,
       fill: true,
@@ -49,6 +51,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
     }],
   };
 
+  // --- 2. LÓGICA DE REPARACIONES (GRÁFICO DE BARRAS MULTICOLOR) ---
   const conteoReparaciones = listaCitas.reduce((acc, cita) => {
     const tipo = cita.reparacion || 'Otros';
     acc[tipo] = (acc[tipo] || 0) + 1;
@@ -60,8 +63,15 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
     datasets: [{
       label: 'Número de Reparaciones',
       data: Object.values(conteoReparaciones),
-      backgroundColor: '#38bdf8', // Color sólido para mejor visibilidad
-      borderRadius: 5,
+      backgroundColor: [
+        '#38bdf8', // Azul
+        '#818cf8', // Indigo
+        '#2dd4bf', // Teal
+        '#fbbf24', // Ámbar
+        '#f472b6', // Rosa
+        '#a78bfa'  // Violeta
+      ],
+      borderRadius: 8,
     }],
   };
 
@@ -81,11 +91,11 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
       data: piezasOrdenadas.map(([, cantidad]) => cantidad),
       backgroundColor: ['#38bdf8', '#818cf8', '#2dd4bf', '#fbbf24', '#f472b6'],
       borderWidth: 2,
-      borderColor: '#1e293b', // Separación entre trozos con el color de fondo
+      borderColor: '#1e293b', 
     }],
   };
 
-  // CONFIGURACIÓN GLOBAL DE COLORES PARA GRÁFICOS
+  // --- CONFIGURACIÓN VISUAL (OPCIONES) ---
   const opciones = {
     responsive: true,
     maintainAspectRatio: false,
@@ -93,7 +103,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
       legend: { 
         position: 'bottom', 
         labels: { 
-          color: '#e2e8f0', // Texto de leyenda casi blanco
+          color: '#e2e8f0', 
           padding: 20, 
           font: { size: 12, weight: '500' } 
         } 
@@ -123,7 +133,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
   return (
     <div className="contenedor-graficos">
       <div className="grafico-card full-width">
-        <h3>📈 Actividad de Citas</h3>
+        <h3>📈 Actividad de Citas Reciente</h3>
         <div style={{ height: '300px' }}>
             <Line data={dataLineas} options={opciones} />
         </div>
@@ -137,7 +147,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
       </div>
       
       <div className="grafico-card">
-        <h3>🍰 Top 5 Piezas</h3>
+        <h3> Top 5 Piezas Usadas</h3>
         <div style={{ height: '300px' }}>
             <Pie data={dataTarta} options={{ ...opciones, scales: {} }} />
         </div>
