@@ -3,19 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import ModalStock from '../componentes/ModalStock';
 import ModalDetalleCita from '../componentes/ModalDetalleCita';
-import DashboardStats from '../componentes/DashboardStats'; // <--- IMPORTACIÓN NUEVA
+import DashboardStats from '../componentes/DashboardStats';
 import '../styles/Admin.css';
 
 const Admin = () => {
   const [resumen, setResumen] = useState({ citas: 0, usuarios: 0, piezas: 0, ingresos: 0 });
   const [listaCitas, setListaCitas] = useState([]); 
-  const [todasLasPiezasUsadas, setTodasLasPiezasUsadas] = useState([]); // <--- ESTADO NUEVO
+  const [todasLasPiezasUsadas, setTodasLasPiezasUsadas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [modalDetalleAbierto, setModalDetalleAbierto] = useState(false);
   const [citaSeleccionada, setCitaSeleccionada] = useState(null);
   const [alertasStock, setAlertasStock] = useState([]);
-  const [historial, setHistorial] = useState([]);
 
   const cargarDatosReales = async () => {
     try {
@@ -45,7 +44,6 @@ const Admin = () => {
       
       const totalIngresos = datosDinero?.reduce((acc, curr) => acc + curr.total_venta, 0) || 0;
 
-      // TRAER PIEZAS USADAS PARA LAS GRÁFICAS
       const { data: dataVinculaciones } = await supabase
         .from('cita_piezas')
         .select('cantidad, piezas(nombre)');
@@ -54,18 +52,11 @@ const Admin = () => {
       setResumen({ 
         citas: conteoCitas || 0, 
         usuarios: conteoUsuarios || 0,
-        piezas: conteoPiezas || 0,
+        pieces: conteoPiezas || 0,
         ingresos: totalIngresos
       });
       
       setListaCitas(datosCitas || []); 
-
-      const { data: dataHistorial } = await supabase
-        .from('citas')
-        .select('marca, modelo, estado, fecha')
-        .order('fecha', { ascending: false })
-        .limit(5);
-      setHistorial(dataHistorial || []);
 
     } catch (error) {
       console.error("Error al cargar datos:", error.message);
@@ -115,11 +106,16 @@ const Admin = () => {
         </button>
       </header>
 
+      {/* SECCIÓN DE ALERTAS DE STOCK CRÍTICO */}
       {alertasStock.length > 0 && (
-        <div className="contenedor-alertas">
+        <div className="banner-alertas-stock">
           {alertasStock.map((item, idx) => (
-            <div key={idx} className="alerta-card">
-              ⚠️ <strong>Stock Bajo:</strong> {item.nombre} (Quedan {item.stock})
+            <div key={idx} className="alerta-stock-item">
+              <span className="icono-alerta">⚠️</span>
+              <div className="info-alerta">
+                <strong>¡Atención Stock Crítico!</strong>
+                <p>Quedan solo {item.stock} unidades de: <em>{item.nombre}</em>. Por favor, revisa el inventario.</p>
+              </div>
             </div>
           ))}
         </div>
@@ -144,7 +140,6 @@ const Admin = () => {
         </div>
       </div>
 
-      {/* SECCIÓN DE ESTADÍSTICAS */}
       {!cargando && (
         <DashboardStats 
           listaCitas={listaCitas} 
@@ -152,62 +147,49 @@ const Admin = () => {
         />
       )}
 
-      <div className="admin-layout-inferior">
-        <div className="zona-gestion">
-            <div className="cabecera-seccion">
+      {/* TABLA DE GESTIÓN A ANCHO COMPLETO */}
+      <div className="zona-gestion">
+          <div className="cabecera-seccion">
             <h2>Gestión de Reparaciones Activas</h2>
-            </div>
+          </div>
 
-            {listaCitas.length > 0 ? (
-            <div className="tabla-contenedor">
-                <table className="tabla-admin">
-                <thead>
-                    <tr>
-                    <th>Cliente / Contacto</th>
-                    <th>Vehículo</th>
-                    <th>Reparación</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listaCitas.map((cita) => {
-                    const esFinalizada = cita.estado === 'FINALIZADA';
-                    return (
-                        <tr key={cita.id} onClick={() => abrirDetalleCita(cita)} style={{ cursor: 'pointer' }} className="fila-cita">
-                        <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
-                            {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
-                        </td>
-                        <td>{cita.marca} {cita.modelo}</td>
-                        <td>{cita.reparacion}</td>
-                        <td>{new Date(cita.fecha).toLocaleDateString()}</td>
-                        <td>
-                            <button className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`} onClick={(e) => toggleFinalizar(cita.id, cita.estado, e)}>
-                            {esFinalizada ? '✅ Finalizada' : '⏳ En Proceso'}
-                            </button>
-                        </td>
-                        </tr>
-                    );
-                    })}
-                </tbody>
-                </table>
-            </div>
-            ) : (
-            <div className="contenedor-lista-vacia"><p>No hay reparaciones activas.</p></div>
-            )}
-        </div>
-
-        <aside className="panel-lateral-historial">
-            <h3>Actividad Reciente</h3>
-            <div className="lista-historial">
-                {historial.map((h, i) => (
-                    <div key={i} className="historial-item">
-                        <span className="h-fecha">{new Date(h.fecha).toLocaleDateString()}</span>
-                        <p>{h.marca} {h.modelo} ahora está <strong>{h.estado}</strong></p>
-                    </div>
-                ))}
-            </div>
-        </aside>
+          {listaCitas.length > 0 ? (
+          <div className="tabla-contenedor">
+              <table className="tabla-admin">
+              <thead>
+                  <tr>
+                  <th>Cliente / Contacto</th>
+                  <th>Vehículo</th>
+                  <th>Reparación</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {listaCitas.map((cita) => {
+                  const esFinalizada = cita.estado === 'FINALIZADA';
+                  return (
+                      <tr key={cita.id} onClick={() => abrirDetalleCita(cita)} style={{ cursor: 'pointer' }} className="fila-cita">
+                      <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
+                          {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
+                      </td>
+                      <td>{cita.marca} {cita.modelo}</td>
+                      <td>{cita.reparacion}</td>
+                      <td>{new Date(cita.fecha).toLocaleDateString()}</td>
+                      <td>
+                          <button className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`} onClick={(e) => toggleFinalizar(cita.id, cita.estado, e)}>
+                          {esFinalizada ? '✅ Finalizada' : '⏳ En Proceso'}
+                          </button>
+                      </td>
+                      </tr>
+                  );
+                  })}
+              </tbody>
+              </table>
+          </div>
+          ) : (
+          <div className="contenedor-lista-vacia"><p>No hay reparaciones activas.</p></div>
+          )}
       </div>
 
       <ModalStock isOpen={modalAbierto} onClose={() => setModalAbierto(false)} onUpdate={cargarDatosReales} />
