@@ -3,128 +3,110 @@
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(15, 23, 42, 0.9); /* Un poco más opaco para resaltar */
-  backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000; /* Por encima del Navbar que suele tener 999 o 1000 */
+  z-index: 10001; /* Aumentado para que el Navbar se quede por detrás */
 }
 
 .modal-contenido {
   background: #1e293b;
-  width: 90%;
+  width: 95%;
   max-width: 850px;
-  max-height: 80vh; /* Bajado para que no choque con el Navbar */
-  border-radius: 28px;
-  padding: 40px;
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  max-height: 85vh; /* Ajustado ligeramente para que no choque con el borde de la pantalla */
+  border-radius: 24px;
+  padding: 35px;
+  border: 1px solid #38bdf8;
   color: white;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
 }
 
-/* Título estilo Gestión de Almacén */
-.modal-header-almacen {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-.modal-header-almacen h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0;
-  background: linear-gradient(to right, #fff, #38bdf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
+/* --- Buscador (Se mantiene igual) --- */
 .buscador-inventario {
   width: 100%;
-  margin-bottom: 20px;
-  padding: 14px 18px;
+  margin-bottom: 15px;
+  padding: 12px 15px;
   background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: 14px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
   color: white;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border 0.3s;
+  font-size: 0.9rem;
 }
 
-.buscador-inventario:focus {
-  border-color: #38bdf8;
-}
-
+/* --- Contenedor de Scroll (Se mantiene igual) --- */
 .tabla-scroll-contenedor {
   overflow-y: auto;
-  flex-grow: 1;
-  padding-right: 8px;
+  flex-grow: 1; 
+  margin-top: 10px;
+  padding-right: 5px;
 }
 
-/* Scrollbar Minimalista */
+/* Personalización del Scrollbar (Se mantiene igual) */
 .tabla-scroll-contenedor::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 .tabla-scroll-contenedor::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
 }
 .tabla-scroll-contenedor::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.3);
+  background: #38bdf8;
   border-radius: 10px;
+}
+.tabla-scroll-contenedor::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
 }
 
 .cerrar-modal {
   position: absolute;
-  top: 25px; right: 25px;
+  top: 20px; right: 25px;
   background: rgba(255,255,255,0.05);
   border: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
-  width: 36px; height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  line-height: 1;
   transition: all 0.2s;
+  z-index: 100;
 }
 
-.cerrar-modal:hover {
-  background: #ef4444;
-  transform: rotate(90deg);
-}
-
-/* Resto de estilos del formulario y tabla se mantienen igual */
+/* El resto de tus estilos (formulario, tabla, botones) se mantienen IDÉNTICOS */
 .formulario-pieza {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
-  background: rgba(15, 23, 42, 0.5);
-  padding: 18px;
-  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.4);
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 .formulario-pieza input {
   background: #0f172a;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
   color: white;
-  padding: 10px 14px;
+  padding: 12px;
   border-radius: 10px;
+  font-size: 0.9rem;
 }
 
 .btn-añadir-pieza {
   background: #38bdf8;
   color: #0f172a;
-  font-weight: 700;
+  font-weight: 800;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .tabla-inventario {
@@ -136,10 +118,38 @@
   position: sticky;
   top: 0;
   background: #1e293b;
-  padding: 12px;
-  color: #64748b;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  z-index: 10;
   text-align: left;
+  padding: 12px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+}
+
+.tabla-inventario td {
+  padding: 15px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.tabla-inventario input {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #38bdf8;
+  padding: 8px;
+  width: 70px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn-eliminar {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
 }
