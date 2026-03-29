@@ -5,6 +5,7 @@ import '../styles/ModalStock.css';
 
 const ModalStock = ({ isOpen, onClose, onUpdate }) => {
   const [piezas, setPiezas] = useState([]);
+  const [filtro, setFiltro] = useState(''); // Estado para el buscador
   const [nuevaPieza, setNuevaPieza] = useState({ nombre: '', referencia: '', stock: '', precio: '' });
 
   useEffect(() => {
@@ -19,13 +20,12 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
   const agregarPieza = async () => {
     if (!nuevaPieza.nombre) return alert("Ponle un nombre a la pieza");
     
-    // Preparamos los datos asegurando que stock y precio sean números
     const piezaParaInsertar = {
         nombre: nuevaPieza.nombre,
         referencia: nuevaPieza.referencia || '',
         stock: parseInt(nuevaPieza.stock) || 0,
         precio: parseFloat(nuevaPieza.precio) || 0,
-        avisoStock: 5 // Valor por defecto necesario para tu tabla
+        avisoStock: 5 
     };
 
     const { error } = await supabase.from('piezas').insert([piezaParaInsertar]);
@@ -35,7 +35,6 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
       cargarPiezas();
       if (onUpdate) onUpdate(); 
     } else {
-      console.error("Error Supabase:", error);
       alert("Error al guardar la pieza: " + error.message);
     }
   };
@@ -66,6 +65,12 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
     }
   };
 
+  // Filtrar piezas según el buscador
+  const piezasFiltradas = piezas.filter(p => 
+    p.nombre.toLowerCase().includes(filtro.toLowerCase()) || 
+    p.referencia.toLowerCase().includes(filtro.toLowerCase())
+  );
+
   if (!isOpen) return null;
 
   return (
@@ -80,7 +85,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
         <div className="formulario-pieza">
           <input 
             type="text" 
-            placeholder="Pieza (ej: Amortiguador)" 
+            placeholder="Pieza (ej: Batería)" 
             value={nuevaPieza.nombre} 
             onChange={e => setNuevaPieza({...nuevaPieza, nombre: e.target.value})} 
           />
@@ -105,6 +110,15 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
           <button className="btn-añadir-pieza" onClick={agregarPieza}>Añadir</button>
         </div>
 
+        {/* BUSCADOR RÁPIDO */}
+        <input 
+          type="text" 
+          className="buscador-inventario" 
+          placeholder="🔍 Buscar pieza por nombre o referencia..." 
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+        />
+
         <div className="tabla-scroll-contenedor">
             <table className="tabla-inventario">
               <thead>
@@ -117,7 +131,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                 </tr>
               </thead>
               <tbody>
-                {piezas.length > 0 ? piezas.map(pieza => (
+                {piezasFiltradas.length > 0 ? piezasFiltradas.map(pieza => (
                   <tr key={pieza.id}>
                     <td className="celda-nombre">{pieza.nombre}</td>
                     <td className="celda-referencia">{pieza.referencia || 'N/A'}</td>
@@ -136,7 +150,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                 )) : (
                     <tr>
                         <td colSpan="5" className="tabla-vacia-msg">
-                            No hay piezas registradas aún.
+                            {filtro ? "No se encontraron piezas con esa búsqueda." : "No hay piezas registradas aún."}
                         </td>
                     </tr>
                 )}
