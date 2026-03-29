@@ -54,7 +54,6 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
 
     setCargando(true);
     try {
-      // Llamamos a la función RPC segura que creamos en el Paso 1
       const { error } = await supabase.rpc('añadir_pieza_a_cita', {
         p_id_cita: cita.id,
         p_id_pieza: parseInt(piezaSeleccionada),
@@ -63,11 +62,11 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
 
       if (error) throw error;
 
-      // Resetear formulario y recargar
       setPiezaSeleccionada('');
+      setFiltroPieza(''); // Limpiamos también el buscador
       setCantidad(1);
-      cargarDatos(); // Recarga la lista de piezas usadas y el inventario disponible
-      if (onUpdate) onUpdate(); // Avisa a Admin.jsx para recargar contadores si hace falta
+      cargarDatos();
+      if (onUpdate) onUpdate(); 
 
     } catch (error) {
       alert("Error al añadir pieza: " + error.message);
@@ -76,7 +75,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
     }
   };
 
-  // Filtrado de piezas para el buscador
+  // Filtrado dinámico: Si no hay filtro, muestra todo. Si hay texto, filtra.
   const piezasFiltradas = piezasDisponibles.filter(p => 
     p.nombre.toLowerCase().includes(filtroPieza.toLowerCase()) || 
     p.referencia?.toLowerCase().includes(filtroPieza.toLowerCase())
@@ -98,7 +97,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
             <div className="buscador-wrapper">
                 <input 
                     type="text"
-                    placeholder="🔍 Buscar pieza..."
+                    placeholder="🔍 Escribe para buscar pieza..."
                     value={filtroPieza}
                     onChange={(e) => setFiltroPieza(e.target.value)}
                     className="input-busqueda-micro"
@@ -108,7 +107,9 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
                     onChange={e => setPiezaSeleccionada(e.target.value)}
                     className="select-pieza"
                 >
-                    <option value="">-- Selecciona Pieza --</option>
+                    <option value="">
+                        {piezasFiltradas.length > 0 ? "-- Selecciona de la lista --" : "No hay coincidencias"}
+                    </option>
                     {piezasFiltradas.map(p => (
                         <option key={p.id} value={p.id}>
                             {p.nombre} ({p.referencia || 'sin ref'}) - Stock: {p.stock}
@@ -130,14 +131,14 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
                 className="btn-accion-primario"
                 disabled={cargando}
             >
-                {cargando ? '...' : 'Vincular'}
+                {cargando ? '...' : 'Añadir'} {/* Cambiado de Vincular a Añadir */}
             </button>
           </div>
         </div>
 
         <div className="seccion-piezas-usadas">
           <h3>📦 Piezas Vinculadas a esta Reparación</h3>
-          {cargando && piezasUsadas.length === 0 ? <p>Cargando piezas...</p> : (
+          <div className="tabla-scroll-micro">
             <table className="tabla-micro">
               <thead>
                 <tr>
@@ -162,7 +163,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
                 )}
               </tbody>
             </table>
-          )}
+          </div>
         </div>
       </div>
     </div>
