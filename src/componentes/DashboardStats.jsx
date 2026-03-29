@@ -28,7 +28,6 @@ ChartJS.register(
 
 const DashboardStats = ({ listaCitas, piezasUsadas }) => {
   
-  // Agrupamos citas por fecha
   const flujoFechas = listaCitas.reduce((acc, cita) => {
     const fecha = new Date(cita.fecha).toLocaleDateString();
     acc[fecha] = (acc[fecha] || 0) + 1;
@@ -36,19 +35,20 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
   }, {});
 
   const dataLineas = {
-    labels: Object.keys(flujoFechas).slice(-7), // Últimos 7 registros
+    labels: Object.keys(flujoFechas).slice(-7),
     datasets: [{
       label: 'Citas registradas',
       data: Object.values(flujoFechas).slice(-7),
-      borderColor: '#818cf8',
-      backgroundColor: 'rgba(129, 140, 248, 0.2)',
+      borderColor: '#38bdf8', // Azul brillante
+      backgroundColor: 'rgba(56, 189, 248, 0.1)',
       tension: 0.4,
       fill: true,
-      pointBackgroundColor: '#818cf8',
+      pointBackgroundColor: '#38bdf8',
+      pointBorderColor: '#fff',
+      pointHoverRadius: 6,
     }],
   };
 
-  // 2. Lógica para "Top Reparaciones" (Gráfico de Barras)
   const conteoReparaciones = listaCitas.reduce((acc, cita) => {
     const tipo = cita.reparacion || 'Otros';
     acc[tipo] = (acc[tipo] || 0) + 1;
@@ -60,13 +60,11 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
     datasets: [{
       label: 'Número de Reparaciones',
       data: Object.values(conteoReparaciones),
-      backgroundColor: 'rgba(56, 189, 248, 0.6)',
-      borderColor: '#38bdf8',
-      borderWidth: 1,
+      backgroundColor: '#38bdf8', // Color sólido para mejor visibilidad
+      borderRadius: 5,
     }],
   };
 
-  // 3. Lógica para "Uso de Piezas" (Gráfico de Tarta)
   const conteoPiezas = piezasUsadas.reduce((acc, p) => {
     const nombre = p.piezas?.nombre || 'Desconocido';
     acc[nombre] = (acc[nombre] || 0) + (p.cantidad || 0);
@@ -80,37 +78,43 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
   const dataTarta = {
     labels: piezasOrdenadas.map(([nombre]) => nombre),
     datasets: [{
-      label: 'Unidades Usadas',
       data: piezasOrdenadas.map(([, cantidad]) => cantidad),
-      backgroundColor: ['#38bdf8', '#818cf8', '#fb7185', '#34d399', '#fbbf24'],
-      borderWidth: 0,
+      backgroundColor: ['#38bdf8', '#818cf8', '#2dd4bf', '#fbbf24', '#f472b6'],
+      borderWidth: 2,
+      borderColor: '#1e293b', // Separación entre trozos con el color de fondo
     }],
   };
 
+  // CONFIGURACIÓN GLOBAL DE COLORES PARA GRÁFICOS
   const opciones = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: { 
         position: 'bottom', 
-        labels: { color: '#94a3b8', padding: 20, font: { size: 12 } } 
+        labels: { 
+          color: '#e2e8f0', // Texto de leyenda casi blanco
+          padding: 20, 
+          font: { size: 12, weight: '500' } 
+        } 
       },
       tooltip: {
-        backgroundColor: '#1e293b',
+        backgroundColor: '#0f172a',
         titleColor: '#f8fafc',
         bodyColor: '#f8fafc',
         borderColor: '#38bdf8',
-        borderWidth: 1
+        borderWidth: 1,
+        padding: 12
       }
     },
     scales: {
       y: { 
         beginAtZero: true,
-        ticks: { color: '#94a3b8' }, 
+        ticks: { color: '#94a3b8', font: { size: 11 } }, 
         grid: { color: 'rgba(255,255,255,0.05)' } 
       },
       x: { 
-        ticks: { color: '#94a3b8' }, 
+        ticks: { color: '#94a3b8', font: { size: 11 } }, 
         grid: { display: false } 
       }
     }
@@ -118,7 +122,6 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
 
   return (
     <div className="contenedor-graficos">
-      {/* GRÁFICO DE FLUJO (Ancho completo arriba) */}
       <div className="grafico-card full-width">
         <h3>📈 Actividad de Citas</h3>
         <div style={{ height: '300px' }}>

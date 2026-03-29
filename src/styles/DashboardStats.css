@@ -7,25 +7,27 @@
 }
 
 .grafico-card {
-    background: rgba(30, 41, 59, 0.4); 
-    backdrop-filter: blur(10px); 
+    /* Color azul oscuro idéntico a tus tarjetas de Admin */
+    background: #1e293b; 
     padding: 24px;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Borde sutil para definir la tarjeta */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .grafico-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(56, 189, 248, 0.3); 
+    border-color: #38bdf8; 
 }
 
 .grafico-card h3 {
     margin-top: 0;
     margin-bottom: 25px;
     font-size: 1.1rem;
-    color: #f1f5f9; 
+    /* Texto más brillante para los títulos */
+    color: #f8fafc; 
     display: flex;
     align-items: center;
     gap: 10px;
@@ -34,13 +36,11 @@
 
 .grafico-card canvas {
     max-width: 100% !important;
-    height: auto !important;
 }
 
 .full-width {
     grid-column: 1 / -1;
 }
-
 
 @media (max-width: 1024px) {
     .contenedor-graficos {
@@ -52,7 +52,6 @@
     .grafico-card {
         padding: 15px;
     }
-    
     .grafico-card h3 {
         font-size: 1rem;
     }
