@@ -207,3 +207,54 @@
 
 .cliente-registrado { color: var(--primario); font-weight: 700; }
 .cliente-invitado { color: var(--texto-suave); }
+
+/* --- ADAPTACIÓN PARA MÓVILES (Admin & Stats) --- */
+@media (max-width: 768px) {
+    .admin-principal {
+        padding: 80px 15px 30px; /* Menos margen en móvil */
+    }
+
+    .admin-cabecera {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-abrir-inventario {
+        width: 100%; /* Botón grande para el pulgar */
+        text-align: center;
+    }
+
+    .cuadricula-resumen {
+        grid-template-columns: 1fr; /* Una columna en lugar de varias */
+    }
+
+    .tarjeta-dato {
+        padding: 20px;
+    }
+
+    .valor-dato {
+        font-size: 2.2rem; /* Texto un poco más pequeño */
+    }
+
+    /* Gráficos en vertical */
+    .contenedor-graficos {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .grafico-card {
+        padding: 15px;
+    }
+    
+    .tabla-admin th:nth-child(2), 
+    .tabla-admin td:nth-child(2),
+    .tabla-admin th:nth-child(4), 
+    .tabla-admin td:nth-child(4) {
+        display: none;
+    }
+    
+    .zona-gestion {
+        padding: 20px 10px;
+    }
+}
