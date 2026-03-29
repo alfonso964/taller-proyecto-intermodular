@@ -19,10 +19,13 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
   const agregarPieza = async () => {
     if (!nuevaPieza.nombre) return alert("Ponle un nombre a la pieza");
     
+    // Preparamos los datos asegurando que stock y precio sean números
     const piezaParaInsertar = {
-        ...nuevaPieza,
+        nombre: nuevaPieza.nombre,
+        referencia: nuevaPieza.referencia || '',
         stock: parseInt(nuevaPieza.stock) || 0,
-        precio: parseFloat(nuevaPieza.precio) || 0
+        precio: parseFloat(nuevaPieza.precio) || 0,
+        avisoStock: 5 // Valor por defecto necesario para tu tabla
     };
 
     const { error } = await supabase.from('piezas').insert([piezaParaInsertar]);
@@ -30,23 +33,36 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
     if (!error) {
       setNuevaPieza({ nombre: '', referencia: '', stock: '', precio: '' });
       cargarPiezas();
-      onUpdate(); 
+      if (onUpdate) onUpdate(); 
     } else {
-      alert("Error al guardar la pieza");
+      console.error("Error Supabase:", error);
+      alert("Error al guardar la pieza: " + error.message);
     }
   };
 
   const actualizarStock = async (id, nuevoStock) => {
-    await supabase.from('piezas').update({ stock: parseInt(nuevoStock) || 0 }).eq('id', id);
-    cargarPiezas();
-    onUpdate();
+    const { error } = await supabase
+      .from('piezas')
+      .update({ stock: parseInt(nuevoStock) || 0 })
+      .eq('id', id);
+
+    if (!error) {
+      cargarPiezas();
+      if (onUpdate) onUpdate();
+    } else {
+      alert("Error al actualizar stock");
+    }
   };
 
   const eliminarPieza = async (id) => {
     if (window.confirm("¿Eliminar esta pieza del inventario?")) {
-      await supabase.from('piezas').delete().eq('id', id);
-      cargarPiezas();
-      onUpdate();
+      const { error } = await supabase.from('piezas').delete().eq('id', id);
+      if (!error) {
+        cargarPiezas();
+        if (onUpdate) onUpdate();
+      } else {
+        alert("Error al eliminar la pieza");
+      }
     }
   };
 
