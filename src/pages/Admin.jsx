@@ -38,11 +38,13 @@ const Admin = () => {
         .lt('stock', 3);
       setAlertasStock(dataStockBajo || []);
 
+      // --- CÁLCULO DE BENEFICIO NETO REAL ---
       const { data: datosDinero } = await supabase
         .from('resumen_economico_citas')
-        .select('total_venta');
+        .select('total_venta, total_coste, beneficio_neto');
       
-      const totalIngresos = datosDinero?.reduce((acc, curr) => acc + curr.total_venta, 0) || 0;
+      // Sumamos la columna beneficio_neto que ya tienes en tu vista de Supabase
+      const beneficioReal = datosDinero?.reduce((acc, curr) => acc + (curr.beneficio_neto || 0), 0) || 0;
 
       const { data: dataVinculaciones } = await supabase
         .from('cita_piezas')
@@ -52,8 +54,8 @@ const Admin = () => {
       setResumen({ 
         citas: conteoCitas || 0, 
         usuarios: conteoUsuarios || 0,
-        pieces: conteoPiezas || 0,
-        ingresos: totalIngresos
+        piezas: conteoPiezas || 0,
+        ingresos: beneficioReal // Ahora muestra el beneficio neto
       });
       
       setListaCitas(datosCitas || []); 
@@ -106,7 +108,6 @@ const Admin = () => {
         </button>
       </header>
 
-      {/* SECCIÓN DE ALERTAS DE STOCK CRÍTICO */}
       {alertasStock.length > 0 && (
         <div className="banner-alertas-stock">
           {alertasStock.map((item, idx) => (
@@ -114,7 +115,7 @@ const Admin = () => {
               <span className="icono-alerta">⚠️</span>
               <div className="info-alerta">
                 <strong>¡Atención Stock Crítico!</strong>
-                <p>Quedan solo {item.stock} unidades de: <em>{item.nombre}</em>. Por favor, revisa el inventario.</p>
+                <p>Quedan solo {item.stock} unidades de: <em>{item.nombre}</em>.</p>
               </div>
             </div>
           ))}
@@ -123,19 +124,19 @@ const Admin = () => {
       
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
-          <h3>Citas Pendientes</h3>
+          <h3>Citas Totales</h3>
           <p className="valor-dato">{cargando ? "..." : resumen.citas}</p>
         </div>
         <div className="tarjeta-dato">
-          <h3>Usuarios Totales</h3>
+          <h3>Usuarios</h3>
           <p className="valor-dato">{cargando ? "..." : resumen.usuarios}</p>
         </div>
         <div className="tarjeta-dato">
-          <h3>Piezas Inventario</h3>
+          <h3>Piezas</h3>
           <p className="valor-dato">{cargando ? "..." : resumen.piezas}</p>
         </div>
         <div className="tarjeta-dato destaque-verde">
-          <h3>Ingresos Totales</h3>
+          <h3>Beneficio Neto</h3>
           <p className="valor-dato">{cargando ? "..." : `${resumen.ingresos.toFixed(2)}€`}</p>
         </div>
       </div>
@@ -147,7 +148,6 @@ const Admin = () => {
         />
       )}
 
-      {/* TABLA DE GESTIÓN A ANCHO COMPLETO */}
       <div className="zona-gestion">
           <div className="cabecera-seccion">
             <h2>Gestión de Reparaciones Activas</h2>

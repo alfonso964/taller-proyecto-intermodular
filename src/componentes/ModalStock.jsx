@@ -5,8 +5,8 @@ import '../styles/ModalStock.css';
 
 const ModalStock = ({ isOpen, onClose, onUpdate }) => {
   const [piezas, setPiezas] = useState([]);
-  const [filtro, setFiltro] = useState(''); // Estado para el buscador
-  const [nuevaPieza, setNuevaPieza] = useState({ nombre: '', referencia: '', stock: '', precio: '' });
+  const [filtro, setFiltro] = useState('');
+  const [nuevaPieza, setNuevaPieza] = useState({ nombre: '', referencia: '', stock: '', precio: '', precio_coste: '' });
 
   useEffect(() => {
     if (isOpen) cargarPiezas();
@@ -25,13 +25,14 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
         referencia: nuevaPieza.referencia || '',
         stock: parseInt(nuevaPieza.stock) || 0,
         precio: parseFloat(nuevaPieza.precio) || 0,
+        precio_coste: parseFloat(nuevaPieza.precio_coste) || 0, // Nuevo campo
         avisoStock: 5 
     };
 
     const { error } = await supabase.from('piezas').insert([piezaParaInsertar]);
     
     if (!error) {
-      setNuevaPieza({ nombre: '', referencia: '', stock: '', precio: '' });
+      setNuevaPieza({ nombre: '', referencia: '', stock: '', precio: '', precio_coste: '' });
       cargarPiezas();
       if (onUpdate) onUpdate(); 
     } else {
@@ -65,7 +66,6 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
     }
   };
 
-  // Filtrar piezas según el buscador
   const piezasFiltradas = piezas.filter(p => 
     p.nombre.toLowerCase().includes(filtro.toLowerCase()) || 
     p.referencia.toLowerCase().includes(filtro.toLowerCase())
@@ -103,14 +103,19 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
           />
           <input 
             type="number" 
-            placeholder="Precio (€)" 
+            placeholder="Coste (€)" 
+            value={nuevaPieza.precio_coste} 
+            onChange={e => setNuevaPieza({...nuevaPieza, precio_coste: e.target.value})} 
+          />
+          <input 
+            type="number" 
+            placeholder="Venta (€)" 
             value={nuevaPieza.precio} 
             onChange={e => setNuevaPieza({...nuevaPieza, precio: e.target.value})} 
           />
           <button className="btn-añadir-pieza" onClick={agregarPieza}>Añadir</button>
         </div>
 
-        {/* BUSCADOR RÁPIDO */}
         <input 
           type="text" 
           className="buscador-inventario" 
@@ -126,7 +131,8 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                   <th>Nombre Pieza</th>
                   <th>Referencia</th>
                   <th>Stock</th>
-                  <th>Precio</th>
+                  <th>Coste</th>
+                  <th>Venta</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -142,15 +148,16 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                         onBlur={(e) => actualizarStock(pieza.id, e.target.value)}
                       />
                     </td>
-                    <td className="celda-precio">{pieza.precio}€</td>
+                    <td className="celda-precio">{pieza.precio_coste}€</td>
+                    <td className="celda-precio" style={{color: '#38bdf8'}}>{pieza.precio}€</td>
                     <td>
                       <button className="btn-eliminar" onClick={() => eliminarPieza(pieza.id)}>Borrar</button>
                     </td>
                   </tr>
                 )) : (
                     <tr>
-                        <td colSpan="5" className="tabla-vacia-msg">
-                            {filtro ? "No se encontraron piezas con esa búsqueda." : "No hay piezas registradas aún."}
+                        <td colSpan="6" className="tabla-vacia-msg">
+                            {filtro ? "No se encontraron piezas." : "No hay piezas registradas."}
                         </td>
                     </tr>
                 )}
