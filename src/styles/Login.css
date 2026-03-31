@@ -1,6 +1,6 @@
 /* --- src/styles/Login.css --- */
 
-/* Reset preventivo */
+/* Reset preventivo total */
 .contenedor-login *, .contenedor-login *::before, .contenedor-login *::after {
     box-sizing: border-box;
 }
@@ -9,12 +9,13 @@
     width: 100%;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Centrado horizontal real */
+    align-items: center;     /* Centrado vertical real */
     padding: 20px; 
     background: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0, transparent 50%), 
                 #f1f5f9;
     position: relative;
+    overflow-x: hidden; /* Evita que la página se mueva lateralmente */
 }
 
 .tarjeta-login {
@@ -26,6 +27,8 @@
     border: 1px solid #e2e8f0;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
     z-index: 10;
+    transition: all 0.3s ease;
+    margin: 0 auto; /* Asegura el centrado si el flex falla */
 }
 
 .titulo-login {
@@ -61,6 +64,15 @@
     border-radius: 14px;
     color: #0f172a;
     font-size: 1rem;
+    transition: all 0.2s ease;
+    display: block; 
+}
+
+.entrada-login:focus {
+    outline: none;
+    border-color: #1e3a8a; 
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
 }
 
 .boton-login {
@@ -74,40 +86,67 @@
     font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-/* --- AJUSTES ESPECÍFICOS PARA MÓVIL --- */
+.boton-login:hover {
+    background: #1e40af; 
+    transform: translateY(-2px); 
+    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
+}
+
+.contenedor-enlace-secundario {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.texto-secundario {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.boton-enlace {
+    background: none;
+    border: none;
+    color: #38bdf8; 
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-left: 5px;
+    padding: 0;
+    text-decoration: none;
+}
+
+/* --- AJUSTE PARA MÓVIL OPTIMIZADO --- */
 @media (max-width: 480px) {
     .contenedor-login {
-        padding: 15px; /* Espacio mínimo exterior */
+        padding: 10px; 
     }
 
     .tarjeta-login {
-        /* Bajamos el ancho al 92% para que NUNCA toque los bordes */
-        width: 92% !important;
-        /* Reducimos mucho el padding lateral para que los inputs no se vean minúsculos */
-        padding: 35px 20px; 
-        border-radius: 24px;
+        /* Usamos calc para garantizar simetría perfecta a izquierda y derecha */
+        width: calc(100% - 20px); 
+        max-width: 360px; /* Un poco más estrecha para que se vea más estilizada */
+        padding: 35px 25px; 
+        border-radius: 22px;
+        margin: 0 auto; 
     }
     
     .titulo-login {
-        /* Letras un poco más pequeñas para que no ocupen varias líneas */
-        font-size: 1.8rem;
-        letter-spacing: -1px;
+        font-size: 1.8rem; /* Tamaño más seguro para evitar saltos de línea raros */
     }
 
     .subtitulo-login {
         font-size: 0.85rem;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
 
     .entrada-login, .boton-login {
-        padding: 14px; /* Un poco más compactos */
-        font-size: 0.9rem;
-    }
-
-    .texto-secundario {
-        font-size: 0.85rem;
+        padding: 14px;
+        font-size: 0.95rem;
     }
 }
