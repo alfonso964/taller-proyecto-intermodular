@@ -11,10 +11,9 @@
     width: 100%;
     min-height: 100vh;
     display: flex;
-    justify-content: center; /* Centrado horizontal */
-    align-items: center;     /* Centrado vertical */
-    /* Eliminamos padding lateral aquí para controlar el margen solo en la tarjeta */
-    padding: 20px 0; 
+    justify-content: center; 
+    align-items: center;     
+    padding: 40px 0; /* Aumentamos padding vertical para que respire el fondo */
     background: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0, transparent 50%), 
                 #f1f5f9;
     position: relative;
@@ -22,16 +21,16 @@
 }
 
 .tarjeta-login {
-    width: 90%; /* Ajuste elástico base */
+    width: 90%; 
     max-width: 420px; 
     background: #ffffff;
-    padding: 50px 40px; 
+    /* Aumentamos de 50px a 65px arriba/abajo para que sea más alta */
+    padding: 65px 40px; 
     border-radius: 28px;
     border: 1px solid #e2e8f0;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
     z-index: 10;
     transition: all 0.3s ease;
-    /* Forzado de centrado matemático */
     margin-left: auto;
     margin-right: auto;
 }
@@ -49,7 +48,7 @@
 .subtitulo-login {
     color: #64748b;
     font-size: 0.95rem;
-    margin-bottom: 35px;
+    margin-bottom: 40px; /* Un poco más de espacio bajo el subtítulo */
     text-align: center;
     display: block;
     font-weight: 500;
@@ -92,7 +91,7 @@
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 5px;
+    margin-top: 10px; /* Más margen arriba del botón */
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
@@ -103,7 +102,7 @@
 }
 
 .contenedor-enlace-secundario {
-    margin-top: 25px;
+    margin-top: 35px; /* Más espacio antes del enlace inferior */
     text-align: center;
 }
 
@@ -126,19 +125,18 @@
     text-decoration: none;
 }
 
-/* --- AJUSTE PARA MÓVIL (CENTRADOR TOTAL) --- */
+/* --- AJUSTE PARA MÓVIL (MÁS ALTA Y CENTRADA) --- */
 @media (max-width: 480px) {
     .contenedor-login {
-        padding: 0; /* Quitamos padding para que mande el margin:auto de la tarjeta */
+        padding: 20px 0; 
     }
 
     .tarjeta-login {
-        /* Usamos un ancho fijo relativo para asegurar simetría */
         width: 88%; 
         max-width: 350px; 
-        padding: 35px 20px; 
+        /* En móvil aumentamos de 35px a 55px para que no se vea achatada */
+        padding: 55px 25px; 
         border-radius: 22px;
-        /* El secreto del centrado perfecto en móviles rebeldes: */
         margin: 0 auto !important; 
         display: block;
     }
@@ -149,7 +147,7 @@
 
     .subtitulo-login {
         font-size: 0.85rem;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .entrada-login, .boton-login {
