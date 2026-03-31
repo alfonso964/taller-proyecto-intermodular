@@ -18,44 +18,53 @@ const Admin = () => {
 
   const cargarDatosReales = async () => {
     try {
+      // 1. Conteo de Usuarios
       const { count: conteoUsuarios } = await supabase
         .from('perfiles')
         .select('*', { count: 'exact', head: true });
 
+      // 2. Conteo de Piezas
       const { count: conteoPiezas } = await supabase
         .from('piezas')
         .select('*', { count: 'exact', head: true });
 
-      const { data: datosCitas, count: conteoCitas, error: errCita } = await supabase
+      // 3. Cargar Citas (Traemos todas para las estadísticas del Dashboard)
+      const { data: datosCitas, error: errCita } = await supabase
         .from('citas')
-        .select(`*, perfiles ( email )`, { count: 'exact' });
+        .select(`*, perfiles ( email )`);
 
       if (errCita) throw errCita;
 
+      // --- FILTRO PARA EL RESUMEN SUPERIOR ---
+      // Solo contamos como "Citas" aquellas que NO están finalizadas
+      const citasActivasCount = datosCitas?.filter(c => c.estado !== 'FINALIZADA').length || 0;
+
+      // 4. Alertas de Stock
       const { data: dataStockBajo } = await supabase
         .from('piezas')
         .select('nombre, stock')
         .lt('stock', 3);
       setAlertasStock(dataStockBajo || []);
 
-      // --- CÁLCULO DE BENEFICIO NETO REAL ---
+      // 5. Beneficio Neto
       const { data: datosDinero } = await supabase
         .from('resumen_economico_citas')
         .select('total_venta, total_coste, beneficio_neto');
       
-      // Sumamos la columna beneficio_neto que ya tienes en tu vista de Supabase
       const beneficioReal = datosDinero?.reduce((acc, curr) => acc + (curr.beneficio_neto || 0), 0) || 0;
 
+      // 6. Piezas Usadas
       const { data: dataVinculaciones } = await supabase
         .from('cita_piezas')
         .select('cantidad, piezas(nombre)');
       setTodasLasPiezasUsadas(dataVinculaciones || []);
 
+      // Actualizamos el estado del resumen
       setResumen({ 
-        citas: conteoCitas || 0, 
+        citas: citasActivasCount, // Ahora refleja solo las activas
         usuarios: conteoUsuarios || 0,
         piezas: conteoPiezas || 0,
-        ingresos: beneficioReal // Ahora muestra el beneficio neto
+        ingresos: beneficioReal 
       });
       
       setListaCitas(datosCitas || []); 
@@ -79,7 +88,9 @@ const Admin = () => {
   const toggleFinalizar = async (idCita, estadoActual, e) => {
     e.stopPropagation(); 
     try {
+      // Si está en cualquier estado que no sea FINALIZADA, la pasamos a FINALIZADA
       const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
+      
       const { error } = await supabase
         .from('citas')
         .update({ estado: nuevoEstado })
@@ -87,15 +98,17 @@ const Admin = () => {
 
       if (error) throw error;
       
-      setListaCitas(prev => 
-        prev.map(c => c.id === idCita ? { ...c, estado: nuevoEstado } : c)
-      );
-      cargarDatosReales(); 
+      // Recargamos todos los datos para que el filtro surta efecto y el contador baje
+      await cargarDatosReales(); 
+      
     } catch (error) {
       console.error("Error Supabase:", error);
       alert("Error al actualizar el estado");
     }
   };
+
+  // Filtramos la lista de citas para la tabla (Solo mostrar las que no están terminadas)
+  const citasParaMostrar = listaCitas.filter(cita => cita.estado !== 'FINALIZADA');
 
   return (
     <div className="admin-principal">
@@ -124,7 +137,7 @@ const Admin = () => {
       
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
-          <h3>Citas Totales</h3>
+          <h3>Citas Activas</h3> {/* Cambiado el título para ser más preciso */}
           <p className="valor-dato">{cargando ? "..." : resumen.citas}</p>
         </div>
         <div className="tarjeta-dato">
@@ -153,7 +166,7 @@ const Admin = () => {
             <h2>Gestión de Reparaciones Activas</h2>
           </div>
 
-          {listaCitas.length > 0 ? (
+          {citasParaMostrar.length > 0 ? (
           <div className="tabla-contenedor">
               <table className="tabla-admin">
               <thead>
@@ -166,7 +179,7 @@ const Admin = () => {
                   </tr>
               </thead>
               <tbody>
-                  {listaCitas.map((cita) => {
+                  {citasParaMostrar.map((cita) => {
                   const esFinalizada = cita.estado === 'FINALIZADA';
                   return (
                       <tr key={cita.id} onClick={() => abrirDetalleCita(cita)} style={{ cursor: 'pointer' }} className="fila-cita">
@@ -188,7 +201,7 @@ const Admin = () => {
               </table>
           </div>
           ) : (
-          <div className="contenedor-lista-vacia"><p>No hay reparaciones activas.</p></div>
+          <div className="contenedor-lista-vacia"><p>No hay reparaciones activas por el momento.</p></div>
           )}
       </div>
 
