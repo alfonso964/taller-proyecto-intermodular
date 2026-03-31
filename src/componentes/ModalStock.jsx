@@ -122,7 +122,9 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
             value={nuevaPieza.precio} 
             onChange={e => setNuevaPieza({...nuevaPieza, precio: e.target.value})} 
           />
-          <button className="btn-añadir-pieza" onClick={agregarPieza}>Añadir</button>
+          <div className="btn-añadir-pieza-wrapper">
+            <button className="btn-añadir-pieza" onClick={agregarPieza}>Añadir</button>
+          </div>
         </div>
 
         <input 
