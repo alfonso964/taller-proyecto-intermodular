@@ -18,7 +18,7 @@
   max-height: 90vh;
   border-radius: 24px;
   padding: 30px;
-  border: 1px solid #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
   color: white;
   position: relative;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
@@ -30,18 +30,14 @@
 .input-celda-edicion {
   background: rgba(15, 23, 42, 0.6) !important;
   border: 1px solid rgba(56, 189, 248, 0.2) !important;
-  color: #f1f5f9 !important;
+  /* CAMBIO: Texto en azul resaltado como pediste */
+  color: #38bdf8 !important; 
   padding: 8px 12px;
   border-radius: 10px;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700; /* Un poco más de grosor para el color azul */
   width: 100%;
   transition: all 0.2s ease;
-}
-
-.input-celda-edicion:hover {
-  background: rgba(15, 23, 42, 0.9) !important;
-  border-color: #38bdf8 !important;
 }
 
 .input-celda-edicion:focus {
@@ -51,14 +47,52 @@
   box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
 }
 
-.venta-resaltada {
-  color: #38bdf8 !important;
-  font-weight: 800;
+/* --- FORMULARIO SUPERIOR (ESTILO ORIGINAL) --- */
+.formulario-pieza {
+  display: grid;
+  grid-template-columns: 2fr 1fr 0.8fr 0.8fr auto;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.4);
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
 }
 
-.stock-input, .precio-input {
-  text-align: center;
-  max-width: 90px;
+.input-nuevo {
+  background: #0f172a !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  color: white !important;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* --- BARRA DE DESPLAZAMIENTO ESTILIZADA --- */
+.tabla-scroll-contenedor {
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-top: 10px;
+  padding-right: 8px; /* Espacio para la barra */
+}
+
+/* Chrome, Edge, y Safari */
+.tabla-scroll-contenedor::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tabla-scroll-contenedor::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 10px;
+}
+
+.tabla-scroll-contenedor::-webkit-scrollbar-thumb {
+  background: #38bdf8;
+  border-radius: 10px;
+  border: 2px solid #1e293b; /* Efecto de separación */
+}
+
+.tabla-scroll-contenedor::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9;
 }
 
 /* --- BUSCADOR --- */
@@ -67,19 +101,12 @@
   margin-bottom: 15px;
   padding: 12px 15px;
   background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  border: 1px solid rgba(56, 189, 248, 0.2);
   border-radius: 12px;
   color: white;
 }
 
-/* --- TABLA Y SCROLL --- */
-.tabla-scroll-contenedor {
-  overflow-x: auto;
-  overflow-y: auto;
-  flex-grow: 1;
-  margin-top: 10px;
-}
-
+/* --- TABLA --- */
 .tabla-inventario {
   width: 100%;
   border-collapse: separate;
@@ -96,7 +123,7 @@
   color: #94a3b8;
   font-size: 0.75rem;
   text-transform: uppercase;
-  border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+  border-bottom: 2px solid rgba(56, 189, 248, 0.2);
 }
 
 .tabla-inventario td {
@@ -107,42 +134,18 @@
 .tabla-inventario td:first-child { border-radius: 12px 0 0 12px; }
 .tabla-inventario td:last-child { border-radius: 0 12px 12px 0; }
 
-/* --- RESPONSIVE (MÓVIL) --- */
-@media (max-width: 768px) {
-  .modal-contenido {
-    padding: 20px;
-    width: 98%;
-  }
-
-  .formulario-pieza {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding: 15px;
-  }
-
-  .btn-añadir-pieza {
-    grid-column: span 2;
-  }
-
-  .tabla-inventario thead {
-    display: none; /* Ocultamos cabeceras en móviles pequeños */
-  }
-
-  .input-celda-edicion {
-    font-size: 0.8rem;
-    padding: 6px;
-  }
-}
-
 .cerrar-modal {
   position: absolute;
-  top: 15px; right: 15px;
+  top: 15px; right: 20px;
   background: none;
   border: none;
   color: #94a3b8;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  transition: color 0.2s;
 }
+
+.cerrar-modal:hover { color: #ef4444; }
 
 .btn-eliminar {
   background: rgba(239, 68, 68, 0.1);
@@ -151,4 +154,5 @@
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
 }
