@@ -3,23 +3,26 @@
 /* Reset preventivo total */
 .contenedor-login *, .contenedor-login *::before, .contenedor-login *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 .contenedor-login {
     width: 100%;
     min-height: 100vh;
     display: flex;
-    justify-content: center; /* Centrado horizontal real */
-    align-items: center;     /* Centrado vertical real */
-    padding: 20px; 
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    /* Eliminamos padding lateral aquí para controlar el margen solo en la tarjeta */
+    padding: 20px 0; 
     background: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0, transparent 50%), 
                 #f1f5f9;
     position: relative;
-    overflow-x: hidden; /* Evita que la página se mueva lateralmente */
+    overflow-x: hidden;
 }
 
 .tarjeta-login {
-    width: 100%;
+    width: 90%; /* Ajuste elástico base */
     max-width: 420px; 
     background: #ffffff;
     padding: 50px 40px; 
@@ -28,7 +31,9 @@
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
     z-index: 10;
     transition: all 0.3s ease;
-    margin: 0 auto; /* Asegura el centrado si el flex falla */
+    /* Forzado de centrado matemático */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .titulo-login {
@@ -121,23 +126,25 @@
     text-decoration: none;
 }
 
-/* --- AJUSTE PARA MÓVIL OPTIMIZADO --- */
+/* --- AJUSTE PARA MÓVIL (CENTRADOR TOTAL) --- */
 @media (max-width: 480px) {
     .contenedor-login {
-        padding: 10px; 
+        padding: 0; /* Quitamos padding para que mande el margin:auto de la tarjeta */
     }
 
     .tarjeta-login {
-        /* Usamos calc para garantizar simetría perfecta a izquierda y derecha */
-        width: calc(100% - 20px); 
-        max-width: 360px; /* Un poco más estrecha para que se vea más estilizada */
-        padding: 35px 25px; 
+        /* Usamos un ancho fijo relativo para asegurar simetría */
+        width: 88%; 
+        max-width: 350px; 
+        padding: 35px 20px; 
         border-radius: 22px;
-        margin: 0 auto; 
+        /* El secreto del centrado perfecto en móviles rebeldes: */
+        margin: 0 auto !important; 
+        display: block;
     }
     
     .titulo-login {
-        font-size: 1.8rem; /* Tamaño más seguro para evitar saltos de línea raros */
+        font-size: 1.8rem;
     }
 
     .subtitulo-login {
