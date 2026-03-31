@@ -26,11 +26,10 @@
   flex-direction: column;
 }
 
-/* --- FORMULARIO SUPERIOR (ESTRUCTURA FIJA PARA EVITAR SOLAPAMIENTOS) --- */
+/* --- FORMULARIO SUPERIOR --- */
 .formulario-pieza {
   display: grid;
-  /* Definimos proporciones fijas para que nada "empuje" a lo de al lado */
-  grid-template-columns: 2fr 1fr 0.6fr 0.8fr 0.8fr 120px;
+  grid-template-columns: 2fr 1fr 0.6fr 0.8fr 0.8fr;
   gap: 10px;
   background: rgba(15, 23, 42, 0.4);
   padding: 20px;
@@ -39,34 +38,42 @@
   align-items: center;
 }
 
+/* El botón ocupa su propia fila centrado */
+.btn-añadir-pieza-wrapper {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
 .input-nuevo {
   background: #0f172a !important;
   border: 1px solid rgba(56, 189, 248, 0.2) !important;
   color: white !important;
-  padding: 12px; /* Mismo padding que el botón */
+  padding: 12px;
   border-radius: 10px;
   font-size: 0.85rem;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* --- BOTÓN AÑADIR (SIMÉTRICO A LOS INPUTS) --- */
+/* --- BOTÓN AÑADIR --- */
 .btn-añadir-pieza {
   background: #38bdf8 !important;
   color: #0f172a !important;
   border: none !important;
-  padding: 12px; /* Igual que .input-nuevo para misma altura */
+  padding: 12px 32px;
   border-radius: 10px;
   font-weight: 800;
   cursor: pointer;
   text-transform: uppercase;
-  font-size: 0.85rem; /* Igual que .input-nuevo */
+  font-size: 0.85rem;
   transition: all 0.2s ease;
-  width: 100%;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: auto;
 }
 
 .btn-añadir-pieza:hover {
@@ -74,42 +81,51 @@
   filter: brightness(1.1);
 }
 
-/* --- TABLA E INPUTS DE EDICIÓN --- */
-.input-celda-edicion {
-  background: rgba(15, 23, 42, 0.6) !important;
-  border: 1px solid rgba(56, 189, 248, 0.2) !important;
-  color: #38bdf8 !important; 
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  width: 100%;
+/* --- BARRA DE BÚSQUEDA CON MARGEN LATERAL --- */
+.buscador-inventario {
+  width: calc(100% - 4px);
+  margin: 0 2px 15px 2px;
+  padding: 12px 15px;
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  color: white;
   box-sizing: border-box;
 }
 
-.input-celda-edicion:focus {
-  outline: none;
-  border-color: #38bdf8 !important;
-  background: #0f172a !important;
-}
-
-/* --- SCROLL Y TABLA --- */
+/* --- BARRA DE NAVEGACIÓN DE SCROLL --- */
 .tabla-scroll-contenedor {
   overflow-y: auto;
   flex-grow: 1;
   margin-top: 10px;
-  padding-right: 8px;
+  padding-right: 4px;
+  /* Barra de scroll estilizada visible siempre */
+  scrollbar-width: thin;
+  scrollbar-color: #38bdf8 rgba(15, 23, 42, 0.5);
 }
 
 .tabla-scroll-contenedor::-webkit-scrollbar {
-  width: 6px;
-}
-
-.tabla-scroll-contenedor::-webkit-scrollbar-thumb {
-  background: #38bdf8;
+  width: 8px;
   border-radius: 10px;
 }
 
+.tabla-scroll-contenedor::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 10px;
+  margin: 4px 0;
+}
+
+.tabla-scroll-contenedor::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+  border-radius: 10px;
+  border: 2px solid #1e293b;
+}
+
+.tabla-scroll-contenedor::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #7dd3fc, #38bdf8);
+}
+
+/* --- TABLA --- */
 .tabla-inventario {
   width: 100%;
   border-collapse: separate;
@@ -128,17 +144,26 @@
   text-transform: uppercase;
 }
 
-/* --- ELEMENTOS EXTRA --- */
-.buscador-inventario {
+/* --- INPUTS DE EDICIÓN --- */
+.input-celda-edicion {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  color: #38bdf8 !important;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
   width: 100%;
-  margin-bottom: 15px;
-  padding: 12px 15px;
-  background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: 12px;
-  color: white;
+  box-sizing: border-box;
 }
 
+.input-celda-edicion:focus {
+  outline: none;
+  border-color: #38bdf8 !important;
+  background: #0f172a !important;
+}
+
+/* --- ELEMENTOS EXTRA --- */
 .btn-eliminar {
   background: rgba(239, 68, 68, 0.1);
   color: #ef4444;
@@ -157,4 +182,14 @@
   color: #94a3b8;
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+.tabla-vacia-msg {
+  text-align: center;
+  color: #94a3b8;
+  padding: 20px;
+}
+
+.modal-titulo-inventario {
+  margin-bottom: 20px;
 }
