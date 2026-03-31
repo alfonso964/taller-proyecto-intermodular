@@ -14,7 +14,7 @@
 .ia-layout-principal {
   display: flex;
   flex-direction: row;
-  align-items: flex-start; /* CORRECCIÓN: Evita que la tarjeta azul se estire */
+  align-items: flex-start;
   justify-content: center;
   gap: 40px;
   max-width: 1100px;
@@ -27,12 +27,12 @@
 
 /* --- TARJETA AZUL IZQUIERDA --- */
 .ia-tarjeta-azul {
-  flex: 0 0 350px; /* Ancho fijo para que no baile */
+  flex: 0 0 350px;
   padding: 40px;
   background: #0f172a;
   color: #ffffff;
   border-radius: 20px;
-  position: sticky; /* Se queda a la vista si el formulario es muy largo */
+  position: sticky;
   top: 20px;
 }
 
@@ -109,12 +109,6 @@
   margin-bottom: 15px;
 }
 
-.ia-coche-animado {
-  position: absolute;
-  top: -30px;
-  left: -50px;
-}
-
 /* --- RESPUESTA Y BOTONES --- */
 .ia-boton-enviar {
   padding: 15px;
@@ -142,14 +136,15 @@
 }
 
 .ia-btn-confirmar {
-   background: #38bdf8; 
-   border: none; padding: 12px; 
-   border-radius: 8px; 
-   cursor:pointer; 
-   font-weight: 600; 
-  }
+  background: #38bdf8; 
+  border: none; padding: 12px; 
+  border-radius: 8px; 
+  cursor:pointer; 
+  font-weight: 600; 
+}
 
-.ia-btn-calendario { background: #64748b; 
+.ia-btn-calendario { 
+  background: #64748b; 
   color: white; 
   border: none; 
   padding: 12px; 
@@ -158,8 +153,50 @@
   font-weight: 600; 
 }
 
+/* --- CORRECCIÓN MÓVIL OPTIMIZADA --- */
+@media (max-width: 768px) {
+  .ia-pagina-contenedor {
+    padding: 10px; /* Menos margen exterior en móvil */
+  }
 
-@media (max-width: 950px) {
-  .ia-layout-principal { flex-direction: column; align-items: stretch; }
-  .ia-tarjeta-azul { flex: none; width: 100%; }
+  .ia-layout-principal { 
+    flex-direction: column; 
+    align-items: stretch; 
+    padding: 20px; /* Reducimos padding interno del contenedor blanco */
+    gap: 20px;
+    width: 100%;
+  }
+
+  .ia-tarjeta-azul { 
+    flex: none; 
+    width: 100%; 
+    position: relative; /* Quitamos el sticky en móvil */
+    top: 0;
+    padding: 30px 20px;
+    box-sizing: border-box;
+  }
+
+  .ia-tarjeta-azul h2 {
+    font-size: 1.6rem;
+  }
+
+  .ia-panel-formulario h1 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
+
+  .ia-fila-input {
+    grid-template-columns: 1fr; /* Una sola columna para los inputs */
+    gap: 12px;
+  }
+
+  .ia-formulario input,
+  .ia-formulario textarea {
+    padding: 12px;
+  }
+
+  .ia-btn-confirmar, .ia-btn-calendario {
+    flex: 1; /* Los botones de acción ocupan el mismo espacio */
+    font-size: 0.9rem;
+  }
 }
