@@ -18,50 +18,41 @@ const Admin = () => {
 
   const cargarDatosReales = async () => {
     try {
-      // 1. Conteo de Usuarios
       const { count: conteoUsuarios } = await supabase
         .from('perfiles')
         .select('*', { count: 'exact', head: true });
 
-      // 2. Conteo de Piezas
       const { count: conteoPiezas } = await supabase
         .from('piezas')
         .select('*', { count: 'exact', head: true });
 
-      // 3. Cargar Citas (Traemos todas para las estadísticas del Dashboard)
       const { data: datosCitas, error: errCita } = await supabase
         .from('citas')
         .select(`*, perfiles ( email )`);
 
       if (errCita) throw errCita;
 
-      // --- FILTRO PARA EL RESUMEN SUPERIOR ---
-      // Solo contamos como "Citas" aquellas que NO están finalizadas
       const citasActivasCount = datosCitas?.filter(c => c.estado !== 'FINALIZADA').length || 0;
 
-      // 4. Alertas de Stock
       const { data: dataStockBajo } = await supabase
         .from('piezas')
         .select('nombre, stock')
         .lt('stock', 3);
       setAlertasStock(dataStockBajo || []);
 
-      // 5. Beneficio Neto
       const { data: datosDinero } = await supabase
         .from('resumen_economico_citas')
         .select('total_venta, total_coste, beneficio_neto');
       
       const beneficioReal = datosDinero?.reduce((acc, curr) => acc + (curr.beneficio_neto || 0), 0) || 0;
 
-      // 6. Piezas Usadas
       const { data: dataVinculaciones } = await supabase
         .from('cita_piezas')
         .select('cantidad, piezas(nombre)');
       setTodasLasPiezasUsadas(dataVinculaciones || []);
 
-      // Actualizamos el estado del resumen
       setResumen({ 
-        citas: citasActivasCount, // Ahora refleja solo las activas
+        citas: citasActivasCount,
         usuarios: conteoUsuarios || 0,
         piezas: conteoPiezas || 0,
         ingresos: beneficioReal 
@@ -87,10 +78,22 @@ const Admin = () => {
 
   const toggleFinalizar = async (idCita, estadoActual, e) => {
     e.stopPropagation(); 
+    
+    // 1. Determinar nuevo estado con ternario
+    const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
+
+    // 2. Actualización OPTIMISTA (cambia la UI antes de que responda el servidor)
+    const nuevaListaCitas = listaCitas.map(c => 
+      c.id === idCita ? { ...c, estado: nuevoEstado } : c
+    );
+    
+    setListaCitas(nuevaListaCitas);
+    
+    // Actualizar contador del resumen inmediatamente
+    const nuevasActivas = nuevaListaCitas.filter(c => c.estado !== 'FINALIZADA').length;
+    setResumen(prev => ({ ...prev, citas: nuevasActivas }));
+
     try {
-      // Si está en cualquier estado que no sea FINALIZADA, la pasamos a FINALIZADA
-      const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
-      
       const { error } = await supabase
         .from('citas')
         .update({ estado: nuevoEstado })
@@ -98,16 +101,18 @@ const Admin = () => {
 
       if (error) throw error;
       
-      // Recargamos todos los datos para que el filtro surta efecto y el contador baje
+      // 3. Recargar datos reales para confirmar que todo está sincronizado
       await cargarDatosReales(); 
       
     } catch (error) {
       console.error("Error Supabase:", error);
       alert("Error al actualizar el estado");
+      // Si falla, revertimos cargando los datos reales de nuevo
+      await cargarDatosReales();
     }
   };
 
-  // Filtramos la lista de citas para la tabla (Solo mostrar las que no están terminadas)
+  // Filtro para la tabla: Solo mostramos las que no están terminadas
   const citasParaMostrar = listaCitas.filter(cita => cita.estado !== 'FINALIZADA');
 
   return (
@@ -137,7 +142,7 @@ const Admin = () => {
       
       <div className="cuadricula-resumen">
         <div className="tarjeta-dato">
-          <h3>Citas Activas</h3> {/* Cambiado el título para ser más preciso */}
+          <h3>Citas Activas</h3>
           <p className="valor-dato">{cargando ? "..." : resumen.citas}</p>
         </div>
         <div className="tarjeta-dato">
