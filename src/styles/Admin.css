@@ -33,7 +33,7 @@
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-left: 5px solid var(--rojo-alerta);
-  color: #7f1d1d; /* Texto oscuro para legibilidad sobre fondo claro */
+  color: #7f1d1d; 
   padding: 16px 24px;
   border-radius: 14px;
   display: flex;
@@ -112,7 +112,7 @@
   box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
-/* TARJETAS DE DATOS */
+/* TARJETAS DE DATOS SUPERIORES */
 .cuadricula-resumen {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -152,7 +152,7 @@
   color: var(--exito);
 }
 
-/* ZONA DE GESTIÓN (ANCHO COMPLETO) */
+/* ZONA DE GESTIÓN DE REPARACIONES (AJUSTADA) */
 .zona-gestion {
   background: var(--bg-tarjeta);
   padding: 40px;
@@ -161,92 +161,82 @@
   box-shadow: var(--sombra);
   color: var(--texto-claro);
   margin-top: 30px;
-  width: 100%; /* Asegura que tome todo el ancho */
+  width: 100%;
 }
 
 .cabecera-seccion h2 {
   color: var(--texto-claro);
   border-left: 4px solid var(--primario);
   padding-left: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+  font-size: 1.5rem;
 }
 
 .tabla-admin {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Cambiado para permitir border-radius en filas */
+  border-spacing: 0 10px;    /* Espacio entre filas */
 }
 
 .tabla-admin th {
   text-align: left;
-  padding: 18px 15px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 20px;
   color: var(--texto-suave);
   font-size: 0.75rem;
-  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .tabla-admin td {
-  padding: 18px 15px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03); /* Fondo ligero para que cada fila parezca una tarjeta */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.fila-cita:hover {
-  background: rgba(255, 255, 255, 0.02);
+/* Bordes redondeados para el efecto de "fila-tarjeta" */
+.tabla-admin tr td:first-child { border-left: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px 0 0 12px; }
+.tabla-admin tr td:last-child { border-right: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0 12px 12px 0; }
+
+.fila-cita:hover td {
+  background: rgba(56, 189, 248, 0.05); /* Resalte en azul muy suave al pasar el ratón */
+  border-color: rgba(56, 189, 248, 0.2);
 }
 
 .btn-estado {
   padding: 8px 16px;
   border-radius: 10px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 0.8rem;
+  text-transform: uppercase;
 }
 
-.btn-estado.pendiente { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.btn-estado.finalizado { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+.btn-estado.pendiente { 
+  background: rgba(245, 158, 11, 0.1); 
+  color: #fbbf24; 
+  border: 1px solid rgba(245, 158, 11, 0.4); 
+}
+
+.btn-estado.finalizado { 
+  background: rgba(34, 197, 94, 0.1); 
+  color: #4ade80; 
+  border: 1px solid rgba(34, 197, 94, 0.4); 
+}
 
 .cliente-registrado { color: var(--primario); font-weight: 700; }
-.cliente-invitado { color: var(--texto-suave); }
+.cliente-invitado { color: var(--texto-suave); font-style: italic; }
 
-/* --- ADAPTACIÓN PARA MÓVILES (Admin & Stats) --- */
+/* --- ADAPTACIÓN PARA MÓVILES --- */
 @media (max-width: 768px) {
-    .admin-principal {
-        padding: 80px 15px 30px; /* Menos margen en móvil */
-    }
-
-    .admin-cabecera {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .btn-abrir-inventario {
-        width: 100%; /* Botón grande para el pulgar */
-        text-align: center;
-    }
-
-    .cuadricula-resumen {
-        grid-template-columns: 1fr; /* Una columna en lugar de varias */
-    }
-
-    .tarjeta-dato {
-        padding: 20px;
-    }
-
-    .valor-dato {
-        font-size: 2.2rem; /* Texto un poco más pequeño */
-    }
-
-    /* Gráficos en vertical */
-    .contenedor-graficos {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .grafico-card {
-        padding: 15px;
-    }
+    .admin-principal { padding: 80px 15px 30px; }
+    .admin-cabecera { flex-direction: column; align-items: flex-start; }
+    .btn-abrir-inventario { width: 100%; text-align: center; }
+    .cuadricula-resumen { grid-template-columns: 1fr; }
+    .valor-dato { font-size: 2.2rem; }
     
+    /* Ocultar columnas menos críticas en móvil */
     .tabla-admin th:nth-child(2), 
     .tabla-admin td:nth-child(2),
     .tabla-admin th:nth-child(4), 
@@ -254,7 +244,6 @@
         display: none;
     }
     
-    .zona-gestion {
-        padding: 20px 10px;
-    }
+    .zona-gestion { padding: 20px 15px; }
+    .tabla-admin td { padding: 15px 10px; font-size: 0.85rem; }
 }
