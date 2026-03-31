@@ -14,7 +14,7 @@
 .modal-contenido {
   background: #1e293b;
   width: 95%;
-  max-width: 950px; /* Un poco más ancho para dar aire a los inputs */
+  max-width: 950px;
   max-height: 90vh;
   border-radius: 24px;
   padding: 30px;
@@ -26,12 +26,12 @@
   flex-direction: column;
 }
 
-/* --- FORMULARIO SUPERIOR (CORREGIDO PARA QUE NO SE SALGA) --- */
+/* --- FORMULARIO SUPERIOR (ESTRUCTURA FIJA PARA EVITAR SOLAPAMIENTOS) --- */
 .formulario-pieza {
   display: grid;
-  /* Cambio a repeat(auto-fit) para que los campos se ajusten al ancho disponible sin salirse */
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
+  /* Definimos proporciones fijas para que nada "empuje" a lo de al lado */
+  grid-template-columns: 2fr 1fr 0.6fr 0.8fr 0.8fr 120px;
+  gap: 10px;
   background: rgba(15, 23, 42, 0.4);
   padding: 20px;
   border-radius: 16px;
@@ -43,33 +43,38 @@
   background: #0f172a !important;
   border: 1px solid rgba(56, 189, 248, 0.2) !important;
   color: white !important;
-  padding: 12px;
+  padding: 12px; /* Mismo padding que el botón */
   border-radius: 10px;
-  font-size: 0.9rem;
-  width: 100%; /* Asegura que ocupen su celda */
+  font-size: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* --- BOTÓN AÑADIR (CORREGIDO) --- */
+/* --- BOTÓN AÑADIR (SIMÉTRICO A LOS INPUTS) --- */
 .btn-añadir-pieza {
   background: #38bdf8 !important;
   color: #0f172a !important;
   border: none !important;
-  padding: 12px 20px;
+  padding: 12px; /* Igual que .input-nuevo para misma altura */
   border-radius: 10px;
   font-weight: 800;
   cursor: pointer;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.85rem; /* Igual que .input-nuevo */
   transition: all 0.2s ease;
-  min-width: 100px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-añadir-pieza:hover {
   background: #0ea5e9 !important;
-  transform: scale(1.03);
+  filter: brightness(1.1);
 }
 
-/* --- ESTILO DE CÁPSULA PARA LOS INPUTS DE LA TABLA --- */
+/* --- TABLA E INPUTS DE EDICIÓN --- */
 .input-celda-edicion {
   background: rgba(15, 23, 42, 0.6) !important;
   border: 1px solid rgba(56, 189, 248, 0.2) !important;
@@ -79,17 +84,16 @@
   font-size: 0.9rem;
   font-weight: 700;
   width: 100%;
-  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .input-celda-edicion:focus {
   outline: none;
-  background: #0f172a !important;
   border-color: #38bdf8 !important;
-  box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+  background: #0f172a !important;
 }
 
-/* --- BARRA DE DESPLAZAMIENTO ESTILIZADA --- */
+/* --- SCROLL Y TABLA --- */
 .tabla-scroll-contenedor {
   overflow-y: auto;
   flex-grow: 1;
@@ -98,32 +102,14 @@
 }
 
 .tabla-scroll-contenedor::-webkit-scrollbar {
-  width: 8px;
-}
-
-.tabla-scroll-contenedor::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.5);
-  border-radius: 10px;
+  width: 6px;
 }
 
 .tabla-scroll-contenedor::-webkit-scrollbar-thumb {
   background: #38bdf8;
   border-radius: 10px;
-  border: 2px solid #1e293b;
 }
 
-/* --- BUSCADOR --- */
-.buscador-inventario {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 12px 15px;
-  background: #0f172a;
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: 12px;
-  color: white;
-}
-
-/* --- TABLA --- */
 .tabla-inventario {
   width: 100%;
   border-collapse: separate;
@@ -140,6 +126,17 @@
   color: #94a3b8;
   font-size: 0.75rem;
   text-transform: uppercase;
+}
+
+/* --- ELEMENTOS EXTRA --- */
+.buscador-inventario {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px 15px;
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  color: white;
 }
 
 .btn-eliminar {
