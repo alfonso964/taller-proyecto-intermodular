@@ -25,7 +25,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
         referencia: nuevaPieza.referencia || '',
         stock: parseInt(nuevaPieza.stock) || 0,
         precio: parseFloat(nuevaPieza.precio) || 0,
-        precio_coste: parseFloat(nuevaPieza.precio_coste) || 0, // Nuevo campo
+        precio_coste: parseFloat(nuevaPieza.precio_coste) || 0,
         avisoStock: 5 
     };
 
@@ -40,17 +40,25 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
     }
   };
 
-  const actualizarStock = async (id, nuevoStock) => {
+  // --- FUNCIÓN DE ACTUALIZACIÓN GENÉRICA ---
+  const actualizarCampoPieza = async (id, campo, valor) => {
+    // Formateamos el valor según el tipo de columna
+    let valorFormateado = valor;
+    if (campo === 'stock') valorFormateado = parseInt(valor) || 0;
+    if (campo === 'precio' || campo === 'precio_coste') valorFormateado = parseFloat(valor) || 0;
+
     const { error } = await supabase
       .from('piezas')
-      .update({ stock: parseInt(nuevoStock) || 0 })
+      .update({ [campo]: valorFormateado })
       .eq('id', id);
 
     if (!error) {
-      cargarPiezas();
+      // Opcional: No recargamos toda la lista para evitar parpadeos, 
+      // pero avisamos al padre para que actualice gráficas/alertas.
       if (onUpdate) onUpdate();
     } else {
-      alert("Error al actualizar stock");
+      alert("Error al actualizar: " + error.message);
+      cargarPiezas(); // Recargamos para revertir el cambio visual fallido
     }
   };
 
@@ -131,25 +139,54 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                   <th>Nombre Pieza</th>
                   <th>Referencia</th>
                   <th>Stock</th>
-                  <th>Coste</th>
-                  <th>Venta</th>
+                  <th>Coste (€)</th>
+                  <th>Venta (€)</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {piezasFiltradas.length > 0 ? piezasFiltradas.map(pieza => (
                   <tr key={pieza.id}>
-                    <td className="celda-nombre">{pieza.nombre}</td>
-                    <td className="celda-referencia">{pieza.referencia || 'N/A'}</td>
+                    <td>
+                      <input 
+                        type="text"
+                        className="input-celda-edicion"
+                        defaultValue={pieza.nombre}
+                        onBlur={(e) => actualizarCampoPieza(pieza.id, 'nombre', e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input 
+                        type="text"
+                        className="input-celda-edicion"
+                        defaultValue={pieza.referencia}
+                        onBlur={(e) => actualizarCampoPieza(pieza.id, 'referencia', e.target.value)}
+                      />
+                    </td>
                     <td>
                       <input 
                         type="number" 
+                        className="input-celda-edicion stock-input"
                         defaultValue={pieza.stock} 
-                        onBlur={(e) => actualizarStock(pieza.id, e.target.value)}
+                        onBlur={(e) => actualizarCampoPieza(pieza.id, 'stock', e.target.value)}
                       />
                     </td>
-                    <td className="celda-precio">{pieza.precio_coste}€</td>
-                    <td className="celda-precio" style={{color: '#38bdf8'}}>{pieza.precio}€</td>
+                    <td>
+                      <input 
+                        type="number" 
+                        className="input-celda-edicion"
+                        defaultValue={pieza.precio_coste} 
+                        onBlur={(e) => actualizarCampoPieza(pieza.id, 'precio_coste', e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input 
+                        type="number" 
+                        className="input-celda-edicion venta-input"
+                        defaultValue={pieza.precio} 
+                        onBlur={(e) => actualizarCampoPieza(pieza.id, 'precio', e.target.value)}
+                      />
+                    </td>
                     <td>
                       <button className="btn-eliminar" onClick={() => eliminarPieza(pieza.id)}>Borrar</button>
                     </td>
