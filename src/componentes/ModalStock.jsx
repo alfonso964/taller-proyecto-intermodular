@@ -89,30 +89,35 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
         <div className="formulario-pieza">
           <input 
             type="text" 
+            className="input-nuevo"
             placeholder="Pieza (ej: Batería)" 
             value={nuevaPieza.nombre} 
             onChange={e => setNuevaPieza({...nuevaPieza, nombre: e.target.value})} 
           />
           <input 
             type="text" 
+            className="input-nuevo"
             placeholder="Ref/SKU" 
             value={nuevaPieza.referencia} 
             onChange={e => setNuevaPieza({...nuevaPieza, referencia: e.target.value})} 
           />
           <input 
             type="number" 
+            className="input-nuevo"
             placeholder="Stock" 
             value={nuevaPieza.stock} 
             onChange={e => setNuevaPieza({...nuevaPieza, stock: e.target.value})} 
           />
           <input 
             type="number" 
+            className="input-nuevo"
             placeholder="Coste (€)" 
             value={nuevaPieza.precio_coste} 
             onChange={e => setNuevaPieza({...nuevaPieza, precio_coste: e.target.value})} 
           />
           <input 
             type="number" 
+            className="input-nuevo"
             placeholder="Venta (€)" 
             value={nuevaPieza.precio} 
             onChange={e => setNuevaPieza({...nuevaPieza, precio: e.target.value})} 
