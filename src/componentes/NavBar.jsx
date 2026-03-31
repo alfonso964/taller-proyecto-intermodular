@@ -11,14 +11,12 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Obtenemos la sesión inicial al cargar el componente
     const obtenerSesionInicial = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       actualizarEstadoUsuario(session);
     };
     obtenerSesionInicial();
 
-    // 2. Función para actualizar usuario y rol
     const actualizarEstadoUsuario = async (session) => {
       setUsuario(session?.user || null);
       if (session?.user) {
@@ -33,7 +31,6 @@ function Navbar() {
       }
     };
 
-    // 3. Escuchador de cambios de autenticación
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       actualizarEstadoUsuario(session);
     });
@@ -43,11 +40,9 @@ function Navbar() {
 
   const cerrarSesion = async () => {
     try {
-      // Forzamos el cierre de sesión en Supabase
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
 
-      // Limpieza manual de estados para asegurar que la UI responda rápido
       setUsuario(null);
       setRol(null);
       setEstaAbierto(false);
@@ -60,6 +55,9 @@ function Navbar() {
   };
 
   const cerrarMenu = () => setEstaAbierto(false);
+  
+  // Función para alternar el menú
+  const toggleMenu = () => setEstaAbierto(!estaAbierto);
 
   return (
     <header className="navegacion-cabecera">
@@ -70,6 +68,15 @@ function Navbar() {
             <span className="navegacion-titulo">Taller<span className="texto-acento">Motors</span></span>
           </NavLink>
         </div>
+
+        {/* --- BOTÓN HAMBURGUESA AÑADIDO AQUÍ --- */}
+        <button className="boton-menu" onClick={toggleMenu} aria-label="Menu">
+          <div className={`hamburguesa ${estaAbierto ? "abierto" : ""}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
 
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
           <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
@@ -83,7 +90,6 @@ function Navbar() {
               ) : (
                 <NavLink to="/historial" className="enlace-item" onClick={cerrarMenu}>Mis Reparaciones</NavLink>
               )}
-              {/* IMPORTANTE: El botón debe disparar cerrarSesion */}
               <button onClick={cerrarSesion} className="enlace-item btn-logout-limpio">
                 Salir
               </button>
@@ -100,4 +106,5 @@ function Navbar() {
     </header>
   );
 }
+
 export default Navbar;

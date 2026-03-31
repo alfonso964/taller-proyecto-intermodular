@@ -87,7 +87,7 @@
   width: 100%;
 }
 
-/* --- BOTÓN SALIR (NUEVO) --- */
+/* --- BOTÓN SALIR --- */
 .boton-salir-nav {
   background: rgba(230, 57, 70, 0.1);
   color: #e63946;
@@ -124,32 +124,41 @@
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
 }
 
-/* --- MENÚ HAMBURGUESA --- */
+/* --- MENÚ HAMBURGUESA (CORREGIDO) --- */
 .boton-menu {
-  display: none;
+  display: none; /* Se oculta en desktop */
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 10001;
+  padding: 10px;
+  z-index: 10002;
+}
+
+.hamburguesa {
+  display: block;
+  width: 30px;
 }
 
 .hamburguesa span {
   display: block;
-  width: 25px;
+  width: 100%;
   height: 3px;
-  margin: 5px;
+  margin: 6px 0;
   background: #f1f5f9;
+  border-radius: 3px;
   transition: all 0.3s ease;
 }
 
+/* Animaciones al abrir */
 .hamburguesa.abierto span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(9px) rotate(45deg);
 }
 .hamburguesa.abierto span:nth-child(2) {
   opacity: 0;
+  transform: translateX(-10px);
 }
 .hamburguesa.abierto span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* --- RESPONSIVE --- */
@@ -159,21 +168,23 @@
   }
 
   .boton-menu {
-    display: block;
+    display: block; /* Aparece en móvil */
   }
 
   .enlaces-lista {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 70%;
+    width: 280px; /* Ancho fijo más estético */
     height: 100vh;
     background: rgba(15, 23, 42, 0.98);
     backdrop-filter: blur(15px);
     flex-direction: column;
     justify-content: center;
-    transition: 0.4s ease-in-out;
+    gap: 40px; /* Más espacio entre enlaces */
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 10001;
   }
 
   .enlaces-lista.abierto {
@@ -181,17 +192,16 @@
   }
 
   .enlace-item {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   .boton-reserva {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .boton-salir-nav {
     width: 80%;
     text-align: center;
-    margin-top: 10px;
   }
 }
 
