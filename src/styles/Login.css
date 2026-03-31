@@ -1,26 +1,29 @@
 /* --- src/styles/Login.css --- */
 
-/* --- FONDO MODERNO Y LIMPIO --- */
+/* Reset preventivo para asegurar que los paddings no sumen ancho extra */
+.contenedor-login *, .contenedor-login *::before, .contenedor-login *::after {
+    box-sizing: border-box;
+}
+
 .contenedor-login {
     width: 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    /* Padding de seguridad para que la tarjeta no pegue a los bordes del móvil */
+    padding: 15px; 
     background: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0, transparent 50%), 
                 #f1f5f9;
     position: relative;
 }
 
-/* --- TARJETA MINIMALISTA (AJUSTADA) --- */
 .tarjeta-login {
     width: 100%;
-    /* Un ancho máximo ligeramente mayor para desktop */
     max-width: 420px; 
     background: #ffffff;
-    /* Padding generoso pero equilibrado para desktop */
-    padding: 50px; 
+    /* Padding balanceado para desktop */
+    padding: 50px 40px; 
     border-radius: 28px;
     border: 1px solid #e2e8f0;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
@@ -30,40 +33,40 @@
 
 .titulo-login {
     color: #1e3a8a; 
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 900;
     margin-bottom: 8px;
     text-align: center;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
     text-transform: uppercase;
 }
 
 .subtitulo-login {
     color: #64748b;
     font-size: 0.95rem;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     text-align: center;
     display: block;
     font-weight: 500;
 }
 
-/* --- FORMULARIO --- */
 .formulario-login {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
 }
 
 .entrada-login {
     width: 100%;
-    padding: 18px;
+    padding: 16px;
     background: #f8fafc;
     border: 1.5px solid #e2e8f0;
     border-radius: 14px;
     color: #0f172a;
     font-size: 1rem;
     transition: all 0.2s ease;
-    box-sizing: border-box;
+    /* Evita que el input se salga del contenedor */
+    display: block; 
 }
 
 .entrada-login:focus {
@@ -73,7 +76,6 @@
     box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
 }
 
-/* --- BOTÓN MEJORADO --- */
 .boton-login {
     width: 100%;
     padding: 18px;
@@ -85,33 +87,27 @@
     font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-top: 10px;
+    letter-spacing: 1px;
+    margin-top: 5px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    position: relative;
-    overflow: hidden;
 }
 
 .boton-login:hover {
     background: #1e40af; 
-    transform: translateY(-3px); 
-    box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
+    transform: translateY(-2px); 
+    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
 }
 
-.boton-login:active {
-    transform: translateY(-1px);
-}
-
-/* --- ENLACES SECUNDARIOS --- */
 .contenedor-enlace-secundario {
-    margin-top: 30px;
+    margin-top: 25px;
     text-align: center;
 }
 
 .texto-secundario {
     color: #64748b;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    line-height: 1.4;
 }
 
 .boton-enlace {
@@ -120,46 +116,32 @@
     color: #38bdf8; 
     cursor: pointer;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-left: 5px;
     padding: 0;
-    transition: all 0.2s ease;
     text-decoration: none;
-    display: inline-block;
 }
 
-.boton-enlace:hover {
-    color: #0ea5e9;
-    text-decoration: underline;
-}
-
-/* --- VISTA MÓVIL CORREGIDA Y OPTIMIZADA --- */
+/* --- AJUSTE FINAL PARA MÓVIL (CORRECCIÓN DE image_22ddf6.png) --- */
 @media (max-width: 480px) {
+    .contenedor-login {
+        padding: 10px; /* Reducimos el espacio exterior */
+    }
+
     .tarjeta-login {
-        /* Reducimos el padding interno drásticamente para ganar espacio lateral */
-        padding: 40px 25px; 
-        border-radius: 22px;
-        /* Forzamos que la tarjeta ocupe el 90% del ancho del viewport */
-        width: 90% !important; 
-        /* Aseguramos que no se pase del ancho máximo si la pantalla es muy pequeña */
-        max-width: none; 
-        /* Centramos la tarjeta con márgenes automáticos a los lados */
-        margin-left: auto;
-        margin-right: auto;
+        /* Reducimos el padding interno para que los inputs tengan más aire */
+        padding: 40px 20px; 
+        border-radius: 24px;
+        /* Quitamos cualquier restricción que cause el desbordamiento */
+        margin: 0 auto; 
     }
     
     .titulo-login {
-        font-size: 2.1rem;
-        letter-spacing: -1px;
+        font-size: 1.9rem;
     }
-    
+
     .subtitulo-login {
-        font-size: 0.9rem;
-        margin-bottom: 30px;
-    }
-    
-    .entrada-login, .boton-login {
-        padding: 16px; /* Ajuste sutil de padding en inputs/botones */
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        margin-bottom: 25px;
     }
 }

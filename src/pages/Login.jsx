@@ -11,13 +11,13 @@ const Login = () => {
   const manejarLogin = async (e) => {
     e.preventDefault();
     
-    // 1. Limpieza preventiva: nos aseguramos de que no haya restos de sesiones fallidas
+    // 1. Limpieza preventiva
     await supabase.auth.signOut();
     localStorage.clear();
 
     // 2. Inicio de sesión real
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim(), // El trim() evita errores por espacios invisibles al final
+      email: email.trim(),
       password,
     });
 
@@ -31,25 +31,20 @@ const Login = () => {
         .eq('id', data.user.id)
         .single();
 
-      // --- CAMBIO APLICADO AQUÍ ---
       if (perfilError) {
         console.error("DETALLE DEL ERROR 403:", perfilError); 
-        // Forzamos limpieza total si hay un error de permisos
         localStorage.clear(); 
         alert("Error de permisos: La base de datos aún bloquea el acceso. Revisa las políticas SQL.");
-        navigate('/historial'); // Redirección por defecto si algo falla
+        navigate('/historial'); 
         return;
       }
-      // ----------------------------
 
       // 4. Normalizamos y Redirigimos
       const rol = perfil?.rol?.toLowerCase();
       
       if (rol === 'admin') {
-        console.log("Acceso como Administrador");
         navigate('/admin');
       } else {
-        console.log("Acceso como Cliente");
         navigate('/historial');
       }
     }
