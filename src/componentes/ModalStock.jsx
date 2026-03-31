@@ -40,9 +40,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
     }
   };
 
-  // --- FUNCIÓN DE ACTUALIZACIÓN GENÉRICA ---
   const actualizarCampoPieza = async (id, campo, valor) => {
-    // Formateamos el valor según el tipo de columna
     let valorFormateado = valor;
     if (campo === 'stock') valorFormateado = parseInt(valor) || 0;
     if (campo === 'precio' || campo === 'precio_coste') valorFormateado = parseFloat(valor) || 0;
@@ -53,12 +51,10 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
       .eq('id', id);
 
     if (!error) {
-      // Opcional: No recargamos toda la lista para evitar parpadeos, 
-      // pero avisamos al padre para que actualice gráficas/alertas.
       if (onUpdate) onUpdate();
     } else {
       alert("Error al actualizar: " + error.message);
-      cargarPiezas(); // Recargamos para revertir el cambio visual fallido
+      cargarPiezas();
     }
   };
 
@@ -174,7 +170,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                     <td>
                       <input 
                         type="number" 
-                        className="input-celda-edicion"
+                        className="input-celda-edicion precio-input"
                         defaultValue={pieza.precio_coste} 
                         onBlur={(e) => actualizarCampoPieza(pieza.id, 'precio_coste', e.target.value)}
                       />
@@ -182,7 +178,7 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
                     <td>
                       <input 
                         type="number" 
-                        className="input-celda-edicion venta-input"
+                        className="input-celda-edicion precio-input venta-resaltada"
                         defaultValue={pieza.precio} 
                         onBlur={(e) => actualizarCampoPieza(pieza.id, 'precio', e.target.value)}
                       />
