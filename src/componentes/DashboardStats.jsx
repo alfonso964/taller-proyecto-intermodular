@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   Chart as ChartJS,
@@ -162,7 +163,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
       </div>
       
       <div className="grafico-card">
-        <h3>🍰 Top 5 Piezas Usadas</h3>
+        <h3>🔧 Top 5 Piezas Usadas</h3>
         <div className="canvas-container">
             <Pie data={dataTarta} options={{ ...opciones, scales: {} }} />
         </div>
