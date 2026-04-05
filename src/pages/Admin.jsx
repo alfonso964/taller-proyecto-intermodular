@@ -76,20 +76,23 @@ const Admin = () => {
     setModalDetalleAbierto(true);
   };
 
+  // --- FUNCIÓN CORREGIDA ---
   const toggleFinalizar = async (idCita, estadoActual, e) => {
     e.stopPropagation(); 
     
-    // 1. Determinar nuevo estado con ternario
     const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
 
-    // 2. Actualización OPTIMISTA (cambia la UI antes de que responda el servidor)
+    // 1. Guardar copia del estado actual por si falla la red
+    const copiaSeguridadLista = [...listaCitas];
+    const copiaSeguridadResumen = { ...resumen };
+
+    // 2. Actualización OPTIMISTA (UI inmediata)
     const nuevaListaCitas = listaCitas.map(c => 
       c.id === idCita ? { ...c, estado: nuevoEstado } : c
     );
     
     setListaCitas(nuevaListaCitas);
     
-    // Actualizar contador del resumen inmediatamente
     const nuevasActivas = nuevaListaCitas.filter(c => c.estado !== 'FINALIZADA').length;
     setResumen(prev => ({ ...prev, citas: nuevasActivas }));
 
@@ -101,18 +104,19 @@ const Admin = () => {
 
       if (error) throw error;
       
-      // 3. Recargar datos reales para confirmar que todo está sincronizado
-      await cargarDatosReales(); 
+      // Si llegamos aquí, no llamamos a cargarDatosReales() para no "pisar" la UI
+      console.log("Estado actualizado en servidor");
       
     } catch (error) {
-      console.error("Error Supabase:", error);
-      alert("Error al actualizar el estado");
-      // Si falla, revertimos cargando los datos reales de nuevo
-      await cargarDatosReales();
+      console.error("Error en servidor:", error);
+      alert("No se pudo sincronizar el cambio. Reintentando...");
+      
+      // REVERSIÓN: Si falla el servidor, volvemos a lo que teníamos
+      setListaCitas(copiaSeguridadLista);
+      setResumen(copiaSeguridadResumen);
     }
   };
 
-  // Filtro para la tabla: Solo mostramos las que no están terminadas
   const citasParaMostrar = listaCitas.filter(cita => cita.estado !== 'FINALIZADA');
 
   return (
@@ -195,7 +199,10 @@ const Admin = () => {
                       <td>{cita.reparacion}</td>
                       <td>{new Date(cita.fecha).toLocaleDateString()}</td>
                       <td>
-                          <button className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`} onClick={(e) => toggleFinalizar(cita.id, cita.estado, e)}>
+                          <button 
+                            className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`} 
+                            onClick={(e) => toggleFinalizar(cita.id, cita.estado, e)}
+                          >
                           {esFinalizada ? '✅ Finalizada' : '⏳ En Proceso'}
                           </button>
                       </td>
