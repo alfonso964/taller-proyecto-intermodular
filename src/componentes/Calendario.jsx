@@ -19,7 +19,10 @@ function Calendario({ onFechaSeleccionada }) {
           title: `Ocupado`,
           start: cita.fecha,
           end: new Date(new Date(cita.fecha).getTime() + (cita.duracionEstimada || 60) * 60000),
-          className: 'cita-ocupada' 
+          className: 'cita-ocupada',
+          display: 'background', // Esto hace que resalte el bloque como ocupado
+          backgroundColor: '#ffcccc',
+          overlap: false
         }));
         setEventos(citasFormateadas);
       } catch (err) {
@@ -80,7 +83,7 @@ function Calendario({ onFechaSeleccionada }) {
           right: 'timeGridWeek,timeGridDay'
         }}
         slotMinTime="08:00:00"
-        slotMaxTime="20:30:00" // Forzamos hasta las 20:30 para ver bien el cierre de las 19:30
+        slotMaxTime="20:30:00"
         allDaySlot={false}
         hiddenDays={[0, 6]} 
         slotDuration="00:30:00"
@@ -99,6 +102,7 @@ function Calendario({ onFechaSeleccionada }) {
           }
         ]}
 
+        // Restricciones visuales y de interacción
         selectConstraint="businessHours"
         eventConstraint="businessHours"
         slotEventOverlap={false}
@@ -106,6 +110,8 @@ function Calendario({ onFechaSeleccionada }) {
         dateClick={handleDateClick}
         height="auto"
         nowIndicator={true}
+        selectable={true}
+        selectMirror={true}
         validRange={{
           start: new Date().toISOString().split('T')[0] 
         }}
