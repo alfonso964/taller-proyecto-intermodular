@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  Filler, // <-- CORRECCIÓN: Importar Filler
 } from 'chart.js';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import '../styles/DashboardStats.css'; 
@@ -24,12 +25,13 @@ ChartJS.register(
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler // <-- CORRECCIÓN: Registrar Filler
 );
 
-const DashboardStats = ({ listaCitas, piezasUsadas }) => {
+const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
   
-  // --- 1. FUNCIÓN DE CLASIFICACIÓN (Mapeo de reparaciones a categorías) ---
+  // --- 1. FUNCIÓN DE CLASIFICACIÓN ---
   const clasificarReparacion = (texto) => {
     if (!texto) return 'Otros';
     const t = texto.toLowerCase();
@@ -59,7 +61,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
       borderColor: '#38bdf8',
       backgroundColor: 'rgba(56, 189, 248, 0.1)',
       tension: 0.4,
-      fill: true,
+      fill: true, // Ahora funciona gracias al Filler plugin
       pointBackgroundColor: '#38bdf8',
       pointBorderColor: '#fff',
       pointHoverRadius: 6,
@@ -79,13 +81,7 @@ const DashboardStats = ({ listaCitas, piezasUsadas }) => {
       label: 'Servicios por Categoría',
       data: Object.values(conteoCategorias),
       backgroundColor: [
-        '#38bdf8', // Neumáticos
-        '#818cf8', // Mantenimiento
-        '#2dd4bf', // Mecánica General
-        '#fbbf24', // Seguridad
-        '#f472b6', // Suspensión
-        '#a78bfa', // Cristalería
-        '#94a3b8'  // Otros
+        '#38bdf8', '#818cf8', '#2dd4bf', '#fbbf24', '#f472b6', '#a78bfa', '#94a3b8'
       ],
       borderRadius: 8,
     }],
