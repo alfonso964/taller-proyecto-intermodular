@@ -1,0 +1,129 @@
+/* --- src/styles/BarraFiltros.css --- */
+
+.contenedor-barra-filtros {
+  background: white;
+  padding: 25px;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.seccion-busqueda {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icono-busqueda {
+  position: absolute;
+  left: 18px;
+  color: #94a3b8;
+}
+
+.input-busqueda {
+  width: 100%;
+  padding: 14px 14px 14px 50px;
+  border-radius: 15px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-busqueda:focus {
+  border-color: #38bdf8;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+}
+
+.seccion-botones {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap; /* Permite que los botones bajen si no caben */
+}
+
+.texto-filtro {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  white-space: nowrap; /* Evita que el texto "ESTADOS:" se parta */
+}
+
+.grupo-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.boton-pill {
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Mantiene el texto del botón en una sola línea */
+}
+
+.boton-pill:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.boton-pill.activo {
+  background: #38bdf8;
+  color: #0f172a;
+  border-color: #38bdf8;
+  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.25);
+}
+
+/* --- AJUSTES RESPONSIVE (Móviles y Tablets) --- */
+
+@media (max-width: 768px) {
+  .contenedor-barra-filtros {
+    padding: 15px; /* Menos padding en móvil para ganar espacio */
+    gap: 15px;
+  }
+
+  .seccion-botones {
+    flex-direction: column; /* Apilamos la etiqueta arriba y los botones abajo */
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .grupo-pills {
+    width: 100%;
+    justify-content: flex-start; /* Alinea botones a la izquierda */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de botones iguales en móvil */
+  }
+
+  .boton-pill {
+    text-align: center;
+    width: 100%; /* Que ocupen todo el ancho de su columna de rejilla */
+    padding: 10px 5px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* En móviles muy pequeños, quizás prefieras que respiren más */
+  .input-busqueda {
+    font-size: 0.9rem;
+    padding-left: 40px;
+  }
+  
+  .icono-busqueda {
+    left: 14px;
+  }
+}

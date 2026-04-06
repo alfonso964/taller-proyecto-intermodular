@@ -1,0 +1,85 @@
+/* --- src/styles/StatsBanner.css --- */
+
+.contenedor-banner-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+  padding: 10px 0;
+}
+
+.tarjeta-stat {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Efecto de elevación sutil para que combine con tus tarjetas de coches */
+.tarjeta-stat:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+  border-color: #38bdf8;
+}
+
+.icono-stat {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Colores de los iconos (basados en el estado) */
+.icono-stat.total { background: rgba(56, 189, 248, 0.15); color: #0284c7; }
+.icono-stat.completada { background: rgba(74, 222, 128, 0.15); color: #16a34a; }
+.icono-stat.proceso { background: rgba(251, 191, 36, 0.15); color: #d97706; }
+.icono-stat.vehiculos { background: rgba(30, 41, 59, 0.1); color: #1e293b; }
+
+.info-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.valor-stat {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.etiqueta-stat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  .contenedor-banner-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .tarjeta-stat {
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .valor-stat {
+    font-size: 1.2rem;
+  }
+
+  .etiqueta-stat {
+    font-size: 0.65rem;
+  }
+}

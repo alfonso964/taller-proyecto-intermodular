@@ -1,28 +1,50 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTools, FaHistory, FaClock, FaCheckDouble } from 'react-icons/fa';
+import { FaTools, FaHistory, FaClock, FaCheckDouble, FaCarSide, FaEuroSign } from 'react-icons/fa';
+import StatsBanner from '../componentes/StatsBanner';
+import BarraFiltros from '../componentes/BarraFiltros'; 
 import '../styles/MisReparaciones.css';
 
 function MisReparaciones() {
   const [reparaciones, setReparaciones] = useState([]);
   const [cargando, setCargando] = useState(true);
+  
+  const [busqueda, setBusqueda] = useState('');
+  const [filtroEstado, setFiltroEstado] = useState('TODAS');
+
+  const [estadisticas, setEstadisticas] = useState({
+    total: 0,
+    finalizadas: 0,
+    pendientes: 0,
+    vehiculos: 0
+  });
 
   useEffect(() => {
     fetchReparaciones();
   }, []);
 
+  const calcularEstadisticas = (datos) => {
+    const stats = {
+      total: datos.length,
+      finalizadas: datos.filter(r => r.estado?.toUpperCase() === 'FINALIZADA').length,
+      // Solo contamos como pendiente lo que explícitamente sea PENDIENTE
+      pendientes: datos.filter(r => r.estado?.toUpperCase() === 'PENDIENTE').length,
+      vehiculos: new Set(datos.map(r => r.matricula?.toUpperCase() || `${r.marca}-${r.modelo}`)).size 
+    };
+    setEstadisticas(stats);
+  };
+
   const fetchReparaciones = async () => {
     try {
       setCargando(true);
-      // 1. Obtener el usuario actual
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       
       if (userError) throw userError;
 
       if (user) {
-        // 2. Traer las citas filtradas por el ID del usuario logueado
         const { data, error } = await supabase
           .from('citas')
           .select('*')
@@ -30,20 +52,32 @@ function MisReparaciones() {
           .order('fecha', { ascending: false });
 
         if (error) throw error;
+        
         setReparaciones(data || []);
+        calcularEstadisticas(data || []);
       }
-      // Quitamos el finally y cerramos la carga aquí si todo va bien
       setCargando(false);
     } catch (error) {
       console.error("Error al cargar historial:", error.message);
-      setCargando(false); // También cerramos la carga si hay error
+      setCargando(false);
     }
   };
+
+  const reparacionesFiltradas = reparaciones.filter(rep => {
+    const coincideEstado = filtroEstado === 'TODAS' || rep.estado?.toUpperCase() === filtroEstado;
+    const textoBusqueda = busqueda.toLowerCase();
+    const coincideTexto = 
+      rep.marca?.toLowerCase().includes(textoBusqueda) ||
+      rep.modelo?.toLowerCase().includes(textoBusqueda) ||
+      rep.matricula?.toLowerCase().includes(textoBusqueda) ||
+      rep.reparacion?.toLowerCase().includes(textoBusqueda);
+    
+    return coincideEstado && coincideTexto;
+  });
 
   const getIconoEstado = (estado) => {
     switch (estado?.toUpperCase()) {
       case 'PENDIENTE': return <FaClock color="#f39c12" />;
-      case 'EN PROCESO': return <FaTools color="#38bdf8" />;
       case 'FINALIZADA': return <FaCheckDouble color="#22c55e" />;
       default: return <FaHistory />;
     }
@@ -57,38 +91,39 @@ function MisReparaciones() {
         className="historial-header"
       >
         <h1><FaHistory /> Mi Historial de Reparaciones</h1>
-        <p>Consulta el estado de tus citas y las piezas sustituidas en tu vehículo.</p>
+        <p>Gestiona los vehículos de tu flota y consulta desgloses de costes.</p>
       </motion.div>
 
+      {!cargando && (
+        <>
+          <StatsBanner estadisticas={estadisticas} />
+          
+          <BarraFiltros 
+            alFiltrar={setBusqueda} 
+            filtroEstado={filtroEstado} 
+            alCambiarEstado={setFiltroEstado} 
+          />
+        </>
+      )}
+
       <div className="historial-grid">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout">
           {cargando ? (
-            <motion.p 
-              key="loading"
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }}
-              className="status-msg"
-            >
+            <motion.p key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="status-msg">
               Consultando base de datos...
             </motion.p>
-          ) : reparaciones.length === 0 ? (
-            <motion.div 
-              key="empty"
-              className="sin-datos" 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <p>No tienes ninguna reparación registrada todavía.</p>
+          ) : reparacionesFiltradas.length === 0 ? (
+            <motion.div key="empty" className="sin-datos" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <p>{busqueda || filtroEstado !== 'TODAS' ? "No hay reparaciones que coincidan con el filtro." : "No tienes ninguna reparación registrada."}</p>
             </motion.div>
           ) : (
-            reparaciones.map((item) => (
+            reparacionesFiltradas.map((item) => (
               <motion.div 
                 key={item.id}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 className="card-reparacion"
               >
                 <div className="card-top">
@@ -102,13 +137,24 @@ function MisReparaciones() {
                 </div>
 
                 <div className="card-body">
-                  <h2 className="vehiculo-titulo">{item.marca} {item.modelo}</h2>
+                  <div className="vehiculo-info">
+                    <h2 className="vehiculo-titulo">{item.marca} {item.modelo}</h2>
+                    {item.matricula && <span className="matricula-tag"><FaCarSide /> {item.matricula.toUpperCase()}</span>}
+                  </div>
+                  
                   <p className="reparacion-desc"><strong>Motivo:</strong> {item.reparacion}</p>
                   
                   <div className="piezas-box">
-                    <span className="piezas-label">Piezas utilizadas:</span>
-                    <p>{item.piezas || "El técnico aún no ha desglosado las piezas."}</p>
+                    <span className="piezas-label">Detalles de la intervención:</span>
+                    <p>{item.piezas || "Pendiente de desglose técnico."}</p>
                   </div>
+
+                  {(item.precio_total > 0) && (
+                    <div className="coste-box">
+                      <FaEuroSign size={14} />
+                      <span>Total Reparación: <strong>{item.precio_total}€</strong></span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="card-footer">

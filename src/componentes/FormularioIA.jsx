@@ -11,8 +11,17 @@ import '../styles/FormularioIA.css';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 function FormularioIA() {
+  // Estado actualizado con matricula y horas_reales
   const [vehiculo, setVehiculo] = useState({ 
-    marca: '', modelo: '', anio: '', kilometraje: '', reparacion: '' });
+    marca: '', 
+    modelo: '', 
+    anio: '', 
+    kilometraje: '', 
+    reparacion: '',
+    matricula: '',
+    horas_reales: '' // Se inicializa vacío para el input
+  });
+  
   const [respuestaIA, setRespuestaIA] = useState('');
   const [fechaSugeridaIA, setFechaSugeridaIA] = useState(null); 
   const [cargando, setCargando] = useState(false);
@@ -34,7 +43,7 @@ function FormularioIA() {
     const contextoTemporal = {
         ...vehiculo,
         fechaActual: new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }),
-        mensajeAdicional: "Por favor, si sugieres una cita para hoy, verifica que la hora sea posterior a la actual."
+        mensajeAdicional: "Por favor, si sugieres una cita para hoy, verifica que la hora sea posterior a la actual. Además, intenta estimar el tiempo de trabajo necesario."
     };
 
     try {
@@ -65,6 +74,10 @@ function FormularioIA() {
 
       const fechaFinal = typeof fechaElegida === 'string' ? fechaElegida : fechaElegida.toISOString();
       
+      // Lógica de negocio: 40€ por hora
+      const horas = parseFloat(vehiculo.horas_reales) || 0;
+      const manoDeObra = horas * 40;
+
       const { error } = await supabase
         .from('citas')
         .insert([
@@ -74,6 +87,10 @@ function FormularioIA() {
             anio: vehiculo.anio,
             kilometraje: vehiculo.kilometraje,
             reparacion: vehiculo.reparacion,
+            matricula: vehiculo.matricula.toUpperCase(), // Guardamos siempre en mayúsculas
+            horas_reales: horas,
+            precio_mano_obra: manoDeObra,
+            precio_total: manoDeObra, // Por defecto al crearla, el total es la mano de obra
             fecha: fechaFinal,
             id_usuario: user.id, 
             contacto_invitado: user.email,
@@ -84,7 +101,8 @@ function FormularioIA() {
       if (error) throw error;
 
       alert("✅ Cita confirmada correctamente en el sistema.");
-      setVehiculo({ marca: '', modelo: '', anio: '', kilometraje: '', reparacion: '' });
+      // Limpiamos todo el estado
+      setVehiculo({ marca: '', modelo: '', anio: '', kilometraje: '', reparacion: '', matricula: '', horas_reales: '' });
       setRespuestaIA('');
       setFechaSugeridaIA(null);
       cerrarCalendario();
@@ -106,8 +124,8 @@ function FormularioIA() {
           <h2>Diagnóstico Inteligente</h2>
           <p>Análisis en tiempo real basado en datos técnicos avanzados.</p>
           <ul className="ia-lista-beneficios">
-            <li>✅ Diagnóstico preciso.</li>
-            <li>✅ Estimación de tiempos.</li>
+            <li>✅ Diagnóstico preciso por matrícula.</li>
+            <li>✅ Estimación de tiempos y costes.</li>
             <li>✅ Reserva inmediata.</li>
           </ul>
         </motion.div>
@@ -121,12 +139,16 @@ function FormularioIA() {
           
           <form onSubmit={enviarADiagnostico} className="ia-formulario">
             <div className="ia-fila-input">
+              <input name="matricula" placeholder="Matrícula" value={vehiculo.matricula} onChange={manejarCambioInput} required />
               <input name="marca" placeholder="Marca" value={vehiculo.marca} onChange={manejarCambioInput} required />
-              <input name="modelo" placeholder="Modelo" value={vehiculo.modelo} onChange={manejarCambioInput} required />
             </div>
             <div className="ia-fila-input">
+              <input name="modelo" placeholder="Modelo" value={vehiculo.modelo} onChange={manejarCambioInput} required />
               <input name="anio" placeholder="Año" value={vehiculo.anio} onChange={manejarCambioInput} required />
+            </div>
+            <div className="ia-fila-input">
               <input name="kilometraje" placeholder="Kilometraje" value={vehiculo.kilometraje} onChange={manejarCambioInput} required />
+              <input name="horas_reales" type="number" step="0.5" placeholder="Horas estimadas" value={vehiculo.horas_reales} onChange={manejarCambioInput} />
             </div>
             <textarea name="reparacion" placeholder="Describe la reparación" value={vehiculo.reparacion} onChange={manejarCambioInput} required />
             
@@ -154,8 +176,6 @@ function FormularioIA() {
                     Procesando diagnóstico técnico...
                   </motion.span>
                 </div>
-                
-                {/* BARRA DE CARGA ESTILO IA */}
                 <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden', position: 'relative' }}>
                   <motion.div 
                     initial={{ x: '-100%' }}
