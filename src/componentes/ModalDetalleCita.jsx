@@ -63,7 +63,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
       if (error) throw error;
 
       setPiezaSeleccionada('');
-      setFiltroPieza(''); // Limpiamos también el buscador
+      setFiltroPieza(''); 
       setCantidad(1);
       cargarDatos();
       if (onUpdate) onUpdate(); 

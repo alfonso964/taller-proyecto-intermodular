@@ -56,7 +56,6 @@ function Navbar() {
 
   const cerrarMenu = () => setEstaAbierto(false);
   
-  // Función para alternar el menú
   const toggleMenu = () => setEstaAbierto(!estaAbierto);
 
   return (
@@ -69,7 +68,6 @@ function Navbar() {
           </NavLink>
         </div>
 
-        {/* --- BOTÓN HAMBURGUESA AÑADIDO AQUÍ --- */}
         <button className="boton-menu" onClick={toggleMenu} aria-label="Menu">
           <div className={`hamburguesa ${estaAbierto ? "abierto" : ""}`}>
             <span></span>
@@ -88,7 +86,10 @@ function Navbar() {
               {rol === 'admin' ? (
                 <NavLink to="/admin" className="enlace-item" onClick={cerrarMenu}>Panel Admin</NavLink>
               ) : (
-                <NavLink to="/historial" className="enlace-item" onClick={cerrarMenu}>Mis Reparaciones</NavLink>
+                /* RUTA CORREGIDA AQUÍ */
+                <NavLink to="/mis-reparaciones" className="enlace-item" onClick={cerrarMenu}>
+                  Mis Reparaciones
+                </NavLink>
               )}
               <button onClick={cerrarSesion} className="enlace-item btn-logout-limpio">
                 Salir
