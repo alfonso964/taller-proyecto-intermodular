@@ -32,15 +32,15 @@ function MisReparaciones() {
         if (error) throw error;
         setReparaciones(data || []);
       }
+      // Quitamos el finally y cerramos la carga aquí si todo va bien
+      setCargando(false);
     } catch (error) {
       console.error("Error al cargar historial:", error.message);
-    } finally {
-      setCargando(false);
+      setCargando(false); // También cerramos la carga si hay error
     }
   };
 
   const getIconoEstado = (estado) => {
-    // Normalizamos a mayúsculas para evitar errores de coincidencia
     switch (estado?.toUpperCase()) {
       case 'PENDIENTE': return <FaClock color="#f39c12" />;
       case 'EN PROCESO': return <FaTools color="#38bdf8" />;
@@ -102,7 +102,7 @@ function MisReparaciones() {
                 </div>
 
                 <div className="card-body">
-                  <h2>{item.marca} {item.modelo}</h2>
+                  <h2 className="vehiculo-titulo">{item.marca} {item.modelo}</h2>
                   <p className="reparacion-desc"><strong>Motivo:</strong> {item.reparacion}</p>
                   
                   <div className="piezas-box">

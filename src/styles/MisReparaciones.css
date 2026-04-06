@@ -1,8 +1,8 @@
 .historial-layout {
-  padding: 40px 20px;
+  padding: 100px 20px 40px; /* Padding superior para que no lo tape el Navbar */
   max-width: 1200px;
   margin: 0 auto;
-  color: white;
+  min-height: 100vh;
 }
 
 .historial-header {
@@ -11,26 +11,34 @@
 }
 
 .historial-header h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
   margin-bottom: 10px;
+  color: #38bdf8; /* Azul para resaltar sobre el fondo oscuro */
+}
+
+.historial-header p {
+  color: #94a3b8;
 }
 
 .historial-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 25px;
 }
 
 .card-reparacion {
-  background: rgba(30, 41, 59, 0.7);
+  background: rgba(30, 41, 59, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 20px;
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-top {
@@ -58,11 +66,28 @@
   font-size: 0.8rem;
 }
 
+/* Colores dinámicos por estado */
+.estado-tag.pendiente { color: #f39c12; }
+.estado-tag.en-proceso { color: #38bdf8; }
+.estado-tag.finalizada { color: #22c55e; }
+
+.vehiculo-titulo {
+  color: white;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.reparacion-desc {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
 .piezas-box {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px;
   border-radius: 10px;
   margin-top: 15px;
+  border-left: 3px solid #38bdf8;
 }
 
 .piezas-label {
@@ -80,4 +105,27 @@
   justify-content: space-between;
   font-size: 0.9rem;
   color: #94a3b8;
+}
+
+.status-msg, .sin-datos {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+/* --- AJUSTES MÓVIL --- */
+@media (max-width: 600px) {
+  .historial-layout {
+    padding-top: 80px;
+  }
+  
+  .historial-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-top {
+    flex-direction: row; /* Mantenemos horizontal para que no ocupe tanto */
+    font-size: 0.8rem;
+  }
 }
