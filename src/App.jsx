@@ -8,8 +8,11 @@ import Contacto from './pages/Contacto';
 
 // Importamos las páginas de autenticación y gestión
 import Login from './pages/Login';
-import SignUp from './pages/SignUp'; // <-- Añadimos este import
+import SignUp from './pages/SignUp'; 
 import Admin from './pages/Admin';
+
+// 1. IMPORTAMOS EL NUEVO COMPONENTE
+import MisReparaciones from './pages/MisReparaciones'; 
 
 function App() {
 
@@ -22,20 +25,13 @@ function App() {
           <Route path="/reserva-ia" element={<Consulta />} />
           <Route path="/contacto" element={<Contacto />} />
           
-          {/* Rutas de Acceso */}
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} /> {/* <-- Nueva ruta de registro */}
+          <Route path="/signup" element={<SignUp />} />
           
-          {/* Ruta de Administración */}
           <Route path="/admin" element={<Admin />} />
           
-        {/* Busca esta parte en tu App.jsx y cambia 'white' por '#1a2a4d' */}
-          <Route path="/historial" element={
-            <div style={{paddingTop: '100px', color: '#1a2a4d', textAlign: 'center'}}>
-              <h2>Mis Reparaciones</h2>
-              <p>Próximamente: Tu historial de reparaciones y estado del vehículo.</p>
-            </div>
-          } />
+          <Route path="/mis-reparaciones" element={<MisReparaciones />} />
+
         </Routes>
       </BrowserRouter>
   )
