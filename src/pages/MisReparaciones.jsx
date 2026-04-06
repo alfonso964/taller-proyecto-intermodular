@@ -15,17 +15,22 @@ function MisReparaciones() {
 
   const fetchReparaciones = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      setCargando(true);
+      // 1. Obtener el usuario actual
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
       
+      if (userError) throw userError;
+
       if (user) {
+        // 2. Traer las citas filtradas por el ID del usuario logueado
         const { data, error } = await supabase
           .from('citas')
           .select('*')
-          .eq('id_usuario', user.id) // Seguridad: Solo trae las del usuario actual
+          .eq('id_usuario', user.id) 
           .order('fecha', { ascending: false });
 
         if (error) throw error;
-        setReparaciones(data);
+        setReparaciones(data || []);
       }
     } catch (error) {
       console.error("Error al cargar historial:", error.message);
@@ -35,6 +40,7 @@ function MisReparaciones() {
   };
 
   const getIconoEstado = (estado) => {
+    // Normalizamos a mayúsculas para evitar errores de coincidencia
     switch (estado?.toUpperCase()) {
       case 'PENDIENTE': return <FaClock color="#f39c12" />;
       case 'EN PROCESO': return <FaTools color="#38bdf8" />;
@@ -55,11 +61,25 @@ function MisReparaciones() {
       </motion.div>
 
       <div className="historial-grid">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {cargando ? (
-            <p className="status-msg">Consultando base de datos...</p>
+            <motion.p 
+              key="loading"
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              className="status-msg"
+            >
+              Consultando base de datos...
+            </motion.p>
           ) : reparaciones.length === 0 ? (
-            <motion.div className="sin-datos" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <motion.div 
+              key="empty"
+              className="sin-datos" 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
               <p>No tienes ninguna reparación registrada todavía.</p>
             </motion.div>
           ) : (
@@ -73,11 +93,11 @@ function MisReparaciones() {
               >
                 <div className="card-top">
                   <span className="fecha-badge">
-                    {new Date(item.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    {item.fecha ? new Date(item.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '---'}
                   </span>
-                  <div className={`estado-tag ${item.estado?.toLowerCase().replace(" ", "-")}`}>
+                  <div className={`estado-tag ${item.estado?.toLowerCase().replace(/\s+/g, "-")}`}>
                     {getIconoEstado(item.estado)}
-                    {item.estado}
+                    <span>{item.estado || 'PENDIENTE'}</span>
                   </div>
                 </div>
 

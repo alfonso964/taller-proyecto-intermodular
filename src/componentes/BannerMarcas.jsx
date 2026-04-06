@@ -13,7 +13,7 @@ function BannerMarcas() {
       nombre: "CITROËN",
       logo: "/logoCitroen.webp",
       url: "https://www.citroen.es",
-      claseExtra: "ajuste-citroen" // <--- Añadido para el ajuste visual
+      claseExtra: "ajuste-citroen" 
     },
     {
       id: 3,
@@ -37,7 +37,7 @@ function BannerMarcas() {
               <img 
                 src={marca.logo} 
                 alt={marca.nombre} 
-                className={marca.claseExtra || ""} // <--- Aplicación de la clase
+                className={marca.claseExtra || ""}
               />
             </div>
             <h3>{marca.nombre}</h3>
