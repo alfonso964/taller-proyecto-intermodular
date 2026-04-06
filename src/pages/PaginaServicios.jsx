@@ -77,7 +77,6 @@ function PaginaServicios() {
         </section>
       </div>
       
-      {/* COMPONENTE MODAL */}
       <ModalDetalleServicio 
         servicio={servicioSeleccionado} 
         cerrar={() => setServicioSeleccionado(null)} 
