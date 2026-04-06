@@ -1,6 +1,6 @@
 /* --- src/styles/MisReparaciones.css --- */
 
-/* Contenedor Principal - Gris Neutro Profesional */
+/* Contenedor Principal */
 .historial-layout {
   padding: 120px 20px 60px;
   max-width: 1200px;
@@ -8,7 +8,6 @@
   min-height: 100vh;
   background-color: #f8fafc;
   background-image: radial-gradient(at 50% 0%, #ffffff 0, transparent 70%);
-  /* Añadimos perspectiva al contenedor para que el efecto 3D sea más real */
   perspective: 1000px;
 }
 
@@ -40,14 +39,13 @@
   font-weight: 500;
 }
 
-/* Grid de Reparaciones */
 .historial-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 40px; /* Aumentamos el gap para que al levantarse no choque visualmente */
+  gap: 40px;
 }
 
-/* Tarjeta AZUL sobre fondo GRIS */
+/* Tarjeta Principal */
 .card-reparacion {
   background: #1e293b;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -56,30 +54,16 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  
-  /* TRANSICIÓN MÁS DINÁMICA: Aumentamos el tiempo y usamos un Back Out para un rebote sutil */
-  transition: 
-    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-    box-shadow 0.6s ease, 
-    background 0.3s ease;
-
-  /* Sombra inicial: Pegada al suelo */
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease, background 0.3s ease;
   box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
   transform-style: preserve-3d;
 }
 
-/* EFECTO HOVER: LEVANTAMIENTO AGRESIVO */
 .card-reparacion:hover {
-  /* Elevación mayor (30px) y escala para que se note el cambio de plano */
   transform: translateY(-30px) scale(1.05); 
   background: #243147; 
   border-color: rgba(56, 189, 248, 0.6);
-
-  /* SOMBRA DE PROFUNDIDAD: Muy alejada y difusa */
-  /* El tercer valor (80px) crea esa sensación de que la luz está lejos */
-  box-shadow: 
-    0 50px 80px -20px rgba(15, 23, 42, 0.35), 
-    0 30px 40px -30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 50px 80px -20px rgba(15, 23, 42, 0.35), 0 30px 40px -30px rgba(0, 0, 0, 0.5);
 }
 
 .card-top {
@@ -106,55 +90,107 @@
   font-weight: 800;
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .estado-tag.pendiente { color: #fbbf24; }
-.estado-tag.en-proceso { color: #38bdf8; }
 .estado-tag.finalizada { color: #4ade80; }
+
+.vehiculo-encabezado {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
 .vehiculo-titulo {
   color: #ffffff;
   font-size: 1.8rem;
   font-weight: 800;
-  margin-bottom: 8px;
-  text-transform: capitalize;
   background: linear-gradient(to bottom, #ffffff, #cbd5e1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.matricula-tag {
+  align-self: flex-start;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-family: 'Monaco', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .reparacion-desc {
   color: #94a3b8;
   font-size: 1rem;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
-/* Caja de Piezas */
 .piezas-box {
   background: rgba(15, 23, 42, 0.4); 
-  padding: 20px;
+  padding: 15px;
   border-radius: 18px;
-  border: 1px solid rgba(56, 189, 248, 0.1);
-  backdrop-filter: blur(4px);
-  margin-top: auto;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 20px;
 }
 
 .piezas-label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  color: #38bdf8;
+  color: #94a3b8;
   text-transform: uppercase;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  margin-bottom: 5px;
 }
 
 .piezas-box p {
   color: #cbd5e1;
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
   font-style: italic;
+}
+
+/* --- NUEVO: Estilos del Desglose Económico (Ticket) --- */
+.desglose-economico {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px dashed rgba(148, 163, 184, 0.3);
+}
+
+.linea-desglose {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.linea-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 800;
+}
+
+.linea-total span:first-child {
+  color: #ffffff;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.precio-enfasis {
+  color: #4ade80;
+  font-size: 1.3rem;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
 }
 
 .card-footer {
@@ -174,20 +210,8 @@
   border-radius: 8px;
 }
 
-/* --- AJUSTES MÓVIL --- */
+/* Ajustes Móvil */
 @media (max-width: 768px) {
-  .historial-layout {
-    padding: 100px 15px 40px;
-  }
-  
-  .historial-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .card-reparacion:hover {
-    /* En móvil suavizamos el efecto para que no se salga de la pantalla */
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.4);
-  }
+  .historial-grid { grid-template-columns: 1fr; }
+  .card-reparacion:hover { transform: translateY(-15px) scale(1.02); }
 }

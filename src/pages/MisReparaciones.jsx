@@ -30,7 +30,6 @@ function MisReparaciones() {
     const stats = {
       total: datos.length,
       finalizadas: datos.filter(r => r.estado?.toUpperCase() === 'FINALIZADA').length,
-      // Solo contamos como pendiente lo que explícitamente sea PENDIENTE
       pendientes: datos.filter(r => r.estado?.toUpperCase() === 'PENDIENTE').length,
       vehiculos: new Set(datos.map(r => r.matricula?.toUpperCase() || `${r.marca}-${r.modelo}`)).size 
     };
@@ -149,12 +148,25 @@ function MisReparaciones() {
                     <p>{item.piezas || "Pendiente de desglose técnico."}</p>
                   </div>
 
-                  {(item.precio_total > 0) && (
-                    <div className="coste-box">
-                      <FaEuroSign size={14} />
-                      <span>Total Reparación: <strong>{item.precio_total}€</strong></span>
+                  {/* NUEVA SECCIÓN DE DESGLOSE ECONÓMICO */}
+                  <div className="desglose-economico">
+                    <div className="linea-desglose">
+                      <span>Mano de Obra ({item.horas_reales || 0}h)</span>
+                      <span>{item.precio_mano_obra || 0}€</span>
                     </div>
-                  )}
+                    
+                    {item.precio_piezas > 0 && (
+                      <div className="linea-desglose">
+                        <span>Piezas y Materiales</span>
+                        <span>{item.precio_piezas}€</span>
+                      </div>
+                    )}
+
+                    <div className="linea-total">
+                      <span>Total Facturado</span>
+                      <span className="precio-enfasis">{item.precio_total || 0}€</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="card-footer">
