@@ -1,11 +1,16 @@
-/* Contenedor Principal */
+/* --- src/styles/MisReparaciones.css --- */
+
+/* Contenedor Principal - Estética Gris Profesional */
 .historial-layout {
-  padding: 120px 20px 60px; /* Más aire arriba para el Navbar */
+  padding: 120px 20px 60px;
   max-width: 1300px;
   margin: 0 auto;
   min-height: 100vh;
-  /* Gradiente de fondo sutil para dar profundidad */
-  background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
+  /* Fondo gris pizarra muy oscuro, neutro */
+  background-color: #0f172a; 
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(31, 41, 55, 0.5) 0, transparent 50%), 
+    radial-gradient(at 100% 100%, rgba(17, 24, 39, 0.5) 0, transparent 50%);
 }
 
 .historial-header {
@@ -16,17 +21,19 @@
 .historial-header h1 {
   font-size: clamp(2rem, 6vw, 3rem);
   font-weight: 800;
-  color: #38bdf8;
-  text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+  color: #f8fafc; /* Texto casi blanco */
   margin-bottom: 15px;
   letter-spacing: -1px;
+}
+
+.historial-header h1 svg {
+  color: #38bdf8; /* Solo el icono mantiene el acento azul */
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
 }
 
 .historial-header p {
   color: #94a3b8;
   font-size: 1.1rem;
-  max-width: 600px;
-  margin: 0 auto;
 }
 
 /* Grid de Reparaciones */
@@ -36,23 +43,26 @@
   gap: 30px;
 }
 
-/* Tarjeta Estilo Moderno (Glassmorphism) */
+/* Tarjeta Estilo Carbono / Elevación */
 .card-reparacion {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 28px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  background: #1e293b; /* Gris oscuro sólido para base */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
 }
 
+/* EFECTO HOVER: Elevación y Sombra */
 .card-reparacion:hover {
-  transform: translateY(-10px);
-  background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 0 25px 50px -12px rgba(56, 189, 248, 0.2);
+  transform: translateY(-12px); /* Se levanta la tarjeta */
+  background: #232f45; /* Aclara ligeramente el gris */
+  border-color: rgba(56, 189, 248, 0.3);
+  /* Sombra más profunda para simular altura real */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 }
 
 .card-top {
@@ -63,13 +73,13 @@
 }
 
 .fecha-badge {
-  background: #38bdf8;
-  color: #0f172a;
+  background: #334155; /* Gris azulado oscuro para la fecha */
+  color: #38bdf8;
   padding: 6px 14px;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 0.8rem;
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .estado-tag {
@@ -78,44 +88,41 @@
   gap: 8px;
   font-weight: 800;
   font-size: 0.75rem;
-  letter-spacing: 0.5px;
   padding: 6px 12px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
 }
 
-/* Colores de Estado Mejorados */
-.estado-tag.pendiente { color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.2); }
-.estado-tag.en-proceso { color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); }
-.estado-tag.finalizada { color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.2); }
+/* Colores de Estado */
+.estado-tag.pendiente { color: #fbbf24; }
+.estado-tag.en-proceso { color: #38bdf8; }
+.estado-tag.finalizada { color: #4ade80; }
 
 .vehiculo-titulo {
-  color: white;
-  font-size: 1.8rem;
+  color: #f1f5f9;
+  font-size: 1.7rem;
   font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  text-transform: capitalize;
 }
 
 .reparacion-desc {
   color: #94a3b8;
   font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .reparacion-desc strong {
-  color: #e2e8f0;
+  color: #cbd5e1;
 }
 
-/* Caja de Piezas (Look Profesional) */
+/* Caja de Piezas Estilo Dark */
 .piezas-box {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.4) 100%);
-  padding: 18px;
-  border-radius: 18px;
-  margin-top: auto; /* Empuja el contenido hacia arriba */
+  background: #0f172a; /* Fondo más oscuro que la tarjeta */
+  padding: 20px;
+  border-radius: 15px;
   border-left: 4px solid #38bdf8;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
 
 .piezas-label {
@@ -125,19 +132,18 @@
   color: #38bdf8;
   text-transform: uppercase;
   margin-bottom: 8px;
-  letter-spacing: 1px;
 }
 
 .piezas-box p {
-  color: #cbd5e1;
+  color: #94a3b8;
   font-size: 0.9rem;
-  line-height: 1.4;
+  line-height: 1.5;
   font-style: italic;
 }
 
 .card-footer {
-  margin-top: 25px;
-  padding-top: 18px;
+  margin-top: 30px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: space-between;
@@ -147,23 +153,10 @@
   font-weight: 600;
   font-size: 0.85rem;
   color: #64748b;
-  background: rgba(0, 0, 0, 0.1);
-  padding: 4px 10px;
-  border-radius: 8px;
+  text-transform: uppercase;
 }
 
-/* Mensajes de Estado */
-.status-msg, .sin-datos {
-  text-align: center;
-  grid-column: 1 / -1;
-  padding: 80px 20px;
-  background: rgba(30, 41, 59, 0.4);
-  border-radius: 24px;
-  border: 1px dashed rgba(148, 163, 184, 0.3);
-  color: #94a3b8;
-}
-
-/* --- AJUSTES MÓVIL OPTIMIZADOS --- */
+/* --- AJUSTES MÓVIL --- */
 @media (max-width: 768px) {
   .historial-layout {
     padding: 100px 15px 40px;
@@ -171,14 +164,5 @@
   
   .historial-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .card-reparacion {
-    padding: 22px;
-  }
-
-  .vehiculo-titulo {
-    font-size: 1.5rem;
   }
 }
