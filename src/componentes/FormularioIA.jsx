@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios'; 
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCarSide, FaCheckCircle } from 'react-icons/fa'; 
+import { FaCheckCircle, FaRobot } from 'react-icons/fa'; 
 import ModalCalendario from './ModalCalendario'; 
 import { supabase } from '../supabaseClient';
 import '../styles/FormularioIA.css';
@@ -76,7 +76,8 @@ function FormularioIA() {
             reparacion: vehiculo.reparacion,
             fecha: fechaFinal,
             id_usuario: user.id, 
-            estado: 'Pendiente'
+            contacto_invitado: user.email,
+            estado: 'PENDIENTE' 
           }
         ]);
 
@@ -130,19 +131,44 @@ function FormularioIA() {
             <textarea name="reparacion" placeholder="Describe la reparación" value={vehiculo.reparacion} onChange={manejarCambioInput} required />
             
             <button type="submit" disabled={cargando} className="ia-boton-enviar">
-              {cargando ? 'Analizando vehículo...' : 'Consultar a la IA'}
+              {cargando ? 'Analizando...' : 'Consultar a la IA'}
             </button>
           </form>
 
           <AnimatePresence>
             {cargando && (
-              <motion.div className="ia-contenedor-carga" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <div className="ia-carretera">
-                  <motion.div className="ia-coche-animado" animate={{ x: ["0%", "100%", "0%"] }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}>
-                    <FaCarSide size={35} color="#38bdf8" />
-                  </motion.div>
+              <motion.div 
+                className="ia-contenedor-carga-moderno"
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }}
+                style={{ marginTop: '20px', textAlign: 'center' }}
+              >
+                <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', color: '#38bdf8' }}>
+                  <FaRobot className="ia-icono-pulso" />
+                  <motion.span
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    style={{ fontWeight: '500', fontSize: '0.9rem' }}
+                  >
+                    Procesando diagnóstico técnico...
+                  </motion.span>
                 </div>
-                <p>Nuestra IA está pensando...</p>
+                
+                {/* BARRA DE CARGA ESTILO IA */}
+                <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden', position: 'relative' }}>
+                  <motion.div 
+                    initial={{ x: '-100%' }}
+                    animate={{ x: '100%' }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    style={{ 
+                      width: '40%', 
+                      height: '100%', 
+                      background: 'linear-gradient(90deg, transparent, #38bdf8, transparent)', 
+                      position: 'absolute' 
+                    }}
+                  />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
