@@ -6,8 +6,8 @@
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #f8fafc;
-  background-image: radial-gradient(at 50% 0%, #ffffff 0, transparent 70%);
+  background-color: #0f172a; /* Ajustado a oscuro para coherencia con el resto */
+  background-image: radial-gradient(at 50% 0%, #1e293b 0, transparent 70%);
   perspective: 1000px;
 }
 
@@ -19,7 +19,7 @@
 .historial-header h1 {
   font-size: clamp(2.2rem, 5vw, 3rem);
   font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@
 }
 
 .historial-header p {
-  color: #64748b;
+  color: #94a3b8;
   font-size: 1.1rem;
   font-weight: 500;
 }
@@ -54,16 +54,16 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease, background 0.3s ease;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease, border-color 0.3s ease;
   box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
   transform-style: preserve-3d;
 }
 
 .card-reparacion:hover {
-  transform: translateY(-30px) scale(1.05); 
+  transform: translateY(-15px) scale(1.02); 
   background: #243147; 
   border-color: rgba(56, 189, 248, 0.6);
-  box-shadow: 0 50px 80px -20px rgba(15, 23, 42, 0.35), 0 30px 40px -30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
 }
 
 .card-top {
@@ -95,24 +95,20 @@
 .estado-tag.pendiente { color: #fbbf24; }
 .estado-tag.finalizada { color: #4ade80; }
 
-.vehiculo-encabezado {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .vehiculo-titulo {
   color: #ffffff;
   font-size: 1.8rem;
   font-weight: 800;
+  margin-bottom: 8px;
   background: linear-gradient(to bottom, #ffffff, #cbd5e1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .matricula-tag {
-  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: rgba(56, 189, 248, 0.15);
   color: #38bdf8;
   padding: 4px 12px;
@@ -121,9 +117,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   border: 1px solid rgba(56, 189, 248, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  margin-bottom: 15px;
 }
 
 .reparacion-desc {
@@ -132,9 +126,10 @@
   margin-bottom: 20px;
 }
 
+/* SECCIÓN DE PIEZAS (DESGLOSE TÉCNICO) */
 .piezas-box {
   background: rgba(15, 23, 42, 0.4); 
-  padding: 15px;
+  padding: 18px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   margin-bottom: 20px;
@@ -144,18 +139,37 @@
   display: block;
   font-size: 0.7rem;
   font-weight: 700;
-  color: #94a3b8;
+  color: #38bdf8; /* Azul para resaltar el título */
   text-transform: uppercase;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-.piezas-box p {
+.lista-piezas-desglose {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-pieza-fila {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
   color: #cbd5e1;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.item-pieza-fila:last-child {
+  border-bottom: none;
+}
+
+.txt-pendiente {
+  color: #64748b;
   font-size: 0.85rem;
   font-style: italic;
 }
 
-/* --- NUEVO: Estilos del Desglose Económico (Ticket) --- */
+/* DESGLOSE ECONÓMICO (TICKET) */
 .desglose-economico {
   background: rgba(15, 23, 42, 0.6);
   border-radius: 16px;
@@ -213,5 +227,6 @@
 /* Ajustes Móvil */
 @media (max-width: 768px) {
   .historial-grid { grid-template-columns: 1fr; }
-  .card-reparacion:hover { transform: translateY(-15px) scale(1.02); }
+  .card-reparacion:hover { transform: translateY(-5px) scale(1.01); }
+  .historial-layout { padding-top: 80px; }
 }

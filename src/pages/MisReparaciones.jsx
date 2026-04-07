@@ -44,9 +44,19 @@ function MisReparaciones() {
       if (userError) throw userError;
 
       if (user) {
+        // CORRECCIÓN: Traemos también las piezas vinculadas mediante el JOIN
         const { data, error } = await supabase
           .from('citas')
-          .select('*')
+          .select(`
+            *,
+            cita_piezas (
+              cantidad,
+              piezas (
+                nombre,
+                precio
+              )
+            )
+          `)
           .eq('id_usuario', user.id) 
           .order('fecha', { ascending: false });
 
@@ -143,27 +153,44 @@ function MisReparaciones() {
                   
                   <p className="reparacion-desc"><strong>Motivo:</strong> {item.reparacion}</p>
                   
+                  {/* SECCIÓN DE PIEZAS DINÁMICA */}
                   <div className="piezas-box">
                     <span className="piezas-label">Detalles de la intervención:</span>
-                    <p>{item.piezas || "Pendiente de desglose técnico."}</p>
+                    {item.cita_piezas && item.cita_piezas.length > 0 ? (
+                      <ul className="lista-piezas-desglose">
+                        {item.cita_piezas.map((cp, idx) => (
+                          <li key={idx} className="item-pieza-fila">
+                            <span>{cp.piezas?.nombre} (x{cp.cantidad})</span>
+                            <span>{(cp.cantidad * cp.piezas?.precio).toFixed(2)}€</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="txt-pendiente">
+                        {item.estado === 'FINALIZADA' 
+                          ? "Sin sustitución de piezas." 
+                          : "Pendiente de desglose técnico."}
+                      </p>
+                    )}
                   </div>
 
-                  {/* NUEVA SECCIÓN DE DESGLOSE ECONÓMICO */}
+                  {/* DESGLOSE ECONÓMICO ACTUALIZADO */}
                   <div className="desglose-economico">
                     <div className="linea-desglose">
                       <span>Mano de Obra ({item.horas_reales || 0}h)</span>
                       <span>{item.precio_mano_obra || 0}€</span>
                     </div>
                     
-                    {item.precio_piezas > 0 && (
+                    {/* Sumamos el total de piezas de la tabla relacionada si precio_piezas no existe */}
+                    {(item.precio_piezas > 0) && (
                       <div className="linea-desglose">
-                        <span>Piezas y Materiales</span>
+                        <span>Total Recambios</span>
                         <span>{item.precio_piezas}€</span>
                       </div>
                     )}
 
                     <div className="linea-total">
-                      <span>Total Facturado</span>
+                      <span>COSTE TOTAL</span>
                       <span className="precio-enfasis">{item.precio_total || 0}€</span>
                     </div>
                   </div>
