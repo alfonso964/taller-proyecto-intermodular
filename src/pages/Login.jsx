@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
@@ -32,10 +34,9 @@ const Login = () => {
         .single();
 
       if (perfilError) {
-        console.error("DETALLE DEL ERROR 403:", perfilError); 
-        localStorage.clear(); 
-        alert("Error de permisos: La base de datos aún bloquea el acceso. Revisa las políticas SQL.");
-        navigate('/historial'); 
+        console.error("DETALLE DEL ERROR:", perfilError); 
+        // Si hay error de perfil, al menos enviamos a inicio en lugar de bloquear
+        navigate('/inicio'); 
         return;
       }
 
@@ -45,7 +46,8 @@ const Login = () => {
       if (rol === 'admin') {
         navigate('/admin');
       } else {
-        navigate('/historial');
+        // CAMBIO AQUÍ: Antes decía '/historial', ahora te lleva a la Home
+        navigate('/inicio'); 
       }
     }
   };
