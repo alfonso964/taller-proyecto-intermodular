@@ -1,3 +1,5 @@
+/* DashboardStats.css */
+
 .contenedor-graficos {
     display: grid;
     grid-template-columns: 1.5fr 1fr; 
@@ -7,14 +9,14 @@
 }
 
 .grafico-card {
-    /* Color azul oscuro idéntico a tus tarjetas de Admin */
     background: #1e293b; 
     padding: 24px;
     border-radius: 16px;
-    /* Borde sutil para definir la tarjeta */
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, border-color 0.3s ease;
+    /* Evita que la tarjeta se deforme si el contenido es grande */
+    overflow: hidden; 
 }
 
 .grafico-card:hover {
@@ -26,7 +28,6 @@
     margin-top: 0;
     margin-bottom: 25px;
     font-size: 1.1rem;
-    /* Texto más brillante para los títulos */
     color: #f8fafc; 
     display: flex;
     align-items: center;
@@ -34,13 +35,50 @@
     font-weight: 600;
 }
 
-.grafico-card canvas {
-    max-width: 100% !important;
+/* Contenedor específico para los gráficos de Chart.js */
+.canvas-container {
+    position: relative;
+    height: 300px; /* Altura fija para que no colapse */
+    width: 100%;
 }
 
 .full-width {
     grid-column: 1 / -1;
 }
+
+/* --- SOLUCIÓN PARA TABLAS CORTADAS EN MÓVIL --- */
+.tabla-container-responsive {
+    width: 100%;
+    overflow-x: auto; /* Permite scroll horizontal */
+    overflow-y: hidden;
+    /* Suavizado de scroll en iOS */
+    -webkit-overflow-scrolling: touch; 
+    margin-top: 10px;
+    /* Barra de scroll estética y fina */
+    padding-bottom: 10px;
+}
+
+/* Estilo de la barra de scroll para que no sea fea */
+.tabla-container-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+.tabla-container-responsive::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+.tabla-container-responsive::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.3);
+    border-radius: 10px;
+}
+
+/* Asegura que la tabla no se encoja menos de lo necesario para leerla */
+.tabla-container-responsive table {
+    min-width: 600px; /* Forzamos un ancho mínimo para que aparezca el scroll */
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* --- RESPONSIVE --- */
 
 @media (max-width: 1024px) {
     .contenedor-graficos {
@@ -48,11 +86,28 @@
     }
 }
 
+@media (max-width: 768px) {
+    .grafico-card {
+        padding: 20px;
+    }
+    
+    .canvas-container {
+        height: 250px; /* Un poco más pequeño en tablets/móviles */
+    }
+}
+
 @media (max-width: 480px) {
     .grafico-card {
         padding: 15px;
+        border-radius: 12px;
     }
+    
     .grafico-card h3 {
         font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    .canvas-container {
+        height: 220px;
     }
 }

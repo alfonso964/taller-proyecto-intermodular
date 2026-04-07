@@ -1,23 +1,84 @@
 /* ModalDetalleCita.css */
-/* Reutilizamos overlay y contenido básicos del ModalStock */
 
 .detalle-cita h2 {
     margin-bottom: 5px;
+    font-size: 1.5rem;
 }
 
 .subtitulo-cita {
     color: #94a3b8;
     font-size: 0.9rem;
     margin-bottom: 30px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding-bottom: 15px;
 }
 
-.seccion-añadir-pieza, .seccion-piezas-usadas {
+/* SECCIÓN MANO DE OBRA (Adaptada al tema oscuro) */
+.seccion-mano-obra {
     margin-bottom: 35px;
 }
 
-.seccion-añadir-pieza h3, .seccion-piezas-usadas h3 {
+.seccion-mano-obra h3 {
+    font-size: 1.1rem;
+    color: #38bdf8;
+    margin-bottom: 15px;
+}
+
+.admin-grid-precios {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    align-items: flex-end;
+    background: rgba(15, 23, 42, 0.4); /* Cambiado a oscuro para coherencia */
+    padding: 15px;
+    border-radius: 14px;
+    border: 1px solid rgba(56, 189, 248, 0.1);
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.input-field input {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #38bdf8;
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+    font-weight: bold;
+}
+
+.subtotal-display {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.subtotal-display span {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.subtotal-display strong {
+    font-size: 1.2rem;
+    color: #22c55e; /* Verde para destacar el dinero */
+}
+
+/* SECCIONES PIEZAS */
+.seccion-añadir-pieza,
+.seccion-piezas-usadas {
+    margin-bottom: 35px;
+}
+
+.seccion-añadir-pieza h3,
+.seccion-piezas-usadas h3 {
     font-size: 1.1rem;
     color: #38bdf8;
     margin-bottom: 15px;
@@ -50,7 +111,7 @@
 
 .select-pieza {
     background: #0f172a;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
     padding: 10px;
     border-radius: 8px;
@@ -60,7 +121,7 @@
 .input-cantidad {
     width: 70px;
     background: #0f172a;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #38bdf8;
     padding: 10px;
     border-radius: 8px;
@@ -76,9 +137,14 @@
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
+    transition: transform 0.2s;
 }
 
-/* Tabla pequeña para dentro del modal */
+.btn-accion-primario:active {
+    transform: scale(0.95);
+}
+
+/* TABLA Y FOOTER */
 .tabla-micro {
     width: 100%;
     border-collapse: collapse;
@@ -89,35 +155,77 @@
     text-align: left;
     color: #94a3b8;
     padding: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tabla-micro td {
     padding: 12px 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.txt-destacado {
-    color: #38bdf8;
-    font-weight: bold;
-}
-
-.txt-total {
-    font-weight: bold;
-}
-
-.txt-vacio {
-    text-align: center;
-    color: #64748b;
-    padding: 30px !important;
-}
-
-/* En Admin.jsx para la fila clickeable */
-.fila-cita-click {
+.btn-finalizar-reparacion {
+    width: 100%;
+    padding: 15px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    margin-top: 10px;
+    transition: all 0.3s;
 }
 
-.fila-cita-click:hover {
-    background: rgba(56, 189, 248, 0.05);
+.btn-finalizar-reparacion:hover {
+    background: #1d4ed8;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* RESPONSIVE (Móviles y Tablets) */
+@media (max-width: 768px) {
+    .modal-contenido.detalle-cita {
+        width: 95%;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .admin-grid-precios {
+        grid-template-columns: 1fr 1fr; /* 2 columnas en tablets */
+    }
+
+    .subtotal-display {
+        grid-column: span 2; /* El total ocupa toda la fila abajo */
+        text-align: center;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .formulario-añadir-pieza {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input-cantidad {
+        width: 100%;
+    }
+
+    .tabla-micro {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-grid-precios {
+        grid-template-columns: 1fr; 
+    }
+
+    .subtotal-display {
+        grid-column: span 1;
+    }
+    
+    .detalle-cita h2 {
+        font-size: 1.2rem;
+    }
 }
