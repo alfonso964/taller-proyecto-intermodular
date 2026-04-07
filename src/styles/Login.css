@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center; 
     align-items: center;     
-    padding: 40px 0; /* Aumentamos padding vertical para que respire el fondo */
+    padding: 40px 0;
     background: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.05) 0, transparent 50%), 
                 #f1f5f9;
     position: relative;
@@ -24,7 +24,6 @@
     width: 90%; 
     max-width: 420px; 
     background: #ffffff;
-    /* Aumentamos de 50px a 65px arriba/abajo para que sea más alta */
     padding: 65px 40px; 
     border-radius: 28px;
     border: 1px solid #e2e8f0;
@@ -48,7 +47,7 @@
 .subtitulo-login {
     color: #64748b;
     font-size: 0.95rem;
-    margin-bottom: 40px; /* Un poco más de espacio bajo el subtítulo */
+    margin-bottom: 40px;
     text-align: center;
     display: block;
     font-weight: 500;
@@ -91,7 +90,7 @@
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 10px; /* Más margen arriba del botón */
+    margin-top: 10px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
@@ -101,8 +100,60 @@
     box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
 }
 
+/* --- ESTILOS NUEVOS PARA GOOGLE --- */
+.divisor-login {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: lowercase;
+}
+
+.divisor-login::before, .divisor-login::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.divisor-login span {
+    padding: 0 15px;
+}
+
+.boton-google {
+    width: 100%;
+    padding: 15px;
+    background: #ffffff;
+    color: #1e293b;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.boton-google svg {
+    font-size: 1.2rem;
+    color: #ea4335; /* Color corporativo de Google para el icono */
+}
+
+.boton-google:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- ENLACE REGISTRO --- */
 .contenedor-enlace-secundario {
-    margin-top: 35px; /* Más espacio antes del enlace inferior */
+    margin-top: 35px;
     text-align: center;
 }
 
@@ -125,7 +176,7 @@
     text-decoration: none;
 }
 
-/* --- AJUSTE PARA MÓVIL (MÁS ALTA Y CENTRADA) --- */
+/* --- AJUSTE PARA MÓVIL --- */
 @media (max-width: 480px) {
     .contenedor-login {
         padding: 20px 0; 
@@ -134,11 +185,9 @@
     .tarjeta-login {
         width: 88%; 
         max-width: 350px; 
-        /* En móvil aumentamos de 35px a 55px para que no se vea achatada */
         padding: 55px 25px; 
         border-radius: 22px;
         margin: 0 auto !important; 
-        display: block;
     }
     
     .titulo-login {
@@ -150,7 +199,7 @@
         margin-bottom: 30px;
     }
 
-    .entrada-login, .boton-login {
+    .entrada-login, .boton-login, .boton-google {
         padding: 14px;
         font-size: 0.95rem;
     }
