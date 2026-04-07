@@ -3,12 +3,25 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import { FaGoogle } from 'react-icons/fa'; // Importamos el icono de Google
 import '../styles/Login.css'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  // Función para iniciar sesión con Google
+  const manejarLoginGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        // Redirige al origen de tu web + / para ir a inicio
+        redirectTo: window.location.origin, 
+      }
+    });
+    if (error) alert("Error con Google: " + error.message);
+  };
 
   const manejarLogin = async (e) => {
     e.preventDefault();
@@ -35,8 +48,8 @@ const Login = () => {
 
       if (perfilError) {
         console.error("DETALLE DEL ERROR:", perfilError); 
-        // Si hay error de perfil, al menos enviamos a inicio en lugar de bloquear
-        navigate('/inicio'); 
+        // Si hay error de perfil, enviamos a inicio
+        navigate('/'); 
         return;
       }
 
@@ -46,8 +59,7 @@ const Login = () => {
       if (rol === 'admin') {
         navigate('/admin');
       } else {
-        // CAMBIO AQUÍ: Antes decía '/historial', ahora te lleva a la Home
-        navigate('/inicio'); 
+        navigate('/'); 
       }
     }
   };
@@ -79,6 +91,20 @@ const Login = () => {
             INICIAR SESIÓN
           </button>
         </form>
+
+        {/* Divisor visual */}
+        <div className="divisor-login">
+          <span>o continúa con</span>
+        </div>
+
+        {/* Botón de Google */}
+        <button 
+          type="button" 
+          onClick={manejarLoginGoogle} 
+          className="boton-google"
+        >
+          <FaGoogle /> Google
+        </button>
 
         <div className="contenedor-enlace-secundario">
           <p className="texto-secundario">
