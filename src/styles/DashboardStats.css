@@ -1,4 +1,4 @@
-/* DashboardStats.css */
+/* --- src/styles/DashboardStats.css --- */
 
 .contenedor-graficos {
     display: grid;
@@ -15,7 +15,6 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, border-color 0.3s ease;
-    /* Cambio: Permitimos que el contenido interno gestione su desbordamiento */
     overflow: visible; 
 }
 
@@ -24,9 +23,22 @@
     border-color: #38bdf8; 
 }
 
-.grafico-card h3 {
-    margin-top: 0;
+h3 {
+    color: white;
+}
+
+/* --- NUEVO: Cabecera con selector de periodos --- */
+.header-grafico {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-grafico h3 {
+    margin: 0;
     font-size: 1.1rem;
     color: #f8fafc; 
     display: flex;
@@ -35,7 +47,38 @@
     font-weight: 600;
 }
 
-/* Contenedor específico para los gráficos de Chart.js */
+.selector-periodo {
+    display: flex;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.selector-periodo button {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 6px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.selector-periodo button.active {
+    background: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+.selector-periodo button:hover:not(.active) {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Contenedor específico para los gráficos */
 .canvas-container {
     position: relative;
     height: 300px;
@@ -46,42 +89,50 @@
     grid-column: 1 / -1;
 }
 
-/* --- SOLUCIÓN PARA TABLAS CORTADAS --- */
+/* --- SOLUCIÓN PARA TABLAS (MODERNA Y COHERENTE) --- */
 .tabla-container-responsive {
     width: 100%;
-    overflow-x: auto; /* Forzamos el scroll horizontal si el contenido supera el ancho */
+    overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch; 
     margin-top: 10px;
-    padding-bottom: 8px; /* Espacio para la barra de scroll */
+    padding-bottom: 12px;
 }
 
-/* Estilo de la barra de scroll estética */
+/* BARRA DE SCROLL ESTÉTICA (Personalizada) */
 .tabla-container-responsive::-webkit-scrollbar {
-    height: 6px;
+    height: 5px; /* Más fina y elegante */
 }
+
 .tabla-container-responsive::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-.tabla-container-responsive::-webkit-scrollbar-thumb {
-    background: rgba(56, 189, 248, 0.5); /* Un poco más visible al hacer scroll */
+    background: rgba(255, 255, 255, 0.02);
     border-radius: 10px;
 }
 
-/* Asegura que la tabla tenga espacio para mostrar todas las columnas */
+.tabla-container-responsive::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.3); /* Cyan semitransparente */
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+.tabla-container-responsive::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.6); /* Brilla al pasar el ratón */
+}
+
+/* Configuración de la tabla interna */
 .tabla-container-responsive table {
     width: 100%;
-    min-width: 700px; /* Aumentado para asegurar que la columna 'Fecha' sea visible al desplazar */
-    border-collapse: collapse;
+    min-width: 800px; /* Asegura que no se amontone nada */
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-/* Ajuste opcional para las celdas de la tabla para que no se amontonen */
 .tabla-container-responsive th, 
 .tabla-container-responsive td {
-    white-space: nowrap; /* Evita que el texto salte de línea y amontone la tabla */
-    padding: 12px 15px;
+    white-space: nowrap; 
+    padding: 16px 20px;
     text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* --- RESPONSIVE --- */
@@ -95,17 +146,30 @@
 @media (max-width: 768px) {
     .grafico-card {
         padding: 20px;
-        /* En móviles, nos aseguramos de que la tarjeta no corte el scroll de la tabla */
         overflow: hidden; 
+    }
+
+    .header-grafico {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .selector-periodo {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .selector-periodo button {
+        flex: 1;
+        text-align: center;
     }
     
     .canvas-container {
         height: 250px;
     }
 
-    /* Reducimos un poco el min-width en móviles muy pequeños si es necesario */
     .tabla-container-responsive table {
-        min-width: 650px;
+        min-width: 750px; 
     }
 }
 
@@ -117,7 +181,6 @@
     
     .grafico-card h3 {
         font-size: 1rem;
-        margin-bottom: 15px;
     }
 
     .canvas-container {

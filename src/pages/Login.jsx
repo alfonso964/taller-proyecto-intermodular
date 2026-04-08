@@ -16,7 +16,6 @@ const Login = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        // Redirige al origen de tu web + / para ir a inicio
         redirectTo: window.location.origin, 
       }
     });

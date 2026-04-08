@@ -13,7 +13,7 @@
     padding-bottom: 15px;
 }
 
-/* SECCIÓN MANO DE OBRA (Adaptada al tema oscuro) */
+/* SECCIÓN MANO DE OBRA */
 .seccion-mano-obra {
     margin-bottom: 35px;
 }
@@ -29,7 +29,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap: 15px;
     align-items: flex-end;
-    background: rgba(15, 23, 42, 0.4); /* Cambiado a oscuro para coherencia */
+    background: rgba(15, 23, 42, 0.4);
     padding: 15px;
     border-radius: 14px;
     border: 1px solid rgba(56, 189, 248, 0.1);
@@ -68,7 +68,7 @@
 
 .subtotal-display strong {
     font-size: 1.2rem;
-    color: #22c55e; /* Verde para destacar el dinero */
+    color: #22c55e;
 }
 
 /* SECCIONES PIEZAS */
@@ -138,13 +138,14 @@
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s;
+    white-space: nowrap;
 }
 
 .btn-accion-primario:active {
     transform: scale(0.95);
 }
 
-/* TABLA Y FOOTER */
+/* TABLA */
 .tabla-micro {
     width: 100%;
     border-collapse: collapse;
@@ -163,6 +164,44 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
+/* MODAL CONTENIDO - La clave para que no se corte nada */
+.modal-contenido.detalle-cita {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden; /* El contenedor no hace scroll, lo hace la zona interior */
+}
+
+/* Zona scrolleable interior - todo menos el botón final */
+.detalle-cita-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: #38bdf8 rgba(15, 23, 42, 0.5);
+}
+
+.detalle-cita-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.detalle-cita-scroll::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 10px;
+}
+
+.detalle-cita-scroll::-webkit-scrollbar-thumb {
+    background: #38bdf8;
+    border-radius: 10px;
+}
+
+/* Botón final siempre visible, pegado al fondo */
+.footer-modal-detalle {
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
 .btn-finalizar-reparacion {
     width: 100%;
     padding: 15px;
@@ -173,7 +212,6 @@
     font-weight: 800;
     font-size: 1rem;
     cursor: pointer;
-    margin-top: 10px;
     transition: all 0.3s;
 }
 
@@ -182,21 +220,20 @@
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
-/* RESPONSIVE (Móviles y Tablets) */
+/* RESPONSIVE */
 @media (max-width: 768px) {
     .modal-contenido.detalle-cita {
         width: 95%;
         padding: 20px;
-        max-height: 90vh;
-        overflow-y: auto;
+        max-height: 92vh;
     }
 
     .admin-grid-precios {
-        grid-template-columns: 1fr 1fr; /* 2 columnas en tablets */
+        grid-template-columns: 1fr 1fr;
     }
 
     .subtotal-display {
-        grid-column: span 2; /* El total ocupa toda la fila abajo */
+        grid-column: span 2;
         text-align: center;
         padding-top: 10px;
         border-top: 1px solid rgba(255, 255, 255, 0.05);

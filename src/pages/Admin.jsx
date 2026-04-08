@@ -46,9 +46,10 @@ const Admin = () => {
       
       const beneficioReal = datosDinero?.reduce((acc, curr) => acc + (curr.beneficio_neto || 0), 0) || 0;
 
+      // ← ÚNICO CAMBIO: añadidos id_cita, precio y precio_coste
       const { data: dataVinculaciones } = await supabase
         .from('cita_piezas')
-        .select('cantidad, piezas(nombre)');
+        .select('id_cita, cantidad, piezas(nombre, precio, precio_coste)');
       setTodasLasPiezasUsadas(dataVinculaciones || []);
 
       setResumen({ 
@@ -76,17 +77,14 @@ const Admin = () => {
     setModalDetalleAbierto(true);
   };
 
-  // --- FUNCIÓN CORREGIDA ---
   const toggleFinalizar = async (idCita, estadoActual, e) => {
     e.stopPropagation(); 
     
     const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
 
-    // 1. Guardar copia del estado actual por si falla la red
     const copiaSeguridadLista = [...listaCitas];
     const copiaSeguridadResumen = { ...resumen };
 
-    // 2. Actualización OPTIMISTA (UI inmediata)
     const nuevaListaCitas = listaCitas.map(c => 
       c.id === idCita ? { ...c, estado: nuevoEstado } : c
     );
@@ -104,14 +102,12 @@ const Admin = () => {
 
       if (error) throw error;
       
-      // Si llegamos aquí, no llamamos a cargarDatosReales() para no "pisar" la UI
       console.log("Estado actualizado en servidor");
       
     } catch (error) {
       console.error("Error en servidor:", error);
       alert("No se pudo sincronizar el cambio. Reintentando...");
       
-      // REVERSIÓN: Si falla el servidor, volvemos a lo que teníamos
       setListaCitas(copiaSeguridadLista);
       setResumen(copiaSeguridadResumen);
     }
@@ -156,10 +152,6 @@ const Admin = () => {
         <div className="tarjeta-dato">
           <h3>Piezas</h3>
           <p className="valor-dato">{cargando ? "..." : resumen.piezas}</p>
-        </div>
-        <div className="tarjeta-dato destaque-verde">
-          <h3>Beneficio Neto</h3>
-          <p className="valor-dato">{cargando ? "..." : `${resumen.ingresos.toFixed(2)}€`}</p>
         </div>
       </div>
 
