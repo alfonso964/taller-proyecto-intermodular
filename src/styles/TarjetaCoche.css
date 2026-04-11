@@ -1,0 +1,160 @@
+.coche-card {
+    background: #1e293b;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.coche-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* Estilos para el Badge (Modo Usuario) */
+.coche-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #2563eb;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+/* Estilos para el Selector (Modo Admin) - El que encaja con tu diseño */
+.coche-badge-select {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #38bdf8; /* Azul cyan para resaltar que es editable */
+    color: #0f172a;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    z-index: 10;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.coche-badge-select:hover {
+    background: #f0f9ff;
+    transform: scale(1.05);
+}
+
+.coche-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.coche-card:hover .coche-img {
+    transform: scale(1.05);
+}
+
+.coche-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.coche-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.coche-header h4 {
+    color: #f8fafc;
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.coche-precio {
+    color: #38bdf8;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.coche-descripcion {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Corta el texto a 2 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.coche-iconos {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.coche-iconos span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #cbd5e1;
+    font-size: 0.85rem;
+}
+
+.coche-iconos svg {
+    color: #38bdf8;
+}
+
+.btn-interesado {
+    width: 100%;
+    padding: 12px;
+    background: #22c55e; /* Verde WhatsApp */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: auto; /* Empuja el botón al final */
+}
+
+.btn-interesado:hover {
+    background: #16a34a;
+    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+}
+
+
+.coche-badge.ocasión { background: #f59e0b; }
+.coche-badge.reservado { background: #ef4444; }
+.coche-badge.vendido { background: #64748b; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .coche-img {
+        height: 200px;
+    }
+}

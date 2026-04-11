@@ -55,7 +55,6 @@ function Navbar() {
   };
 
   const cerrarMenu = () => setEstaAbierto(false);
-  
   const toggleMenu = () => setEstaAbierto(!estaAbierto);
 
   return (
@@ -79,14 +78,20 @@ function Navbar() {
         <nav className={`enlaces-lista ${estaAbierto ? "abierto" : ""}`}>
           <NavLink to="/" className="enlace-item" onClick={cerrarMenu}>Inicio</NavLink>
           <NavLink to="/servicios" className="enlace-item" onClick={cerrarMenu}>Servicios</NavLink>
+          
+          <NavLink to="/coches" className="enlace-item" onClick={cerrarMenu}>Venta de Coches</NavLink>
+          
           <NavLink to="/contacto" className="enlace-item" onClick={cerrarMenu}>Contacto</NavLink>
           
           {usuario ? (
             <>
               {rol === 'admin' ? (
-                <NavLink to="/admin" className="enlace-item" onClick={cerrarMenu}>Panel Admin</NavLink>
+                <>
+                  <NavLink to="/admin" className="enlace-item" onClick={cerrarMenu}>Panel Admin</NavLink>
+                  {/* ENLACE PRIVADO: Formulario para subir/editar coches */}
+                  <NavLink to="/admin/coches" className="enlace-item" onClick={cerrarMenu}>Gestionar Stock</NavLink>
+                </>
               ) : (
-                /* RUTA CORREGIDA AQUÍ */
                 <NavLink to="/mis-reparaciones" className="enlace-item" onClick={cerrarMenu}>
                   Mis Reparaciones
                 </NavLink>

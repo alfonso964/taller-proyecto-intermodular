@@ -1,0 +1,264 @@
+.atelier-page {
+    background: #0a0a0c;
+    min-height: 100vh;
+    padding-top: 80px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.atelier-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 40px;
+}
+
+.atelier-nav button {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+}
+
+.atelier-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+}
+
+/* Galería Estilo Pro */
+.main-image-container {
+    position: relative;
+    background: #111;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.main-image-container img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+}
+
+.spec-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #5e72e4;
+    padding: 4px 12px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    z-index: 2;
+}
+
+.thumbnails-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.thumb-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    opacity: 0.5;
+    border: 1px solid #333;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.thumb-img:hover { opacity: 1; border-color: #5e72e4; }
+
+/* Columna Info */
+.info-category {
+    color: #666;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+.info-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    margin: 10px 0 20px;
+    text-transform: uppercase;
+}
+
+.info-price {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #5e72e4;
+    margin-bottom: 40px;
+}
+
+.msrp {
+    font-size: 0.8rem;
+    color: #666;
+    margin-left: 10px;
+}
+
+/* Caja de Specs Minimalista */
+.specs-card {
+    background: #121215;
+    border: 1px solid #1f1f23;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 30px;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.spec-label {
+    font-size: 0.65rem;
+    color: #666;
+    letter-spacing: 1.5px;
+}
+
+.spec-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Análisis Técnico */
+.technical-analysis h3 {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #5e72e4;
+    margin-bottom: 15px;
+}
+
+.technical-analysis p {
+    color: #aaa;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 40px;
+}
+
+/* Botón WhatsApp Premium */
+.atelier-cta {
+    width: 100%;
+    padding: 20px;
+    background: #22c55e;
+    color: white;
+    border: none;
+    font-weight: 800;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.atelier-cta:hover {
+    background: #1db154;
+    letter-spacing: 4px;
+}
+
+.main-image-container {
+    position: relative; /* Importante para posicionar las flechas */
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.3s;
+}
+
+.nav-arrow:hover {
+    background: #5e72e4; /* Tu color de marca */
+}
+
+.nav-arrow.prev { left: 15px; }
+.nav-arrow.next { right: 15px; }
+
+
+
+/* --- OPTIMIZACIÓN RESPONSIVE --- */
+
+/* Tablets y Laptops pequeñas */
+@media (max-width: 1100px) {
+    .atelier-grid {
+        grid-template-columns: 1fr; /* Una sola columna */
+        gap: 40px;
+    }
+    
+    .atelier-container {
+        padding: 20px 30px;
+    }
+
+    .info-title {
+        font-size: 2.8rem;
+    }
+}
+
+/* Móviles (Smartphone) */
+@media (max-width: 600px) {
+    .atelier-page {
+        padding-top: 60px; /* Menos espacio arriba en móvil */
+    }
+
+    .atelier-container {
+        padding: 15px 20px;
+    }
+
+    .atelier-nav button {
+        margin-bottom: 25px;
+    }
+
+    .info-title {
+        font-size: 2.2rem; /* Título más manejable */
+        margin: 5px 0 15px;
+    }
+
+    .info-price {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+
+    .specs-card {
+        padding: 20px;
+        gap: 20px;
+        /* En móviles muy pequeños, 1 columna de specs */
+        grid-template-columns: 1fr; 
+    }
+
+    .thumbnails-grid {
+        grid-template-columns: repeat(4, 1fr); /* Menos columnas de miniaturas */
+    }
+
+    .atelier-cta {
+        padding: 18px;
+        font-size: 0.9rem;
+        position: sticky; /* Opcional: para que el botón flote al final */
+        bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+}

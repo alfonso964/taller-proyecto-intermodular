@@ -1,0 +1,208 @@
+/* Contenedor externo para centrado y padding */
+.admin-view-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 100px 20px 40px;
+}
+
+.admin-coches-container {
+    width: 100%;
+    max-width: 750px;
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.form-header h2 {
+    color: #f8fafc;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.form-header p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+/* Formulario */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Inputs y Labels */
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-field label {
+    font-size: 0.9rem;
+    color: #e2e8f0;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.input-field input, 
+.input-field select, 
+.input-field textarea {
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    appearance: none; /* Elimina el estilo nativo de la flecha del select */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* ESTILO ESPECÍFICO PARA EL SELECT */
+.input-field select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2338bdf8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 18px;
+    padding-right: 45px; /* Espacio para que el texto no pise la flecha */
+}
+
+/* Estilo para las opciones del desplegable */
+.input-field select option {
+    background-color: #0f172a;
+    color: #38bdf8;
+    padding: 10px;
+}
+
+.input-field input:focus, 
+.input-field select:focus, 
+.input-field textarea:focus {
+    border-color: #38bdf8;
+    background-color: #020617;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+    outline: none;
+}
+
+.input-field textarea {
+    height: 140px;
+    line-height: 1.5;
+}
+
+/* Zona de archivos modernizada */
+.file-upload-zone {
+    background: rgba(15, 23, 42, 0.6);
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px dashed rgba(56, 189, 248, 0.3);
+    text-align: center;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.file-upload-zone:hover {
+    border-color: #38bdf8;
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.upload-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.file-label-text {
+    color: #f8fafc;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.file-hint {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 10px;
+}
+
+/* Botón Final */
+.btn-submit-coche {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+}
+
+.btn-submit-coche:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-submit-coche:disabled {
+    background: #334155;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Animación de carga */
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .form-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-coches-container {
+        padding: 25px;
+    }
+
+    .form-header h2 {
+        font-size: 1.6rem;
+    }
+}
