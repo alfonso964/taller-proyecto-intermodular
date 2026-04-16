@@ -5,14 +5,11 @@
   top: 0;
   left: 0;
   height: 80px;
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0, 80, 160, 0.97);
   display: flex;
   align-items: center;
   z-index: 10000;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.5);
 }
 
 .navegacion-contenedor {
@@ -47,7 +44,7 @@
 }
 
 .texto-acento {
-  color: #38bdf8;
+  color: #7dd3fc;
   margin-left: 4px;
 }
 
@@ -60,7 +57,7 @@
 }
 
 .enlace-item {
-  color: #94a3b8;
+  color: #bfdbfe;
   text-decoration: none;
   font-weight: 500;
   position: relative;
@@ -69,7 +66,7 @@
 
 .enlace-item:hover,
 .enlace-item.active {
-  color: #f1f5f9;
+  color: white;
 }
 
 .enlace-item::after {
@@ -79,7 +76,7 @@
   bottom: -5px;
   width: 0;
   height: 2px;
-  background: #38bdf8;
+  background: #7dd3fc;
   transition: width 0.3s ease;
 }
 
@@ -89,9 +86,9 @@
 
 /* --- BOTÓN SALIR --- */
 .boton-salir-nav {
-  background: rgba(230, 57, 70, 0.1);
-  color: #e63946;
-  border: 1px solid #e63946;
+  background: rgba(230, 57, 70, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(230, 57, 70, 0.6);
   padding: 8px 18px;
   border-radius: 50px;
   cursor: pointer;
@@ -103,30 +100,30 @@
 .boton-salir-nav:hover {
   background: #e63946;
   color: #ffffff;
+  border-color: #e63946;
 }
 
 /* --- BOTÓN DE RESERVA --- */
 .boton-reserva {
-  background: #38bdf8;
-  color: #f1f5f9 !important;
+  background: white;
+  color: #0f172a !important;
   padding: 10px 22px;
   border-radius: 50px;
   font-weight: 800;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
 .boton-reserva:hover {
-  background: #0ea5e9;
-  color: #ffffff !important;
+  background: #7dd3fc;
+  color: #0f172a !important;
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
 }
 
-/* --- MENÚ HAMBURGUESA (CORREGIDO) --- */
+/* --- MENÚ HAMBURGUESA --- */
 .boton-menu {
-  display: none; /* Se oculta en desktop */
+  display: none;
   background: none;
   border: none;
   cursor: pointer;
@@ -149,7 +146,6 @@
   transition: all 0.3s ease;
 }
 
-/* Animaciones al abrir */
 .hamburguesa.abierto span:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
@@ -168,20 +164,20 @@
   }
 
   .boton-menu {
-    display: block; /* Aparece en móvil */
+    display: block;
   }
 
   .enlaces-lista {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 280px; /* Ancho fijo más estético */
+    width: 280px;
     height: 100vh;
-    background: rgba(15, 23, 42, 0.98);
+    background: rgba(0, 50, 120, 0.99);
     backdrop-filter: blur(15px);
     flex-direction: column;
     justify-content: center;
-    gap: 40px; /* Más espacio entre enlaces */
+    gap: 40px;
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     z-index: 10001;
@@ -206,16 +202,16 @@
 }
 
 .btn-logout-limpio {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: inherit;
-    padding: 0;
-    text-transform: none;
+  background: none;
+  border: none;
+  color: #bfdbfe;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  text-transform: none;
 }
 
 .btn-logout-limpio:hover {
-    color: #38bdf8;
+  color: #ffffff;
 }

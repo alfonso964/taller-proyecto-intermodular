@@ -15,7 +15,7 @@
 .atelier-nav button {
     background: none;
     border: none;
-    color: #666;
+    color:white;
     font-size: 0.75rem;
     letter-spacing: 2px;
     cursor: pointer;
@@ -78,11 +78,7 @@
 .thumb-img:hover { opacity: 1; border-color: #5e72e4; }
 
 /* Columna Info */
-.info-category {
-    color: #666;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-}
+
 
 .info-title {
     font-size: 3.5rem;
@@ -92,16 +88,16 @@
     text-transform: uppercase;
 }
 
-.info-price {
+.info-precio {
     font-size: 2.5rem;
     font-weight: 300;
     color: #5e72e4;
     margin-bottom: 40px;
 }
 
-.msrp {
+.iva {
     font-size: 0.8rem;
-    color: #666;
+    color:white;
     margin-left: 10px;
 }
 
@@ -122,9 +118,9 @@
     gap: 5px;
 }
 
-.spec-label {
+.especificacion {
     font-size: 0.65rem;
-    color: #666;
+    color: #5e72e4;
     letter-spacing: 1.5px;
 }
 
@@ -134,15 +130,15 @@
 }
 
 /* Análisis Técnico */
-.technical-analysis h3 {
+.analisis-tecnico h3 {
     font-size: 0.8rem;
     letter-spacing: 2px;
     color: #5e72e4;
     margin-bottom: 15px;
 }
 
-.technical-analysis p {
-    color: #aaa;
+.analisis-tecnico p {
+    color:white;
     line-height: 1.8;
     font-size: 0.95rem;
     margin-bottom: 40px;

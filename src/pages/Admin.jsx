@@ -4,6 +4,8 @@ import { supabase } from '../supabaseClient';
 import ModalStock from '../componentes/ModalStock';
 import ModalDetalleCita from '../componentes/ModalDetalleCita';
 import DashboardStats from '../componentes/DashboardStats';
+// He añadido la extensión .jsx para que Vite no tenga dudas al resolver la ruta
+import FiltroGestion from '../componentes/FiltrosGestion.jsx';
 import '../styles/Admin.css';
 
 const Admin = () => {
@@ -15,6 +17,10 @@ const Admin = () => {
   const [modalDetalleAbierto, setModalDetalleAbierto] = useState(false);
   const [citaSeleccionada, setCitaSeleccionada] = useState(null);
   const [alertasStock, setAlertasStock] = useState([]);
+
+  // Estados para el filtrado
+  const [busqueda, setBusqueda] = useState("");
+  const [filtroFecha, setFiltroFecha] = useState("todas");
 
   const cargarDatosReales = async () => {
     try {
@@ -46,7 +52,6 @@ const Admin = () => {
       
       const beneficioReal = datosDinero?.reduce((acc, curr) => acc + (curr.beneficio_neto || 0), 0) || 0;
 
-      // ← ÚNICO CAMBIO: añadidos id_cita, precio y precio_coste
       const { data: dataVinculaciones } = await supabase
         .from('cita_piezas')
         .select('id_cita, cantidad, piezas(nombre, precio, precio_coste)');
@@ -72,6 +77,38 @@ const Admin = () => {
     cargarDatosReales();
   }, []);
 
+  // Lógica de filtrado
+  const citasFiltradas = listaCitas.filter(cita => {
+    if (cita.estado === 'FINALIZADA') return false;
+
+    const termino = busqueda.toLowerCase();
+    const coincideBusqueda = 
+      (cita.perfiles?.email || "").toLowerCase().includes(termino) ||
+      (cita.contacto_invitado || "").toLowerCase().includes(termino) ||
+      cita.marca.toLowerCase().includes(termino) ||
+      cita.modelo.toLowerCase().includes(termino);
+
+    if (!coincideBusqueda) return false;
+
+    const fechaCita = new Date(cita.fecha);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    if (filtroFecha === 'hoy') {
+      const fechaCitaSinHora = new Date(fechaCita);
+      fechaCitaSinHora.setHours(0, 0, 0, 0);
+      return fechaCitaSinHora.getTime() === hoy.getTime();
+    }
+
+    if (filtroFecha === 'semana') {
+      const proximaSemana = new Date(hoy);
+      proximaSemana.setDate(hoy.getDate() + 7);
+      return fechaCita >= hoy && fechaCita <= proximaSemana;
+    }
+
+    return true;
+  });
+
   const abrirDetalleCita = (cita) => {
     setCitaSeleccionada(cita);
     setModalDetalleAbierto(true);
@@ -79,20 +116,14 @@ const Admin = () => {
 
   const toggleFinalizar = async (idCita, estadoActual, e) => {
     e.stopPropagation(); 
-    
     const nuevoEstado = estadoActual === 'FINALIZADA' ? 'PENDIENTE' : 'FINALIZADA';
-
     const copiaSeguridadLista = [...listaCitas];
-    const copiaSeguridadResumen = { ...resumen };
 
     const nuevaListaCitas = listaCitas.map(c => 
       c.id === idCita ? { ...c, estado: nuevoEstado } : c
     );
     
     setListaCitas(nuevaListaCitas);
-    
-    const nuevasActivas = nuevaListaCitas.filter(c => c.estado !== 'FINALIZADA').length;
-    setResumen(prev => ({ ...prev, citas: nuevasActivas }));
 
     try {
       const { error } = await supabase
@@ -101,19 +132,11 @@ const Admin = () => {
         .eq('id', idCita);
 
       if (error) throw error;
-      
-      console.log("Estado actualizado en servidor");
-      
     } catch (error) {
-      console.error("Error en servidor:", error);
-      alert("No se pudo sincronizar el cambio. Reintentando...");
-      
+      alert("No se pudo sincronizar el cambio.");
       setListaCitas(copiaSeguridadLista);
-      setResumen(copiaSeguridadResumen);
     }
   };
-
-  const citasParaMostrar = listaCitas.filter(cita => cita.estado !== 'FINALIZADA');
 
   return (
     <div className="admin-principal">
@@ -132,8 +155,8 @@ const Admin = () => {
             <div key={idx} className="alerta-stock-item">
               <span className="icono-alerta">⚠️</span>
               <div className="info-alerta">
-                <strong>¡Atención Stock Crítico!</strong>
-                <p>Quedan solo {item.stock} unidades de: <em>{item.nombre}</em>.</p>
+                <strong>¡Stock Crítico!</strong>
+                <p>Quedan {item.stock} de: <em>{item.nombre}</em>.</p>
               </div>
             </div>
           ))}
@@ -163,11 +186,14 @@ const Admin = () => {
       )}
 
       <div className="zona-gestion">
-          <div className="cabecera-seccion">
-            <h2>Gestión de Reparaciones Activas</h2>
-          </div>
+          <FiltroGestion 
+            busqueda={busqueda} 
+            setBusqueda={setBusqueda} 
+            filtroFecha={filtroFecha} 
+            setFiltroFecha={setFiltroFecha} 
+          />
 
-          {citasParaMostrar.length > 0 ? (
+          {citasFiltradas.length > 0 ? (
           <div className="tabla-contenedor">
               <table className="tabla-admin">
               <thead>
@@ -180,10 +206,8 @@ const Admin = () => {
                   </tr>
               </thead>
               <tbody>
-                  {citasParaMostrar.map((cita) => {
-                  const esFinalizada = cita.estado === 'FINALIZADA';
-                  return (
-                      <tr key={cita.id} onClick={() => abrirDetalleCita(cita)} style={{ cursor: 'pointer' }} className="fila-cita">
+                  {citasFiltradas.map((cita) => (
+                      <tr key={cita.id} onClick={() => abrirDetalleCita(cita)} className="fila-cita">
                       <td className={cita.perfiles?.email ? "cliente-registrado" : "cliente-invitado"}>
                           {cita.perfiles?.email || cita.contacto_invitado || 'Invitado'}
                       </td>
@@ -192,20 +216,21 @@ const Admin = () => {
                       <td>{new Date(cita.fecha).toLocaleDateString()}</td>
                       <td>
                           <button 
-                            className={`btn-estado ${esFinalizada ? 'finalizado' : 'pendiente'}`} 
+                            className="btn-estado pendiente" 
                             onClick={(e) => toggleFinalizar(cita.id, cita.estado, e)}
                           >
-                          {esFinalizada ? '✅ Finalizada' : '⏳ En Proceso'}
+                          ⏳ En Proceso
                           </button>
                       </td>
                       </tr>
-                  );
-                  })}
+                  ))}
               </tbody>
               </table>
           </div>
           ) : (
-          <div className="contenedor-lista-vacia"><p>No hay reparaciones activas por el momento.</p></div>
+          <div className="contenedor-lista-vacia">
+            <p>No se han encontrado citas.</p>
+          </div>
           )}
       </div>
 

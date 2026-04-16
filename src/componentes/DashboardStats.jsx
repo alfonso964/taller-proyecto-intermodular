@@ -82,14 +82,41 @@ const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
     };
   };
 
-  // --- 2. CATEGORÍAS (BARRAS CON COLORES) ---
+  // --- 2. CATEGORÍAS ULTRA-COMPLETAS ---
   const clasificarReparacion = (texto) => {
     if (!texto) return 'Otros';
     const t = texto.toLowerCase();
-    if (t.includes('rueda') || t.includes('neumatico')) return 'Neumáticos';
-    if (t.includes('aceite') || t.includes('mantenimiento')) return 'Mantenimiento';
-    if (t.includes('freno')) return 'Frenos';
-    if (t.includes('motor')) return 'Mecánica';
+    
+    // 1. PRE-ITV
+    if (t.includes('itv') || t.includes('inspeccion técnica') || t.includes('revisión oficial')) {
+      return 'Pre-ITV';
+    }
+
+    // 2. AIRE ACONDICIONADO
+    if (t.includes('aire') || t.includes('ac') || t.includes('clima') || t.includes('calefaccion') || t.includes('compresor') || t.includes('carga gas')) {
+      return 'Aire Acondicionado';
+    }
+
+    // 3. NEUMÁTICOS
+    if (t.includes('rueda') || t.includes('neumatico') || t.includes('llanta') || t.includes('equilibrado') || t.includes('alineado') || t.includes('pinchazo')) {
+      return 'Neumáticos';
+    }
+
+    // 4. CHAPA Y PINTURA
+    if (t.includes('chapa') || t.includes('pintura') || t.includes('golpe') || t.includes('rallazo') || t.includes('parachoques') || t.includes('paragolpes') || t.includes('pulido') || t.includes('puerta') || t.includes('capó')) {
+      return 'Chapa y Pintura';
+    }
+
+    // 5. ELECTRÓNICA
+    if (t.includes('electronica') || t.includes('diagnosis') || t.includes('centralita') || t.includes('luces') || t.includes('bateria') || t.includes('fusible') || t.includes('sensor') || t.includes('abs') || t.includes('esp') || t.includes('cuadro')) {
+      return 'Electrónica';
+    }
+
+    // 6. MECÁNICA GENERAL
+    if (t.includes('motor') || t.includes('aceite') || t.includes('freno') || t.includes('mecanica') || t.includes('filtro') || t.includes('embrague') || t.includes('distribucion') || t.includes('correa') || t.includes('suspension') || t.includes('amortiguador') || t.includes('bujia') || t.includes('escape') || t.includes('culata')) {
+      return 'Mecánica General';
+    }
+    
     return 'Otros';
   };
 
@@ -99,16 +126,14 @@ const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
     return acc;
   }, {});
 
-  // --- 3. LÓGICA DE TOP PIEZAS (FILTRADO Y AGRUPACIÓN) ---
+  // --- 3. LÓGICA DE TOP PIEZAS ---
   const procesarTopPiezas = () => {
-    // Agrupamos por nombre de pieza y sumamos cantidades
     const agrupado = piezasUsadas.reduce((acc, p) => {
       const nombre = p.piezas?.nombre || 'Desconocido';
       acc[nombre] = (acc[nombre] || 0) + (Number(p.cantidad) || 0);
       return acc;
     }, {});
 
-    // Convertimos a array, ordenamos de mayor a menor y cogemos las 5 primeras
     const top5 = Object.entries(agrupado)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 5);
@@ -177,8 +202,7 @@ const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
               datasets: [{
                 label: 'Cantidad',
                 data: Object.values(conteoCategorias),
-                // Aquí asignamos un array de colores para que cada barra sea distinta
-                backgroundColor: ['#38bdf8', '#818cf8', '#2dd4bf', '#fbbf24', '#f472b6'],
+                backgroundColor: ['#38bdf8', '#818cf8', '#2dd4bf', '#fbbf24', '#f472b6', '#a855f7', '#64748b'],
                 borderRadius: 6
               }]
             }} 

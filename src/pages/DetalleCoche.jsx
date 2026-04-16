@@ -99,33 +99,32 @@ const DetalleCoche = () => {
 
                     <aside className="atelier-info">
                         <header className="info-header">
-                            <span className="info-category">INVENTARIO / {coche.marca}</span>
                             <h1 className="info-title">{coche.año} {coche.marca} {coche.modelo}</h1>
-                            <div className="info-price">
-                                {Number(coche.precio).toLocaleString('es-ES')}€ <span className="msrp">IVA INCL.</span>
+                            <div className="info-precio">
+                                {Number(coche.precio).toLocaleString('es-ES')}€ <span className="iva">IVA INCL.</span>
                             </div>
                         </header>
 
                         <div className="specs-card">
                             <div className="spec-item">
-                                <span className="spec-label">KILOMETRAJE</span>
+                                <span className="especificacion">KILOMETRAJE</span>
                                 <span className="spec-value">{Number(coche.kms).toLocaleString('es-ES')} KM</span>
                             </div>
                             <div className="spec-item">
-                                <span className="spec-label">MOTORIZACIÓN</span>
+                                <span className="especificacion">MOTORIZACIÓN</span>
                                 <span className="spec-value">{coche.combustible.toUpperCase()}</span>
                             </div>
                             <div className="spec-item">
-                                <span className="spec-label">AÑO</span>
+                                <span className="especificacion">AÑO</span>
                                 <span className="spec-value">{coche.año}</span>
                             </div>
                             <div className="spec-item">
-                                <span className="spec-label">GARANTÍA</span>
+                                <span className="especificacion">GARANTÍA</span>
                                 <span className="spec-value">12 MESES</span>
                             </div>
                         </div>
 
-                        <div className="technical-analysis">
+                        <div className="analisis-tecnico">
                             <h3>ANÁLISIS TÉCNICO</h3>
                             <p>{coche.descripcion}</p>
                         </div>
