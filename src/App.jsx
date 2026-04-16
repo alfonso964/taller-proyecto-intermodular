@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from './pages/Home';
 import Navbar from './componentes/NavBar';
 import Consulta from './pages/Consulta';
@@ -11,11 +11,21 @@ import Admin from './pages/Admin';
 import MisReparaciones from './pages/MisReparaciones'; 
 import PaginaVentaCoches from './pages/AdminCoches';
 import CatalogoCoches from './pages/CatalogoCoches';
-import DetalleCoche from './pages/DetalleCoche'; // <--- NUEVA IMPORTACIÓN
+import DetalleCoche from './pages/DetalleCoche';
+import Chatbot from './componentes/Chatbot'; // <--- IMPORTAMOS EL CHATBOT
 
-function App() {
+// Creamos un componente para manejar la lógica de visibilidad
+const ContenidoApp = () => {
+  const location = useLocation();
+
+  // Rutas donde NO quieres que aparezca el chatbot
+  const rutasExcluidas = ['/reserva-ia', '/admin', '/admin/coches'];
+  
+  // Comprobamos si la ruta actual coincide con alguna de las excluidas
+  const mostrarChatbot = !rutasExcluidas.some(ruta => location.pathname.startsWith(ruta));
+
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,6 +41,16 @@ function App() {
         <Route path="/admin/coches" element={<PaginaVentaCoches />} />
         <Route path="/mis-reparaciones" element={<MisReparaciones />} />
       </Routes>
+      
+      {mostrarChatbot && <Chatbot />}
+    </>
+  );
+};
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ContenidoApp />
     </BrowserRouter>
   )
 }
