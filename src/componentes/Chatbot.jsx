@@ -62,64 +62,70 @@ const Chatbot = () => {
 
   const consultarCoches = async (f) => {
     try {
-      // CONSULTA REAL A SUPABASE
-      let consulta = supabase.from('coches').select('marca, modelo, precio');
+      // Simplificamos la consulta para evitar errores de tipos
+      let query = supabase.from('coches').select('marca, modelo, precio');
 
-      // Filtro de combustible (ajustado a tus textos de base de datos)
       if (f.combustible) {
-        consulta = consulta.eq('combustible', f.combustible);
+        query = query.eq('combustible', f.combustible);
       }
 
-      // Filtro de KMS (usando tu columna 'kms')
-      if (f.kilometraje !== "999999") {
-        consulta = consulta.lte('kms', parseInt(f.kilometraje));
+      if (f.kilometraje && f.kilometraje !== "999999") {
+        query = query.lte('kms', parseInt(f.kilometraje));
       }
 
-      // Filtro de PRECIO (usando tu columna 'precio')
-      if (f.precio !== "999999") {
-        consulta = consulta.lte('precio', parseInt(f.precio));
+      if (f.precio && f.precio !== "999999") {
+        query = query.lte('precio', parseInt(f.precio));
       }
 
-      const { data, error } = await consulta;
+      const { data, error } = await query;
 
       if (error) throw error;
 
       setTimeout(() => {
         if (data && data.length > 0) {
-          const nombresCoches = data.map(c => `${c.marca} ${c.modelo} (${c.precio}€)`).join(", ");
-          agregarMensaje(`¡Tengo buenas noticias! He encontrado estos coches para ti: ${nombresCoches}. Puedes verlos todos en la sección de Ventas.`, "bot");
+          const lista = data.map(c => `${c.marca} ${c.modelo} (${c.precio}€)`).join(", ");
+          agregarMensaje(`He encontrado: ${lista}. ¡Pásate por el catálogo para ver los detalles!`, "bot");
         } else {
-          agregarMensaje("Vaya, ahora mismo no tengo ningún coche que coincida exactamente con esos filtros, pero echa un vistazo a la web porque actualizamos el stock a diario.", "bot");
+          agregarMensaje("No he encontrado coches con esos filtros exactos, pero tenemos otros modelos que podrían interesarte en el catálogo.", "bot");
         }
         setPasoActual("inicio");
       }, 1000);
 
     } catch (error) {
-      console.error("Error en el chatbot:", error);
-      agregarMensaje("Lo siento, ha habido un error al consultar los coches. Inténtalo de nuevo más tarde.", "bot");
+      console.error("Error Supabase:", error);
+      agregarMensaje("Ups, algo ha fallado al conectar con la base de datos. Prueba de nuevo en unos minutos.", "bot");
       setPasoActual("inicio");
     }
   };
 
   return (
     <div className={`chatbot-contenedor ${estaAbierto ? 'activo' : ''}`}>
+      {/* Botón Flotante Principal */}
       <button className="chatbot-activador" onClick={() => setEstaAbierto(!estaAbierto)}>
-        {estaAbierto ? '✖' : '💬'}
+        {estaAbierto ? '✕' : '🤖'}
       </button>
 
       {estaAbierto && (
         <div className="chatbot-ventana">
           <div className="chatbot-cabecera">
-            <h4>Asistente Taller</h4>
+            <div className="cabecera-info">
+              <span className="dot-online"></span>
+              <h4>Asistente Taller</h4>
+            </div>
+            <button className="btn-cerrar-mini" onClick={() => setEstaAbierto(false)}>✕</button>
           </div>
           
           <div className="chatbot-mensajes" ref={referenciaScroll}>
             {mensajes.map(msg => (
-              <div key={msg.id} className={`burbuja-mensaje ${msg.emisor}`}>
-                {msg.texto}
+              <div key={msg.id} className={`contenedor-burbuja ${msg.emisor}`}>
+                {msg.emisor === "bot" && <div className="avatar-bot">🛠️</div>}
+                <div className={`burbuja-mensaje ${msg.emisor}`}>
+                  {msg.texto}
+                </div>
               </div>
             ))}
             
+            {/* Contenedor de Opciones Dinámicas */}
             <div className="contenedor-opciones">
               {pasoActual === "inicio" && (
                 <>
@@ -139,26 +145,22 @@ const Chatbot = () => {
 
               {pasoActual === "kilometraje" && (
                 <>
-                  <button className="boton-opcion" onClick={() => manejarOpcionChat("50000", "📍 Menos de 50.000 km", "kilometraje")}>Menos de 50.000 km</button>
-                  <button className="boton-opcion" onClick={() => manejarOpcionChat("100000", "🛣️ Hasta 100.000 km", "kilometraje")}>Hasta 100.000 km</button>
-                  <button className="boton-opcion" onClick={() => manejarOpcionChat("999999", "🌍 Sin límite de km", "kilometraje")}>Sin límite</button>
+                  <button className="boton-opcion" onClick={() => manejarOpcionChat("50000", "📍 < 50.000 km", "kilometraje")}>Menos de 50.000 km</button>
+                  <button className="boton-opcion" onClick={() => manejarOpcionChat("100000", "🛣️ < 100.000 km", "kilometraje")}>Hasta 100.000 km</button>
+                  <button className="boton-opcion" onClick={() => manejarOpcionChat("999999", "🌍 Sin límite", "kilometraje")}>Sin límite</button>
                 </>
               )}
 
               {pasoActual === "presupuesto" && (
                 <>
-                  <button className="boton-opcion" onClick={() => manejarOpcionChat("15000", "💰 Hasta 15.000€", "presupuesto")}>Hasta 15.000€</button>
-                  <button className="boton-opcion" onClick={() => manejarOpcionChat("30000", "💸 Hasta 30.000€", "presupuesto")}>Hasta 30.000€</button>
+                  <button className="boton-opcion" onClick={() => manejarOpcionChat("15000", "💰 < 15.000€", "presupuesto")}>Hasta 15.000€</button>
+                  <button className="boton-opcion" onClick={() => manejarOpcionChat("30000", "💸 < 30.000€", "presupuesto")}>Hasta 30.000€</button>
                   <button className="boton-opcion" onClick={() => manejarOpcionChat("999999", "💎 Sin límite", "presupuesto")}>Sin límite</button>
                 </>
               )}
             </div>
           </div>
 
-          <div className="chatbot-area-entrada">
-            <input type="text" placeholder="Selecciona una opción..." disabled />
-            <button className="boton-enviar" disabled>✈️</button>
-          </div>
         </div>
       )}
     </div>
