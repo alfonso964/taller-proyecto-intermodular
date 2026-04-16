@@ -30,7 +30,7 @@ const Chatbot = () => {
         setPasoActual("combustible");
         agregarMensaje("¡Genial! Busquemos tu coche ideal. ¿Qué combustible prefieres?", "bot");
       } else if (valor === "ver_servicios") {
-        agregarMensaje("Ofrecemos mecánica general, chapa, pintura y diagnosis. ¿Quieres que te reserve cita para una revisión?", "bot");
+        agregarMensaje("Ofrecemos mecánica integral, chapa, pintura y diagnosis. ¿Quieres que te reserve cita para una revisión?", "bot");
         setPasoActual("inicio");
       } else if (valor === "pedir_cita") {
         agregarMensaje("Puedes usar el botón de 'Reservar' en el menú superior para elegir día y hora rápidamente.", "bot");
@@ -62,23 +62,19 @@ const Chatbot = () => {
 
   const consultarCoches = async (f) => {
     try {
-      // Simplificamos la consulta para evitar errores de tipos
       let query = supabase.from('coches').select('marca, modelo, precio');
 
       if (f.combustible) {
         query = query.eq('combustible', f.combustible);
       }
-
       if (f.kilometraje && f.kilometraje !== "999999") {
         query = query.lte('kms', parseInt(f.kilometraje));
       }
-
       if (f.precio && f.precio !== "999999") {
         query = query.lte('precio', parseInt(f.precio));
       }
 
       const { data, error } = await query;
-
       if (error) throw error;
 
       setTimeout(() => {
@@ -86,24 +82,26 @@ const Chatbot = () => {
           const lista = data.map(c => `${c.marca} ${c.modelo} (${c.precio}€)`).join(", ");
           agregarMensaje(`He encontrado: ${lista}. ¡Pásate por el catálogo para ver los detalles!`, "bot");
         } else {
-          agregarMensaje("No he encontrado coches con esos filtros exactos, pero tenemos otros modelos que podrían interesarte en el catálogo.", "bot");
+          agregarMensaje("No he encontrado coches con esos filtros exactos, pero tenemos otros modelos que podrían interesarte.", "bot");
         }
         setPasoActual("inicio");
       }, 1000);
 
     } catch (error) {
       console.error("Error Supabase:", error);
-      agregarMensaje("Ups, algo ha fallado al conectar con la base de datos. Prueba de nuevo en unos minutos.", "bot");
+      agregarMensaje("Ups, algo ha fallado al conectar con la base de datos.", "bot");
       setPasoActual("inicio");
     }
   };
 
   return (
     <div className={`chatbot-contenedor ${estaAbierto ? 'activo' : ''}`}>
-      {/* Botón Flotante Principal */}
-      <button className="chatbot-activador" onClick={() => setEstaAbierto(!estaAbierto)}>
-        {estaAbierto ? '✕' : '🤖'}
-      </button>
+      {/* El botón principal solo se muestra si el chat está CERRADO */}
+      {!estaAbierto && (
+        <button className="chatbot-activador" onClick={() => setEstaAbierto(true)}>
+          🤖
+        </button>
+      )}
 
       {estaAbierto && (
         <div className="chatbot-ventana">
@@ -125,7 +123,6 @@ const Chatbot = () => {
               </div>
             ))}
             
-            {/* Contenedor de Opciones Dinámicas */}
             <div className="contenedor-opciones">
               {pasoActual === "inicio" && (
                 <>
@@ -160,7 +157,6 @@ const Chatbot = () => {
               )}
             </div>
           </div>
-
         </div>
       )}
     </div>
