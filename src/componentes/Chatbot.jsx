@@ -6,7 +6,7 @@ import '../styles/Chatbot.css';
 const Chatbot = () => {
   const [estaAbierto, setEstaAbierto] = useState(false);
   const [mensajes, setMensajes] = useState([
-    { id: 1, texto: "¡Hola! 👋 Soy tu asistente de Taller. ¿En qué puedo ayudarte hoy?", emisor: "bot" }
+    { id: "1", texto: "¡Hola! 👋 Soy tu asistente de Taller. ¿En qué puedo ayudarte hoy?", emisor: "bot" }
   ]);
   const [pasoActual, setPasoActual] = useState("inicio"); 
   const [filtros, setFiltros] = useState({ combustible: '', kilometraje: '', precio: '' });
@@ -19,7 +19,8 @@ const Chatbot = () => {
   }, [mensajes, pasoActual]);
 
   const agregarMensaje = (texto, emisor) => {
-    setMensajes(prev => [...prev, { id: Date.now(), texto, emisor }]);
+    const idUnico = `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    setMensajes(prev => [...prev, { id: idUnico, texto, emisor }]);
   };
 
   const manejarOpcionChat = async (valor, etiqueta, tipo) => {
@@ -39,13 +40,13 @@ const Chatbot = () => {
     }
 
     if (tipo === "combustible") {
-      setFiltros({ ...filtros, combustible: valor });
+      setFiltros(prev => ({ ...prev, combustible: valor }));
       setPasoActual("kilometraje");
       agregarMensaje("Entendido. ¿Qué rango de kilometraje buscas?", "bot");
     }
 
     if (tipo === "kilometraje") {
-      setFiltros({ ...filtros, kilometraje: valor });
+      setFiltros(prev => ({ ...prev, kilometraje: valor }));
       setPasoActual("presupuesto");
       agregarMensaje("Ya casi estamos. ¿Cuál es tu presupuesto máximo?", "bot");
     }
@@ -62,25 +63,29 @@ const Chatbot = () => {
 
   const consultarCoches = async (f) => {
     try {
-      let query = supabase.from('coches').select('marca, modelo, precio');
+      // CAMBIO AQUÍ: Ahora usamos 'coches_venta' que es el nombre real de tu tabla
+      let query = supabase.from('coches_venta').select('marca, modelo, precio');
 
       if (f.combustible) {
         query = query.eq('combustible', f.combustible);
       }
+      
       if (f.kilometraje && f.kilometraje !== "999999") {
         query = query.lte('kms', parseInt(f.kilometraje));
       }
+      
       if (f.precio && f.precio !== "999999") {
         query = query.lte('precio', parseInt(f.precio));
       }
 
       const { data, error } = await query;
+      
       if (error) throw error;
 
       setTimeout(() => {
         if (data && data.length > 0) {
           const lista = data.map(c => `${c.marca} ${c.modelo} (${c.precio}€)`).join(", ");
-          agregarMensaje(`He encontrado: ${lista}. ¡Pásate por el catálogo para ver los detalles!`, "bot");
+          agregarMensaje(`He encontrado estos modelos: ${lista}. ¡Pásate por el catálogo para ver las fotos!`, "bot");
         } else {
           agregarMensaje("No he encontrado coches con esos filtros exactos, pero tenemos otros modelos que podrían interesarte.", "bot");
         }
@@ -89,14 +94,13 @@ const Chatbot = () => {
 
     } catch (error) {
       console.error("Error Supabase:", error);
-      agregarMensaje("Ups, algo ha fallado al conectar con la base de datos.", "bot");
+      agregarMensaje("Lo siento, ha habido un error al consultar los coches. Inténtalo de nuevo más tarde.", "bot");
       setPasoActual("inicio");
     }
   };
 
   return (
     <div className={`chatbot-contenedor ${estaAbierto ? 'activo' : ''}`}>
-      {/* El botón principal solo se muestra si el chat está CERRADO */}
       {!estaAbierto && (
         <button className="chatbot-activador" onClick={() => setEstaAbierto(true)}>
           🤖
