@@ -1,0 +1,120 @@
+.contenedor-filtros {
+  background: #1a2233;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-end;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 200px; 
+}
+
+.filtro-grupo label {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.filtro-grupo input[type="text"],
+.filtro-grupo select {
+  background: #252d3d;
+  border: 1px solid #3d465a;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s;
+  font-size: 16px;
+}
+
+.filtro-grupo input:focus,
+.filtro-grupo select:focus {
+  border-color: #00a8ff;
+}
+
+/* --- CAMBIO AQUÍ: ESTILO DE LAS BARRAS (SLIDERS) --- */
+.filtro-grupo input[type="range"] {
+  -webkit-appearance: none; /* Quita el estilo gris por defecto de Chrome/Safari */
+  appearance: none;
+  width: 100%;
+  background: #3d465a; /* Fondo de la barra un poco más claro que el contenedor */
+  height: 6px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* El círculo que se mueve (Chrome, Safari, Edge) */
+.filtro-grupo input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #00a8ff; /* Tu azul profesional */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.4);
+  transition: transform 0.2s;
+}
+
+/* El círculo que se mueve (Firefox) */
+.filtro-grupo input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #00a8ff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.4);
+}
+
+.filtro-grupo input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2); /* Pequeña animación al pasar el ratón */
+}
+/* --------------------------------------------------- */
+
+.btn-limpiar {
+  background: transparent;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.btn-limpiar:hover {
+  background: #ff4d4d;
+  color: white;
+}
+
+/* --- AJUSTES PARA MÓVILES --- */
+@media (max-width: 768px) {
+  .contenedor-filtros {
+    padding: 15px;
+    gap: 15px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtro-grupo {
+    width: 100%;
+    flex: none; 
+  }
+
+  .btn-limpiar {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

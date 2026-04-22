@@ -11,6 +11,7 @@ const FormularioPublicarCoche = () => {
         precio: '', 
         kms: '', 
         combustible: 'Gasolina', 
+        cv: '',
         año: new Date().getFullYear(), 
         descripcion: ''
     });
@@ -32,7 +33,7 @@ const FormularioPublicarCoche = () => {
             if (error) throw error;
 
             alert("¡Coche publicado con éxito!");
-            setForm({ marca: '', modelo: '', precio: '', kms: '', combustible: 'Gasolina', año: 2026, descripcion: '' });
+            setForm({ marca: '', modelo: '', precio: '', kms: '', combustible: 'Gasolina',cv:'', año: 2026, descripcion: '' });
             setFiles([]);
             e.target.reset();
         } catch (error) {
@@ -84,6 +85,12 @@ const FormularioPublicarCoche = () => {
                                 <option value="Eléctrico">Eléctrico</option>
                             </select>
                         </div>
+
+                        <div className="input-field">
+                            <label>CV</label>
+                            <input name="cv" type="number" placeholder='100 CV' defaultValue={form.cv} onChange={handleChange} required />
+                        </div>
+
                         <div className="input-field">
                             <label>Año</label>
                             <input name="año" type="number" defaultValue={form.año} onChange={handleChange} required />

@@ -63,8 +63,10 @@ const Chatbot = () => {
 
   const consultarCoches = async (f) => {
     try {
-      // CAMBIO AQUÍ: Ahora usamos 'coches_venta' que es el nombre real de tu tabla
-      let query = supabase.from('coches_venta').select('marca, modelo, precio');
+      // 1. Pedimos todas las columnas, incluyendo las nuevas: cv y estado
+      let query = supabase
+        .from('coches_venta')
+        .select('marca, modelo, precio, kms, combustible, año, cv, estado');
 
       if (f.combustible) {
         query = query.eq('combustible', f.combustible);
@@ -84,17 +86,31 @@ const Chatbot = () => {
 
       setTimeout(() => {
         if (data && data.length > 0) {
-          const lista = data.map(c => `${c.marca} ${c.modelo} (${c.precio}€)`).join(", ");
-          agregarMensaje(`He encontrado estos modelos: ${lista}. ¡Pásate por el catálogo para ver las fotos!`, "bot");
+          agregarMensaje(`¡He encontrado ${data.length} opción(es) para ti!`, "bot");
+
+          // 2. Mapeamos cada coche con la información completa
+          data.forEach(coche => {
+            const detalleCoche = `🚗 ${coche.marca} ${coche.modelo}\n\n` +
+                                 `🔹 Estado: ${coche.estado || 'Disponible'}\n` +
+                                 `💰 Precio: ${coche.precio}€\n` +
+                                 `⚡ Potencia: ${coche.cv || 'Consultar'} CV\n` +
+                                 `🛣️ Kilómetros: ${coche.kms} km\n` +
+                                 `⛽ Combustible: ${coche.combustible}\n` +
+                                 `📅 Año: ${coche.año}`;
+            
+            agregarMensaje(detalleCoche, "bot");
+          });
+
+          agregarMensaje("¿Te gustaría ver más fotos en el catálogo o prefieres buscar algo distinto?", "bot");
         } else {
-          agregarMensaje("No he encontrado coches con esos filtros exactos, pero tenemos otros modelos que podrían interesarte.", "bot");
+          agregarMensaje("No he encontrado coches con esos filtros exactos, pero puedes revisar el catálogo completo arriba.", "bot");
         }
         setPasoActual("inicio");
       }, 1000);
 
     } catch (error) {
       console.error("Error Supabase:", error);
-      agregarMensaje("Lo siento, ha habido un error al consultar los coches. Inténtalo de nuevo más tarde.", "bot");
+      agregarMensaje("Lo siento, ha habido un error al consultar los detalles. Inténtalo de nuevo.", "bot");
       setPasoActual("inicio");
     }
   };
@@ -121,7 +137,7 @@ const Chatbot = () => {
             {mensajes.map(msg => (
               <div key={msg.id} className={`contenedor-burbuja ${msg.emisor}`}>
                 {msg.emisor === "bot" && <div className="avatar-bot">🛠️</div>}
-                <div className={`burbuja-mensaje ${msg.emisor}`}>
+                <div className={`burbuja-mensaje ${msg.emisor}`} style={{ whiteSpace: 'pre-wrap' }}>
                   {msg.texto}
                 </div>
               </div>

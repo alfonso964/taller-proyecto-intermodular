@@ -1,33 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { supabase } from '../supabaseClient';
 import TarjetaCoche from '../componentes/TarjetaCoche';
-import '../styles/CatalogoCoches.css'; // Crea este archivo para el grid
+import FiltrosCoches from '../componentes/FiltroCoches';
+import Footer from '../componentes/Footer'; // Importación del componente Footer
+import '../styles/CatalogoCoches.css';
 
 const CatalogoCoches = () => {
     const [coches, setCoches] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [filtros, setFiltros] = useState({
+        busqueda: '',
+        combustible: '',
+        precioMax: 100000,
+        potenciaMin: 0
+    });
+
+    const fetchCoches = useCallback(async () => {
+        setLoading(true);
+        try {
+            let query = supabase
+                .from('coches_venta')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+
+            if (filtros.busqueda) {
+                query = query.or(`marca.ilike.%${filtros.busqueda}%,modelo.ilike.%${filtros.busqueda}%`);
+            }
+
+            if (filtros.combustible) {
+                query = query.eq('combustible', filtros.combustible);
+            }
+
+            if (filtros.precioMax) {
+                query = query.lte('precio', filtros.precioMax);
+            }
+
+            if (filtros.potenciaMin > 0) {
+                query = query.gte('cv', filtros.potenciaMin);
+            }
+
+            const { data, error } = await query;
+
+            if (error) throw error;
+            setCoches(data);
+        } catch (error) {
+            console.error("Error cargando coches:", error.message);
+        } finally {
+            setLoading(false);
+        }
+    }, [filtros]);
 
     useEffect(() => {
-        const fetchCoches = async () => {
-            try {
-                const { data, error } = await supabase
-                    .from('coches_venta')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-                setCoches(data);
-            } catch (error) {
-                console.error("Error cargando coches:", error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchCoches();
-    }, []);
-
-    if (loading) return <div className="loading">Cargando catálogo...</div>;
+    }, [fetchCoches]);
 
     return (
         <div className="catalogo-container">
@@ -36,8 +62,12 @@ const CatalogoCoches = () => {
                 <p>Encuentra tu próximo coche revisado y garantizado</p>
             </header>
 
+            <FiltrosCoches alFiltrar={(nuevosFiltros) => setFiltros(nuevosFiltros)} />
+
             <div className="coches-grid">
-                {coches.length > 0 ? (
+                {loading ? (
+                    <div className="loading">Actualizando resultados...</div>
+                ) : coches.length > 0 ? (
                     coches.map(coche => (
                         <TarjetaCoche 
                             key={coche.id} 
@@ -48,9 +78,10 @@ const CatalogoCoches = () => {
                         />
                     ))
                 ) : (
-                    <p className="no-coches">No hay vehículos disponibles en este momento.</p>
+                    <p className="no-coches">No se han encontrado vehículos que coincidan con tu búsqueda.</p>
                 )}
             </div>
+
         </div>
     );
 };
