@@ -1,31 +1,112 @@
-/* Contenedor principal */
+/* Quitamos el padding excesivo del contenedor padre para que el Hero pegue arriba */
+.catalogo-wrapper {
+    width: 100%;
+}
+
+/* HERO SECTION: OCUPA TODO EL ANCHO */
+.hero-catalogo {
+    width: 100%;
+    height: 500px;
+    background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1500') center/cover no-repeat;
+    position: relative;
+}
+
+.hero-overlay {
+    background: linear-gradient(to right, rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.5));
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center;
+}
+
+/* Este contenedor interno alinea el texto del Hero con el resto de la web */
+.hero-inner-content {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+    color: white;
+}
+
+.badge-superior {
+    background: #007bff;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero-inner-content h1 {
+    font-size: 3.5rem;
+    margin: 20px 0;
+    line-height: 1.1;
+}
+
+.hero-inner-content p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.hero-trust-badges {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.badge-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* CONTENEDOR DEL CATÁLOGO (CENTRADO) */
 .catalogo-container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 120px 20px 60px; 
-    transition: padding 0.3s ease;
+    margin: 40px auto; /* Separación del Hero */
+    padding: 0 20px 60px;
 }
 
-/* Encabezado */
-.catalogo-header {
-    text-align: center;
-    margin-bottom: 50px;
-    padding: 0 10px;
+.catalogo-main {
+    display: flex;
+    gap: 40px;
+    position: relative;
 }
 
-.catalogo-header h1 {
-    font-size: 2.5rem;
-    color:  #2563eb;
-    margin-bottom: 12px;
-    font-weight: 800;
-    letter-spacing: -0.025em;
+.catalogo-sidebar {
+    width: 300px;
+    flex-shrink: 0;
 }
 
-.catalogo-header p {
-    color:black;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
+.sidebar-title {
+    color: white;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid #007bff;
+}
+
+.coches-content {
+    flex-grow: 1;
+}
+
+.results-header h2 {
+    color: white;
+    font-size: 1.8rem;
+}
+
+.results-header span {
+    color: #007bff;
+    font-size: 1.2rem;
+}
+
+.divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 0 30px 0;
 }
 
 .coches-grid {
@@ -35,64 +116,34 @@
     width: 100%;
 }
 
-/* Estados de carga y vacío */
-.loading, .no-coches {
+/* Spinner de carga */
+.loading-spinner {
     text-align: center;
-    color: #38bdf8;
-    padding: 100px 20px;
-    font-size: 1.2rem;
-    background: rgba(30, 41, 59, 0.5);
-    border-radius: 20px;
-    border: 1px dashed rgba(56, 189, 248, 0.3);
-    grid-column: 1 / -1; 
+    padding: 50px;
+    color: #a0aec0;
 }
 
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Responsivo */
 @media (max-width: 1024px) {
-    .catalogo-container {
-        padding-top: 100px;
+    .catalogo-main {
+        flex-direction: column;
     }
-    
-    .catalogo-header h1 {
-        font-size: 2.2rem;
+    .catalogo-sidebar {
+        width: 100%;
     }
-}
-
-@media (max-width: 768px) {
-    .catalogo-container {
-        padding-top: 90px;
-        padding-bottom: 40px;
-    }
-
-    .catalogo-header {
-        margin-bottom: 35px;
-    }
-
-    .catalogo-header h1 {
-        font-size: 1.8rem;
-    }
-
-    .catalogo-header p {
-        font-size: 1rem;
-    }
-
-    .coches-grid {
-        gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-}
-
-/* Móviles pequeños */
-@media (max-width: 480px) {
-    .catalogo-container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .catalogo-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .coches-grid {
-        grid-template-columns: 1fr;
+    .hero-inner-content h1 {
+        font-size: 2.5rem;
     }
 }

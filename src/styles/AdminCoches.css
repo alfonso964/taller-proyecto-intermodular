@@ -1,0 +1,214 @@
+/* ==========================================================================
+   CONTENEDOR PRINCIPAL: Centra la tarjeta y los botones
+   ========================================================================== */
+.admin-coches-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente todo el contenido */
+    min-height: 85vh;
+}
+
+/* ==========================================================================
+   CABECERA Y NAVEGACIÓN (TABS)
+   ========================================================================== */
+.admin-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px; /* Espacio generoso antes del contenido */
+}
+
+.admin-tabs button {
+    background: #1a2233;
+    color: #a0aec0;
+    border: 2px solid #2d3748;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.admin-tabs button:hover {
+    background: #2d3748;
+    color: white;
+}
+
+.admin-tabs button.active {
+    background: #007bff; /* Azul corporativo */
+    color: white;
+    border-color: #007bff;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* ==========================================================================
+   ÁREA DE CONTENIDO (Transparente para el formulario, Fondo para la lista)
+   ========================================================================== */
+.admin-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* ==========================================================================
+   LISTA DE GESTIÓN PROFESIONAL (Inventario)
+   ========================================================================== */
+.lista-gestion-admin {
+    width: 100%;
+    max-width: 900px;
+    background: #1a2233;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.titulo-seccion {
+    margin-bottom: 25px;
+    font-size: 1.4rem;
+    color: #f0f0f0;
+    border-left: 4px solid #007bff;
+    padding-left: 15px;
+}
+
+/* Estructura de Tabla */
+.tabla-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.fila-coche-gestion {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    transition: all 0.3s ease;
+}
+
+.fila-coche-gestion:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 123, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Detalles del vehículo */
+.info-principal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.img-mini {
+    width: 80px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #111;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.textos {
+    display: flex;
+    flex-direction: column;
+}
+
+.textos strong { font-size: 1.05rem; color: #fff; }
+.textos small { color: #718096; font-size: 0.85rem; margin-top: 2px; }
+
+.precio-admin {
+    font-weight: bold;
+    color: #00d1ff; /* Cian brillante para el precio */
+    font-size: 1.15rem;
+}
+
+/* ==========================================================================
+   BOTONES DE ACCIÓN (Editar y Eliminar)
+   ========================================================================== */
+.acciones-admin {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-editar, .btn-borrar {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Editar: Estilo azul suave */
+.btn-editar {
+    background: rgba(0, 123, 255, 0.15);
+    color: #007bff;
+}
+
+.btn-editar:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* Eliminar: Estilo rojo suave */
+.btn-borrar {
+    background: rgba(229, 62, 62, 0.15);
+    color: #e53e3e;
+}
+
+.btn-borrar:hover {
+    background: #e53e3e;
+    color: white;
+}
+
+/* Estados de carga/vacío */
+.loading-admin, .vacio {
+    text-align: center;
+    padding: 40px;
+    color: #718096;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   ADAPTACIÓN PARA MÓVILES
+   ========================================================================== */
+@media (max-width: 768px) {
+    .tabla-header {
+        display: none; /* Escondemos cabecera en móvil */
+    }
+
+    .fila-coche-gestion {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .info-principal {
+        flex-direction: column;
+    }
+
+    .acciones-admin {
+        justify-content: center;
+    }
+}
