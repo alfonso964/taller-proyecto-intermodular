@@ -29,7 +29,7 @@ const Login = () => {
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.trim(),
-      contraseña,
+      password:contraseña,
     });
 
     if (error) {
