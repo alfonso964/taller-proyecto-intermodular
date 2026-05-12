@@ -5,7 +5,6 @@ import "../styles/Footer.css";
 function Footer() {
   const manejarClick = (e) => e.preventDefault();
 
-  // URL directa a Google Maps para Taller Motors
   const googleMapsUrl = "https://www.google.com/maps/dir/?api=1&destination=Av.+de+Italia,+27,+14550+Montilla,+Córdoba";
 
   return (
@@ -26,7 +25,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Enlaces y Horario */}
         <div className="footer-enlaces">
           <h4>Navegación</h4>
           <ul>
@@ -43,7 +41,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Mapa con Iframe y Botón de Acción */}
         <div className="footer-ubicacion">
           <h4>Ubicación</h4>
           <div className="mapa-simulado-footer">

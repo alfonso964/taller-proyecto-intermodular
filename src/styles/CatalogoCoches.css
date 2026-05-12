@@ -1,9 +1,8 @@
-/* Quitamos el padding excesivo del contenedor padre para que el Hero pegue arriba */
-.catalogo-wrapper {
+
+.catalogo {
     width: 100%;
 }
 
-/* HERO SECTION: OCUPA TODO EL ANCHO */
 .hero-catalogo {
     width: 100%;
     height: 500px;
@@ -15,19 +14,19 @@
     background: linear-gradient(to right, rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.5));
     height: 100%;
     display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
+    justify-content: center; 
     align-items: center;
 }
 
-/* Este contenedor interno alinea el texto del Hero con el resto de la web */
-.hero-inner-content {
+
+.hero-centrar-contenido {
     max-width: 1200px;
     width: 100%;
     padding: 0 20px;
     color: white;
 }
 
-.badge-superior {
+.etiqueta {
     background: #007bff;
     padding: 6px 15px;
     border-radius: 20px;
@@ -36,26 +35,26 @@
     text-transform: uppercase;
 }
 
-.hero-inner-content h1 {
+.hero-centrar-contenido h1 {
     font-size: 3.5rem;
     margin: 20px 0;
     line-height: 1.1;
 }
 
-.hero-inner-content p {
+.hero-centrar-contenido p {
     font-size: 1.2rem;
     max-width: 700px;
     opacity: 0.9;
     margin-bottom: 30px;
 }
 
-.hero-trust-badges {
+.iconos {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
 }
 
-.badge-item {
+.icono-confianza {
     background: rgba(255, 255, 255, 0.1);
     padding: 10px 15px;
     border-radius: 8px;
@@ -64,86 +63,85 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* CONTENEDOR DEL CATÁLOGO (CENTRADO) */
-.catalogo-container {
+.contenedor-catalogo {
     max-width: 1200px;
-    margin: 40px auto; /* Separación del Hero */
+    margin: 40px auto; 
     padding: 0 20px 60px;
 }
 
-.catalogo-main {
+.layout-principal {
     display: flex;
     gap: 40px;
     position: relative;
 }
 
-.catalogo-sidebar {
+.barra-lateral-filtros {
     width: 300px;
     flex-shrink: 0;
 }
 
-.sidebar-title {
+.titulo-lateral {
     color: white;
     margin-bottom: 20px;
     padding-left: 10px;
     border-left: 4px solid #007bff;
 }
 
-.coches-content {
+.contenido-listado {
     flex-grow: 1;
 }
 
-.results-header h2 {
+.cabecera-resultados h2 {
     color: white;
     font-size: 1.8rem;
 }
 
-.results-header span {
+.cabecera-resultados span {
     color: #007bff;
     font-size: 1.2rem;
 }
 
-.divider {
+.separador {
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
     margin: 15px 0 30px 0;
 }
 
-.coches-grid {
+.cuadricula-coches {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
     width: 100%;
 }
 
-/* Spinner de carga */
-.loading-spinner {
+
+.contenedor-cargando {
     text-align: center;
     padding: 50px;
     color: #a0aec0;
 }
 
-.spinner {
+.icono-carga {
     border: 4px solid rgba(255, 255, 255, 0.1);
     border-top: 4px solid #007bff;
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    animation: spin 1s linear infinite;
+    animation: girar 1s linear infinite;
     margin: 0 auto 20px;
 }
 
-@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes girar { 100% { transform: rotate(360deg); } }
 
 /* Responsivo */
 @media (max-width: 1024px) {
-    .catalogo-main {
+    .layout-principal {
         flex-direction: column;
     }
-    .catalogo-sidebar {
+    .barra-lateral-filtros {
         width: 100%;
     }
-    .hero-inner-content h1 {
+    .hero-contenido-centrado h1 {
         font-size: 2.5rem;
     }
 }

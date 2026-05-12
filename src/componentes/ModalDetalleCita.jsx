@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import '../styles/ModalDetalleCita.css';
 
-const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
+const ModalDetalleCita = ({ estaAbierto, alCerrar, cita, onUpdate }) => {
   const [piezasDisponibles, setPiezasDisponibles] = useState([]);
   const [piezasUsadas, setPiezasUsadas] = useState([]);
   const [piezaSeleccionada, setPiezaSeleccionada] = useState('');
@@ -15,7 +15,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
   const [precioHora, setPrecioHora] = useState(40);
 
   useEffect(() => {
-    if (isOpen && cita) {
+    if (estaAbierto && cita) {
       cargarDatos();
       setHorasReales(cita.horas_reales || 0);
       if (cita.precio_mano_obra > 0 && cita.horas_reales > 0) {
@@ -24,7 +24,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
         setPrecioHora(40);
       }
     }
-  }, [isOpen, cita]);
+  }, [estaAbierto, cita]);
 
   const cargarDatos = async () => {
     setCargando(true);
@@ -80,7 +80,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
 
       alert("Facturación actualizada con éxito");
       if (onUpdate) onUpdate();
-      onClose();
+      alCerrar();
 
     } catch (error) {
       alert("Error al guardar: " + error.message);
@@ -122,16 +122,15 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
     p.referencia?.toLowerCase().includes(filtroPieza.toLowerCase())
   );
 
-  if (!isOpen || !cita) return null;
+  if (!estaAbierto || !cita) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-contenido detalle-cita">
-        <button className="cerrar-modal" onClick={onClose}>&times;</button>
+        <button className="cerrar-modal" onClick={alCerrar}>&times;</button>
         
         <h2>🛠️ Gestión de Costes: {cita.marca} {cita.modelo}</h2>
 
-        {/* ZONA SCROLLEABLE */}
         <div className="detalle-cita-scroll">
 
           <div className="seccion-mano-obra">
@@ -222,9 +221,7 @@ const ModalDetalleCita = ({ isOpen, onClose, cita, onUpdate }) => {
           </div>
 
         </div>
-        {/* FIN ZONA SCROLLEABLE */}
-
-        {/* BOTÓN SIEMPRE VISIBLE AL FONDO */}
+ 
         <div className="footer-modal-detalle">
           <button 
             className="btn-finalizar-reparacion" 

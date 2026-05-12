@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { motion, AnimatePresence } from 'framer-motion';
-import { IoClose } from 'react-icons/io5'; // Icono mucho más limpio
+import { IoClose } from 'react-icons/io5';
 import '../styles/ModalServicio.css';
 
 function ModalDetalleServicio({ servicio, cerrar }) {
@@ -16,7 +16,7 @@ function ModalDetalleServicio({ servicio, cerrar }) {
           exit={{ opacity: 0, y: 70, scale: 0.9 }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* BOTÓN DE CIERRE CON ICONO */}
+          
           <button className="modal-servicio-cerrar" onClick={cerrar} aria-label="Cerrar">
             <IoClose />
           </button>

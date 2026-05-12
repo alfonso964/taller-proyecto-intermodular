@@ -32,7 +32,6 @@ ChartJS.register(
 const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
   const [filtroTiempo, setFiltroTiempo] = useState('mes');
 
-  // --- 1. LÓGICA DE BENEFICIO BRUTO ---
   const procesarBeneficioReal = () => {
     const ahora = new Date();
     const citasFinalizadas = listaCitas.filter(c => c.estado === 'FINALIZADA');
@@ -50,28 +49,36 @@ const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
 
     filtradas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-    const beneficioPorDia = filtradas.reduce((acc, cita) => {
-      const f = new Date(cita.fecha).toLocaleDateString();
-      const mo = Number(cita.precio_mano_obra) || 0;
+    // --- REDUCE DE BENEFICIO POR DÍA CON NOMBRES DESCRIPTIVOS ---
+    const beneficioAgrupadoPorDia = filtradas.reduce((resumenDias, citaActual) => {
+      const fechaClave = new Date(citaActual.fecha).toLocaleDateString();
+      const manoDeObra = Number(citaActual.precio_mano_obra) || 0;
       
-      const piezasDeEstaCita = piezasUsadas.filter(p => p.id_cita === cita.id);
-      const margenPiezas = piezasDeEstaCita.reduce((sub, p) => {
-        const venta = Number(p.piezas?.precio) || 0;
-        const coste = Number(p.piezas?.precio_coste) || 0;
-        const cant  = Number(p.cantidad) || 0;
-        return sub + ((venta - coste) * cant);
+      const piezasDeEstaCita = piezasUsadas.filter(p => p.id_cita === citaActual.id);
+      
+      const margenPiezasCita = piezasDeEstaCita.reduce((acumuladoMargen, pieza) => {
+        const precioVenta = Number(pieza.piezas?.precio) || 0;
+        const precioCoste = Number(pieza.piezas?.precio_coste) || 0;
+        const cantidadTotal = Number(pieza.cantidad) || 0;
+        return acumuladoMargen + ((precioVenta - precioCoste) * cantidadTotal);
       }, 0);
 
-      const totalBeneficio = mo + margenPiezas;
-      acc[f] = (acc[f] || 0) + totalBeneficio;
-      return acc;
+      const beneficioTotalCita = manoDeObra + margenPiezasCita;
+
+      if (resumenDias[fechaClave]) {
+        resumenDias[fechaClave] = resumenDias[fechaClave] + beneficioTotalCita;
+      } else {
+        resumenDias[fechaClave] = beneficioTotalCita;
+      }
+      
+      return resumenDias;
     }, {});
 
     return {
-      labels: Object.keys(beneficioPorDia),
+      labels: Object.keys(beneficioAgrupadoPorDia),
       datasets: [{
         label: 'Beneficio Bruto (€)',
-        data: Object.values(beneficioPorDia),
+        data: Object.values(beneficioAgrupadoPorDia),
         borderColor: '#38bdf8',
         backgroundColor: 'rgba(56, 189, 248, 0.1)',
         tension: 0.4,
@@ -82,59 +89,58 @@ const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
     };
   };
 
-  // --- 2. CATEGORÍAS ULTRA-COMPLETAS ---
   const clasificarReparacion = (texto) => {
     if (!texto) return 'Otros';
     const t = texto.toLowerCase();
     
-    // 1. PRE-ITV
     if (t.includes('itv') || t.includes('inspeccion técnica') || t.includes('revisión oficial')) {
       return 'Pre-ITV';
     }
-
-    // 2. AIRE ACONDICIONADO
     if (t.includes('aire') || t.includes('ac') || t.includes('clima') || t.includes('calefaccion') || t.includes('compresor') || t.includes('carga gas')) {
       return 'Aire Acondicionado';
     }
-
-    // 3. NEUMÁTICOS
     if (t.includes('rueda') || t.includes('neumatico') || t.includes('llanta') || t.includes('equilibrado') || t.includes('alineado') || t.includes('pinchazo')) {
       return 'Neumáticos';
     }
-
-    // 4. CHAPA Y PINTURA
     if (t.includes('chapa') || t.includes('pintura') || t.includes('golpe') || t.includes('rallazo') || t.includes('parachoques') || t.includes('paragolpes') || t.includes('pulido') || t.includes('puerta') || t.includes('capó')) {
       return 'Chapa y Pintura';
     }
-
-    // 5. ELECTRÓNICA
     if (t.includes('electronica') || t.includes('diagnosis') || t.includes('centralita') || t.includes('luces') || t.includes('bateria') || t.includes('fusible') || t.includes('sensor') || t.includes('abs') || t.includes('esp') || t.includes('cuadro')) {
       return 'Electrónica';
     }
-
-    // 6. MECÁNICA GENERAL
     if (t.includes('motor') || t.includes('aceite') || t.includes('freno') || t.includes('mecanica') || t.includes('filtro') || t.includes('embrague') || t.includes('distribucion') || t.includes('correa') || t.includes('suspension') || t.includes('amortiguador') || t.includes('bujia') || t.includes('escape') || t.includes('culata')) {
       return 'Mecánica General';
     }
-    
     return 'Otros';
   };
 
-  const conteoCategorias = listaCitas.reduce((acc, cita) => {
-    const cat = clasificarReparacion(cita.reparacion);
-    acc[cat] = (acc[cat] || 0) + 1;
-    return acc;
+  const conteoPorCategorias = listaCitas.reduce((resumenCategorias, citaActual) => {
+    const nombreCategoria = clasificarReparacion(citaActual.reparacion);
+    
+    if (resumenCategorias[nombreCategoria]) {
+        resumenCategorias[nombreCategoria] = resumenCategorias[nombreCategoria] + 1;
+    } else {
+        resumenCategorias[nombreCategoria] = 1;
+    }
+    
+    return resumenCategorias;
   }, {});
 
-  // --- 3. LÓGICA DE TOP PIEZAS ---
   const procesarTopPiezas = () => {
-    const agrupado = piezasUsadas.reduce((acc, p) => {
-      const nombre = p.piezas?.nombre || 'Desconocido';
-      acc[nombre] = (acc[nombre] || 0) + (Number(p.cantidad) || 0);
-      return acc;
+    const inventarioContado = piezasUsadas.reduce((hojaDeCalculo, registroActual) => {
+      const nombrePieza = registroActual.piezas?.nombre || 'Desconocido';
+      const cantidadUsada = Number(registroActual.cantidad) || 0;
+
+      if (hojaDeCalculo[nombrePieza]) {
+        hojaDeCalculo[nombrePieza] = hojaDeCalculo[nombrePieza] + cantidadUsada;
+      } else {
+        hojaDeCalculo[nombrePieza] = cantidadUsada;
+      }
+
+      return hojaDeCalculo;
     }, {});
 
-    const top5 = Object.entries(agrupado)
+    const top5 = Object.entries(inventarioContado)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 5);
 
@@ -198,10 +204,10 @@ const DashboardStats = ({ listaCitas = [], piezasUsadas = [] }) => {
         <div className="canvas-container">
           <Bar 
             data={{
-              labels: Object.keys(conteoCategorias),
+              labels: Object.keys(conteoPorCategorias),
               datasets: [{
                 label: 'Cantidad',
-                data: Object.values(conteoCategorias),
+                data: Object.values(conteoPorCategorias),
                 backgroundColor: ['#38bdf8', '#818cf8', '#2dd4bf', '#fbbf24', '#f472b6', '#a855f7', '#64748b'],
                 borderRadius: 6
               }]

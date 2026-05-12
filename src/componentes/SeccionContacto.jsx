@@ -12,7 +12,6 @@ function SeccionContacto() {
   const [enviado, setEnviado] = useState(false);
   const [cargando, setCargando] = useState(false);
 
-  // Estado para capturar los datos del formulario comercial
   const [datosFormulario, setDatosFormulario] = useState({
     nombre: '',
     telefono: '',
@@ -21,7 +20,6 @@ function SeccionContacto() {
     detalles_coche: ''
   });
 
-  // Manejador de cambios en los inputs
   const handleChange = (e) => {
     setDatosFormulario({ 
       ...datosFormulario, 
@@ -34,7 +32,6 @@ function SeccionContacto() {
     setCargando(true);
 
     try {
-      // Inserción REAL en Supabase
       const { error } = await supabase
         .from('solicitudes_concesionario')
         .insert([datosFormulario]);
@@ -42,7 +39,6 @@ function SeccionContacto() {
       if (error) throw error;
 
       setEnviado(true);
-      // Limpiamos el formulario tras el éxito
       setDatosFormulario({ nombre: '', telefono: '', email: '', interes: 'Visitar Concesionario', detalles_coche: '' });
       
       setTimeout(() => setEnviado(false), 5000);
@@ -56,7 +52,6 @@ function SeccionContacto() {
 
   return (
     <div className="seccion-contacto-completa">
-      {/* 1. Banner Superior */}
       <div className="banner-contacto">
         <div className="overlay-oscuro">
           <h1>Concesionario Motors</h1>
@@ -143,7 +138,7 @@ function SeccionContacto() {
 
     
         <div className="bloque-datos">
-          <div className="grilla-datos">
+          <div className="seccion-datos">
             <div className="dato-item">
               <IconoDireccion />
               <div>

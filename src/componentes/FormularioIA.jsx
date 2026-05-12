@@ -18,7 +18,7 @@ function FormularioIA() {
     kilometraje: '', 
     reparacion: '',
     matricula: '',
-    horas_reales: 0 // Se mantiene internamente pero sin input
+    horas_reales: 0 
   });
   
   const [respuestaIA, setRespuestaIA] = useState('');
@@ -55,9 +55,6 @@ function FormularioIA() {
         setFechaSugeridaIA(new Date().toISOString()); 
       }
 
-      // Si la IA devuelve una estimación de horas, podrías actualizar vehiculo.horas_reales aquí
-      // Ejemplo: if(res.data.estimacionHoras) setVehiculo(prev => ({...prev, horas_reales: res.data.estimacionHoras}));
-
     } catch (error) {
       setRespuestaIA("Error al conectar con el servidor de IA.");
     } finally {
@@ -75,8 +72,6 @@ function FormularioIA() {
       }
 
       const fechaFinal = typeof fechaElegida === 'string' ? fechaElegida : fechaElegida.toISOString();
-      
-      // Lógica de negocio: 40€ por hora (Si no hay horas estimadas, el precio inicial de mano de obra es 0)
       const horas = parseFloat(vehiculo.horas_reales) || 0;
       const manoDeObra = horas * 40;
 

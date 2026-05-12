@@ -7,11 +7,10 @@ const FiltrosCoches = ({ alFiltrar }) => {
   const [precioMax, setPrecioMax] = useState(100000);
   const [potenciaMin, setPotenciaMin] = useState(0);
 
-  // Enviamos los filtros al padre cada vez que cambien
   useEffect(() => {
     const handler = setTimeout(() => {
       alFiltrar({ busqueda, combustible, precioMax, potenciaMin });
-    }, 300); // Debounce de 300ms
+    }, 300);
 
     return () => clearTimeout(handler);
   }, [busqueda, combustible, precioMax, potenciaMin]);

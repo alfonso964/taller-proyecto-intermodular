@@ -7,7 +7,6 @@ const FiltroGestion = ({ busqueda, setBusqueda, filtroFecha, setFiltroFecha }) =
       <h2>Gestión de Reparaciones</h2>
       
       <div className="controles-tabla">
-        {/* Buscador */}
         <div className="buscador-admin">
           <FaSearch />
           <input 
@@ -18,7 +17,6 @@ const FiltroGestion = ({ busqueda, setBusqueda, filtroFecha, setFiltroFecha }) =
           />
         </div>
 
-        {/* Selectores de tiempo */}
         <div className="filtros-tiempo">
           <button 
             className={filtroFecha === 'hoy' ? 'active' : ''} 

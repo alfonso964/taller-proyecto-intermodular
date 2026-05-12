@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import '../styles/ModalStock.css';
 
-const ModalStock = ({ isOpen, onClose, onUpdate }) => {
+const ModalStock = ({ estaAbierto, alCerrar, onUpdate }) => {
   const [piezas, setPiezas] = useState([]);
   const [filtro, setFiltro] = useState('');
   const [nuevaPieza, setNuevaPieza] = useState({ nombre: '', referencia: '', stock: '', precio: '', precio_coste: '' });
 
   useEffect(() => {
-    if (isOpen) cargarPiezas();
-  }, [isOpen]);
+    if (estaAbierto) cargarPiezas();
+  }, [estaAbierto]);
 
   const cargarPiezas = async () => {
     const { data } = await supabase.from('piezas').select('*').order('nombre');
@@ -75,12 +75,12 @@ const ModalStock = ({ isOpen, onClose, onUpdate }) => {
     p.referencia.toLowerCase().includes(filtro.toLowerCase())
   );
 
-  if (!isOpen) return null;
+  if (!estaAbierto) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-contenido">
-        <button className="cerrar-modal" onClick={onClose}>&times;</button>
+        <button className="cerrar-modal" onClick={alCerrar}>&times;</button>
         
         <h2 className="modal-titulo-inventario">
             📦 Gestión de Inventario

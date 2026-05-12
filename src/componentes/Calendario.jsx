@@ -20,7 +20,7 @@ function Calendario({ onFechaSeleccionada }) {
           start: cita.fecha,
           end: new Date(new Date(cita.fecha).getTime() + (cita.duracionEstimada || 60) * 60000),
           className: 'cita-ocupada',
-          display: 'background', // Esto hace que resalte el bloque como ocupado
+          display: 'background',
           backgroundColor: '#ffcccc',
           overlap: false
         }));
@@ -37,10 +37,10 @@ function Calendario({ onFechaSeleccionada }) {
     const minutos = fecha.getMinutes();
     const totalMinutos = hora * 60 + minutos;
 
-    const mañanaInicio = 8 * 60 + 30; // 08:30
-    const mañanaFin = 14 * 60;      // 14:00
-    const tardeInicio = 16 * 60;     // 16:00
-    const tardeFin = 19 * 60 + 30;   // 19:30
+    const mañanaInicio = 8 * 60 + 30; 
+    const mañanaFin = 14 * 60;      
+    const tardeInicio = 16 * 60;     
+    const tardeFin = 19 * 60 + 30; 
 
     const esMañana = totalMinutos >= mañanaInicio && totalMinutos < mañanaFin;
     const esTarde = totalMinutos >= tardeInicio && totalMinutos < tardeFin;
@@ -102,7 +102,6 @@ function Calendario({ onFechaSeleccionada }) {
           }
         ]}
 
-        // Restricciones visuales y de interacción
         selectConstraint="businessHours"
         eventConstraint="businessHours"
         slotEventOverlap={false}

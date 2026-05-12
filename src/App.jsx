@@ -1,17 +1,17 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import Home from './pages/Home';
+import Home from './paginas/Home';
 import Navbar from './componentes/NavBar';
-import Consulta from './pages/Consulta';
-import PaginaServicios from './pages/PaginaServicios';
-import Contacto from './pages/Contacto';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp'; 
-import Admin from './pages/Admin';
-import MisReparaciones from './pages/MisReparaciones'; 
-import PaginaVentaCoches from './pages/AdminCoches';
-import CatalogoCoches from './pages/CatalogoCoches';
-import DetalleCoche from './pages/DetalleCoche';
+import Consulta from './paginas/Consulta';
+import PaginaServicios from './paginas/PaginaServicios';
+import Contacto from './paginas/Contacto';
+import Login from './paginas/Login';
+import SignUp from './paginas/SignUp'; 
+import Admin from './paginas/Admin';
+import MisReparaciones from './paginas/MisReparaciones'; 
+import PaginaVentaCoches from './paginas/AdminCoches';
+import CatalogoCoches from './paginas/CatalogoCoches';
+import DetalleCoche from './paginas/DetalleCoche';
 import Chatbot from './componentes/Chatbot'; // <--- IMPORTAMOS EL CHATBOT
 
 // Creamos un componente para manejar la lógica de visibilidad

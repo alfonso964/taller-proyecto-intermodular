@@ -63,7 +63,6 @@ const Chatbot = () => {
 
   const consultarCoches = async (f) => {
     try {
-      // 1. Pedimos todas las columnas, incluyendo las nuevas: cv y estado
       let query = supabase
         .from('coches_venta')
         .select('marca, modelo, precio, kms, combustible, año, cv, estado');
@@ -88,7 +87,6 @@ const Chatbot = () => {
         if (data && data.length > 0) {
           agregarMensaje(`¡He encontrado ${data.length} opción(es) para ti!`, "bot");
 
-          // 2. Mapeamos cada coche con la información completa
           data.forEach(coche => {
             const detalleCoche = `🚗 ${coche.marca} ${coche.modelo}\n\n` +
                                  `🔹 Estado: ${coche.estado || 'Disponible'}\n` +

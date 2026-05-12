@@ -20,14 +20,12 @@ const TarjetaCoche = ({ coche, esAdmin, onUpdate }) => {
     }
   };
 
-  // Función para ir a la página de detalles
   const verDetalles = () => {
     navigate(`/coches/${coche.id}`);
   };
 
   return (
     <div className="coche-card">
-      {/* Lógica de Admin para cambiar el estado */}
       {esAdmin ? (
         <select 
           className="coche-badge-select admin-mode" 

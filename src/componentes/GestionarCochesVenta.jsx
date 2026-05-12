@@ -4,16 +4,16 @@ import { supabase } from '../supabaseClient';
 
 const GestionarCochesVenta = ({ refreshing, onEdit }) => {
     const [coches, setCoches] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [cargar, setCargar] = useState(true);
 
     const fetchCoches = async () => {
-        setLoading(true);
+        setCargar(true);
         const { data, error } = await supabase
             .from('coches_venta')
             .select('*')
             .order('created_at', { ascending: false });
         if (!error) setCoches(data);
-        setLoading(false);
+        setCargar(false);
     };
 
     useEffect(() => {
@@ -28,13 +28,12 @@ const GestionarCochesVenta = ({ refreshing, onEdit }) => {
     };
 
     const editarCoche = (coche) => {
-        // Ejecutamos la función que viene por props para mandar los datos al padre
         if (onEdit) {
             onEdit(coche);
         }
     };
 
-    if (loading) return <div className="loading-admin">Cargando inventario profesional...</div>;
+    if (cargar) return <div className="loading-admin">Cargando inventario profesional...</div>;
 
     return (
         <div className="lista-gestion-admin">

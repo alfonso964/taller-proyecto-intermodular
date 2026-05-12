@@ -3,8 +3,6 @@ import '../styles/StatsBanner.css';
 import { LayoutDashboard, CheckCircle, Clock, Car } from 'lucide-react'; 
 
 const StatsBanner = ({ estadisticas }) => {
-  // Extraemos los datos que vendrán de tu base de datos
-  // Si estadisticas es undefined, ponemos 0 por defecto para evitar errores
   const { total = 0, finalizadas = 0, pendientes = 0, vehiculos = 0 } = estadisticas || {};
 
   return (
