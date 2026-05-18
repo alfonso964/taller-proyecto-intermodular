@@ -232,8 +232,8 @@ const Admin = () => {
           )}
       </div>
 
-      <ModalStock isOpen={modalAbierto} onClose={() => setModalAbierto(false)} onUpdate={cargarDatosReales} />
-      <ModalDetalleCita isOpen={modalDetalleAbierto} onClose={() => setModalDetalleAbierto(false)} cita={citaSeleccionada} onUpdate={cargarDatosReales} />
+      <ModalStock estaAbierto={modalAbierto} alCerrar={() => setModalAbierto(false)} onUpdate={cargarDatosReales} />
+      <ModalDetalleCita estaAbierto={modalDetalleAbierto} alCerrar={() => setModalDetalleAbierto(false)} cita={citaSeleccionada} onUpdate={cargarDatosReales} />
     </div>
   );
 };
