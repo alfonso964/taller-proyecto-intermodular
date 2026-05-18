@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -19,12 +20,25 @@ function Calendario({ onFechaSeleccionada }) {
           title: `Ocupado`,
           start: cita.fecha,
           end: new Date(new Date(cita.fecha).getTime() + (cita.duracionEstimada || 60) * 60000),
-          className: 'cita-ocupada',
           display: 'background',
-          backgroundColor: '#ffcccc',
+          backgroundColor: '#ffcccc', // Rojo suave para citas ocupadas
           overlap: false
         }));
-        setEventos(citasFormateadas);
+
+        // 2. Definir los bloqueos visuales para el horario de cierre
+        // Bloqueamos la hora de la comida (14:00 a 16:00) como eventos de fondo
+        const bloqueosCierre = [
+          {
+            daysOfWeek: [1, 2, 3, 4, 5], // Lunes a Viernes
+            startTime: '14:00',
+            endTime: '16:00',
+            display: 'background',
+            backgroundColor: '#e5e7eb', 
+            selectable: false,
+          }
+        ];
+
+        setEventos([...citasFormateadas, ...bloqueosCierre]);
       } catch (err) {
         console.error("Error al cargar citas:", err);
       }
@@ -37,10 +51,10 @@ function Calendario({ onFechaSeleccionada }) {
     const minutos = fecha.getMinutes();
     const totalMinutos = hora * 60 + minutos;
 
-    const mañanaInicio = 8 * 60 + 30; 
-    const mañanaFin = 14 * 60;      
-    const tardeInicio = 16 * 60;     
-    const tardeFin = 19 * 60 + 30; 
+    const mañanaInicio = 8 * 60 + 30; // 08:30
+    const mañanaFin = 14 * 60;      // 14:00
+    const tardeInicio = 16 * 60;    // 16:00
+    const tardeFin = 19 * 60 + 30; // 19:30
 
     const esMañana = totalMinutos >= mañanaInicio && totalMinutos < mañanaFin;
     const esTarde = totalMinutos >= tardeInicio && totalMinutos < tardeFin;
@@ -85,10 +99,11 @@ function Calendario({ onFechaSeleccionada }) {
         slotMinTime="08:00:00"
         slotMaxTime="20:30:00"
         allDaySlot={false}
-        hiddenDays={[0, 6]} 
+        hiddenDays={[0, 6]} // Ocultar Sábado y Domingo
         slotDuration="00:30:00"
         snapDuration="00:30:00"
         
+      
         businessHours={[
           {
             daysOfWeek: [1, 2, 3, 4, 5],
@@ -102,6 +117,7 @@ function Calendario({ onFechaSeleccionada }) {
           }
         ]}
 
+        
         selectConstraint="businessHours"
         eventConstraint="businessHours"
         slotEventOverlap={false}

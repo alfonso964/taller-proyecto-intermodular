@@ -42,7 +42,12 @@ function FormularioIA() {
     const contextoTemporal = {
         ...vehiculo,
         fechaActual: new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }),
-        mensajeAdicional: "Por favor, si sugieres una cita para hoy, verifica que la hora sea posterior a la actual. Además, estima el tiempo de trabajo necesario."
+        // AJUSTE: Instrucciones ultra-específicas para la IA según tu horario real
+        mensajeAdicional: `
+          HORARIO OBLIGATORIO: Lunes a Viernes de 8:30 a 14:00 y de 16:00 a 19:30. 
+          No sugieras citas entre las 14:00 y 16:00. 
+          Si sugieres una cita para hoy, debe ser posterior a la hora actual. 
+          Por favor, estima el tiempo necesario de reparación.`
     };
 
     try {
@@ -71,6 +76,7 @@ function FormularioIA() {
         return;
       }
 
+      // Normalización de la fecha para evitar errores de zona horaria en el calendario
       const fechaFinal = typeof fechaElegida === 'string' ? fechaElegida : fechaElegida.toISOString();
       const horas = parseFloat(vehiculo.horas_reales) || 0;
       const manoDeObra = horas * 40;
@@ -84,7 +90,7 @@ function FormularioIA() {
             anio: vehiculo.anio,
             kilometraje: vehiculo.kilometraje,
             reparacion: vehiculo.reparacion,
-            matricula: vehiculo.matricula.toUpperCase(),
+            matricula: vehiculo.matricula.trim().toUpperCase(),
             horas_reales: horas,
             precio_mano_obra: manoDeObra,
             precio_total: manoDeObra, 
@@ -98,6 +104,7 @@ function FormularioIA() {
       if (error) throw error;
 
       alert("✅ Cita confirmada correctamente en el sistema.");
+      // Limpieza de formulario
       setVehiculo({ marca: '', modelo: '', anio: '', kilometraje: '', reparacion: '', matricula: '', horas_reales: 0 });
       setRespuestaIA('');
       setFechaSugeridaIA(null);
