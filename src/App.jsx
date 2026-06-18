@@ -1,5 +1,6 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Analytics } from '@vercel/analytics/react';
 import Home from './paginas/Home';
 import Navbar from './componentes/NavBar';
 import Consulta from './paginas/Consulta';
@@ -51,6 +52,7 @@ function App() {
   return (
     <BrowserRouter>
       <ContenidoApp />
+      <Analytics />
     </BrowserRouter>
   )
 }
