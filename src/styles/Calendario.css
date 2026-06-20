@@ -1,58 +1,148 @@
-.contenedor-calendario-taller {
-    padding: 20px;
+:root {
+    --primary-azul: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-gris-suave: #f8fafc;
+    --texto-oscuro: #0f172a;
+    --texto-mutado: #64748b;
+    --verde-exito: #22c55e;
+    --rojo-error: #f1f5f9;
+}
+
+/* Contenedor principal en dos columnas */
+.contenedor-interfaz-premium {
+    display: flex;
+    gap: 30px;
+    padding: 24px;
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.fc .fc-button-primary {
-    background-color: #3b82f6 !important;
-    border-color: #3b82f6 !important;
+/* Columnas */
+.columna-calendario {
+    flex: 1.2;
+    border-right: 1px solid #e2e8f0;
+    padding-right: 20px;
+}
+
+.columna-horas {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Títulos */
+.contenedor-interfaz-premium h3 {
+    font-size: 1.2rem;
+    color: var(--texto-oscuro);
+    margin-bottom: 12px;
     font-weight: 600;
 }
 
-.fc .fc-button-primary:hover {
-    background-color: #2563eb !important;
+.fecha-actual-texto {
+    font-size: 0.95rem;
+    color: var(--primary-azul);
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    font-weight: 500;
 }
 
-.fc .fc-col-header-cell {
-    background-color: #f8fafc;
-    padding: 12px 0 !important;
-    color: #1e293b;
+/* Rejilla de Horas */
+.rejilla-tarjetas-horas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 8px;
 }
 
-.cita-ocupada {
-    border: none !important;
-    border-left: 4px solid #ef4444 !important; 
-    background-color: #fee2e2 !important;
-    color: #991b1b !important;
-    padding: 4px 8px !important;
-    font-size: 0.85rem;
-    font-weight: 600;
+/* Personalizar barra de scroll de las horas */
+.rejilla-tarjetas-horas::-webkit-scrollbar {
+    width: 6px;
+}
+.rejilla-tarjetas-horas::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
     border-radius: 4px;
 }
 
-.fc .fc-timegrid-now-indicator-line {
-    border-color: #3b82f6 !important;
-    border-width: 2px !important;
+/* Tarjetas de Horas */
+.tarjeta-hora {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-.fc-timegrid-slot {
-    height: 45px !important;
+.tarjeta-hora.libre:hover {
+    border-color: var(--primary-azul);
+    background: #f0f5ff;
+    transform: translateY(-2px);
 }
 
-.fc-timegrid-slot-lane:not(.fc-business-hour),
-.fc-non-business {
-    background-color: #f3f4f6 !important; /* Gris claro */
-    cursor: not-allowed !important; 
+/* Estados de las tarjetas */
+.tarjeta-hora.libre {
+    border-left: 4px solid var(--verde-exito);
 }
 
-.fc-non-business {
-    background-image: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(0, 0, 0, 0.02) 10px,
-        rgba(0, 0, 0, 0.02) 20px
-    ) !important;
+.tarjeta-hora.ocupada {
+    background: var(--rojo-error);
+    border-left: 4px solid #cbd5e1;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Textos internos de las tarjetas */
+.hora-texto {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--texto-oscuro);
+}
+
+.estado-badge {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    color: var(--texto-mutado);
+}
+
+.tarjeta-hora.libre .estado-badge {
+    color: var(--verde-exito);
+    font-weight: 500;
+}
+
+/* Customización rápida para react-day-picker */
+.rdp-diseno-taller .rdp-day_selected {
+    background-color: var(--primary-azul) !important;
+    color: white !important;
+    border-radius: 8px;
+}
+
+.rdp-diseno-taller .rdp-day_selected:hover {
+    background-color: var(--primary-hover) !important;
+}
+
+/* Adaptabilidad para Móviles */
+@media (max-width: 768px) {
+    .contenedor-interfaz-premium {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .columna-calendario {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
