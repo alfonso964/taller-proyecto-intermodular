@@ -18,7 +18,7 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: 'logo-pequeño.png',
+            src: 'logo-chico.png',
             sizes: '192x192',
             type: 'image/png'
           },
