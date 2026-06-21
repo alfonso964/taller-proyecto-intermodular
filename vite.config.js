@@ -1,21 +1,21 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa'; // 👈 Importamos el plugin
+import react from '@vitejs/plugin-react-swc'; // 👈 Dejamos tu plugin real (SWC)
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
-    react(),
+    react(), // Usa tu plugin nativo sin conflictos
     VitePWA({
-      registerType: 'autoUpdate', // Actualiza la app automáticamente cuando subas cambios
+      registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
         name: 'Taller Montilla - IA Diagnostic',
         short_name: 'TallerIA',
         description: 'Aplicación de gestión y diagnóstico inteligente para talleres mecánicos',
-        theme_color: '#2563eb', // El azul corporativo de tus títulos del CV
+        theme_color: '#2563eb',
         background_color: '#ffffff',
-        display: 'standalone', // Hace que se abra a pantalla completa sin barra de navegador
-        orientation: 'portrait', // Fuerza la orientación vertical en el móvil
+        display: 'standalone',
+        orientation: 'portrait',
         icons: [
           {
             src: 'logo-pequeño.png',
@@ -31,7 +31,7 @@ export default defineConfig({
             src: 'logo-grande.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable' // Permite que Android adapte el icono a círculos o cuadrados
+            purpose: 'any maskable'
           }
         ]
       }
