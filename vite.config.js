@@ -29,22 +29,6 @@ export default defineConfig({
             type: 'image/png',
             purpose: 'any' // 👈 Separado para evitar el aviso de maskable innecesario
           }
-        ],
-        // 👈 Añadimos capturas reales para quitar los avisos de "Richer PWA Install UI"
-        // Nota: Asegúrate de guardar dos capturas de tu app en la carpeta public con estos nombres
-        screenshots: [
-          {
-            src: 'captura-movil.png',
-            sizes: '360x740',
-            type: 'image/png',
-            form_factor: 'narrow' // Interfaz de móvil
-          },
-          {
-            src: 'captura-escritorio.png',
-            sizes: '1920x1080',
-            type: 'image/png',
-            form_factor: 'wide' // Interfaz de ordenador
-          }
         ]
       }
     })
