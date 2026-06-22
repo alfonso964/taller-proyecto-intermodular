@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc'; // 👈 Dejamos tu plugin real (SWC)
+import react from '@vitejs/plugin-react-swc';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
-    react(), // Usa tu plugin nativo sin conflictos
+    react(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
@@ -18,20 +18,32 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: 'logo-chico.png',
+            src: 'logo-pequeño.png',
             sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'logo-grande.png',
-            sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any' // 👈 Ahora indicamos claramente que es el icono normal
           },
           {
             src: 'logo-grande.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'any' // 👈 Separado para evitar el aviso de maskable innecesario
+          }
+        ],
+        // 👈 Añadimos capturas reales para quitar los avisos de "Richer PWA Install UI"
+        // Nota: Asegúrate de guardar dos capturas de tu app en la carpeta public con estos nombres
+        screenshots: [
+          {
+            src: 'captura-movil.png',
+            sizes: '360x740',
+            type: 'image/png',
+            form_factor: 'narrow' // Interfaz de móvil
+          },
+          {
+            src: 'captura-escritorio.png',
+            sizes: '1920x1080',
+            type: 'image/png',
+            form_factor: 'wide' // Interfaz de ordenador
           }
         ]
       }
